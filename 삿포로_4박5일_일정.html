@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삿포로 가을 여행 4박 5일 · 10.5 – 10.9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{
+  --washi:#F5F6F8;        /* 라이트 뉴트럴 배경 */
+  --washi-deep:#E9ECF1;
+  --sumi:#1E2330;         /* 먹빛 남색 */
+  --sumi-soft:#3A4152;
+  --gold:#D9A441;         /* 은행잎 금색 */
+  --momiji:#C8442B;       /* 단풍 주홍 — 1일차 라인 */
+  --onsen:#3E8E7E;        /* 온천 청록 — 2일차 라인 */
+  --icho:#C9862B;         /* 은행 황금 — 3일차 라인 */
+  --dusk:#5A5390;         /* 황혼 보라 — 4일차 라인 */
+  --sora:#4A7FB5;         /* 하늘색 — 5일차 라인 */
+  --card:#FFFFFF;
+  --line-w:3px;
+  font-size:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--washi);
+  color:var(--sumi);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+::selection{background:var(--gold);color:var(--sumi)}
+.mono{font-family:'IBM Plex Mono',monospace}
+.serif{font-family:'Noto Sans KR',sans-serif;font-weight:800}
+
+/* ───────────────── HERO ───────────────── */
+.hero{
+  position:relative;
+  background:linear-gradient(135deg,#232B3E 0%,#181D2A 100%);
+  color:#fff;padding:5.2rem 6vw 3.4rem;
+}
+.hero-inner{position:relative;max-width:1044px;margin:0 auto;width:100%}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.22em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:1rem;
+}
+.hero-eyebrow::before{content:"";width:34px;height:2px;background:var(--gold)}
+.hero h1{
+  font-family:'Noto Sans KR',sans-serif;font-weight:900;
+  font-size:clamp(1.9rem,4.4vw,3.1rem);line-height:1.25;letter-spacing:-.02em;
+}
+.hero h1 em{font-style:normal;color:#F5C56B}
+.hero-sub{margin-top:.9rem;font-weight:300;font-size:clamp(.92rem,1.5vw,1.05rem);color:#C6CCDB;max-width:36rem}
+.route-strip{
+  margin-top:1.8rem;display:flex;align-items:center;flex-wrap:wrap;gap:.35rem .1rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.8rem;
+}
+.route-stop{display:flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:.32rem .85rem}
+.route-stop b{font-weight:600}
+.route-dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.route-arrow{opacity:.5;padding:0 .35rem}
+
+/* ───────────────── NAV ───────────────── */
+.daynav{
+  position:sticky;top:0;z-index:50;background:rgba(30,35,48,.92);backdrop-filter:blur(10px);
+  display:flex;justify-content:center;gap:.4rem;padding:.55rem 1rem;flex-wrap:wrap;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.daynav a{
+  color:#cfd4e2;text-decoration:none;font-size:.82rem;font-weight:500;
+  padding:.35rem .9rem;border-radius:999px;display:flex;align-items:center;gap:.45rem;
+  transition:background .25s,color .25s;
+}
+.daynav a .nd{width:8px;height:8px;border-radius:50%}
+.daynav a:hover{background:rgba(255,255,255,.12);color:#fff}
+
+/* ───────────────── DAY SECTION ───────────────── */
+.day{padding:5.5rem 6vw 4rem;max-width:1180px;margin:0 auto}
+.day-wrap{max-width:1044px;margin:0 auto}
+
+/* 역명판(駅名標) 스타일 헤더 */
+.sign{
+  background:var(--card);border-radius:14px;overflow:hidden;
+  box-shadow:0 8px 30px rgba(30,35,48,.12);
+  border:1px solid rgba(30,35,48,.08);
+  margin-bottom:2.6rem;
+}
+.sign-top{padding:1.5rem 1.8rem 1.1rem;text-align:center;color:var(--sumi)}
+.sign-date{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.18em;color:var(--sumi-soft);margin-bottom:.3rem}
+.sign-title{font-family:'Noto Sans KR',sans-serif;font-weight:800;font-size:clamp(1.4rem,3vw,2rem);line-height:1.3;letter-spacing:-.01em}
+.sign-romaji{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--sumi-soft);margin-top:.25rem}
+.sign-line{height:14px;background:var(--line);position:relative}
+.sign-nav{display:flex;justify-content:space-between;padding:.55rem 1.2rem;font-size:.78rem;color:var(--sumi-soft);background:#F8F9FB}
+.sign-nav span{display:flex;align-items:center;gap:.4rem}
+
+/* 본문 그리드 */
+.day-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:2.4rem;align-items:start}
+@media(max-width:880px){.day-grid{grid-template-columns:1fr}}
+
+/* 타임라인 = 노선도 */
+.tl{position:relative;padding-left:2.1rem}
+.tl::before{
+  content:"";position:absolute;left:.55rem;top:.6rem;bottom:.6rem;width:var(--line-w);
+  background:var(--line);border-radius:99px;opacity:.9;
+}
+.stop{position:relative;padding:0 0 1.9rem}
+.stop:last-child{padding-bottom:0}
+.stop::before{
+  content:"";position:absolute;left:calc(-2.1rem + .55rem + var(--line-w)/2);top:.5rem;
+  width:15px;height:15px;border-radius:50%;transform:translateX(-50%);
+  background:var(--card);border:3.5px solid var(--line);
+  box-shadow:0 0 0 4px var(--washi);
+}
+.stop.transfer::before{border-radius:4px}
+.stop-time{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.82rem;color:var(--line);
+  filter:saturate(1.2);letter-spacing:.04em}
+.stop h3{font-size:1.12rem;font-weight:700;margin:.1rem 0 .3rem;letter-spacing:-.01em}
+.stop p{font-size:.93rem;color:var(--sumi-soft);font-weight:300}
+.stop .badge{
+  display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.05em;
+  background:var(--line);color:#fff;border-radius:4px;padding:.12rem .5rem;margin-left:.45rem;vertical-align:2px;
+}
+/* 이동경로 · 이동시간 뱃지 */
+.legbadge{
+  display:inline-flex;flex-wrap:wrap;align-items:center;gap:.4rem;
+  background:rgba(0,0,0,.035);border:1px solid var(--line);border-radius:999px;
+  padding:.3rem .75rem;margin:.4rem 0 .6rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--sumi);
+}
+.legbadge .legicon{font-size:.88rem;line-height:1}
+.legbadge .legroute{color:var(--sumi-soft);font-weight:500}
+.legbadge .legsep{opacity:.4;padding:0 .1rem}
+.legbadge .legtime{color:var(--line);font-weight:700;filter:saturate(1.25)}
+
+/* 지도 아래 번호 칩 — 클릭 시 구간 경로 표시 */
+.routehint{flex-basis:100%;font-size:.76rem;font-weight:500;color:var(--sumi-soft);padding-bottom:.3rem}
+.routestep{cursor:pointer;user-select:none;padding:.2rem .6rem .2rem .35rem;border-radius:999px;
+  transition:background .15s,color .15s;border:1px solid transparent}
+.routestep:hover{background:rgba(30,35,48,.07)}
+.routestep.active{background:var(--sumi);color:#fff;border-color:var(--sumi)}
+.routestep.active b{color:#fff}
+.tip{
+  margin-top:.7rem;background:rgba(217,164,65,.14);border-left:3px solid var(--gold);
+  border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;color:var(--sumi);
+}
+.tip b{color:#8a6318}
+
+/* 사이드: 지도 / 사진 / 교통 카드 */
+.aside{display:flex;flex-direction:column;gap:1.3rem;position:sticky;top:4.2rem}
+@media(max-width:880px){.aside{position:static}}
+figure.photo{border-radius:14px;overflow:hidden;box-shadow:0 8px 26px rgba(30,35,48,.14);
+  background:var(--washi-deep);display:none}
+figure.photo.loaded{display:block;animation:fadein .8s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+figure.photo img{display:block;width:100%;height:230px;object-fit:cover}
+figure.photo figcaption{padding:.5rem .95rem;font-size:.72rem;color:var(--sumi-soft);background:var(--card)}
+.trans{
+  background:var(--card);border-radius:14px;padding:1.1rem 1.25rem;
+  box-shadow:0 8px 26px rgba(30,35,48,.12);border-top:5px solid var(--line);color:var(--sumi);
+}
+.trans h4{font-size:.85rem;letter-spacing:.14em;color:var(--sumi-soft);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.trans ul{list-style:none}
+.trans li{font-size:.88rem;padding:.42rem 0;border-bottom:1px dashed rgba(30,35,48,.14);display:flex;justify-content:space-between;gap:.8rem}
+.trans li:last-child{border-bottom:0}
+.trans li .fare{font-family:'IBM Plex Mono',monospace;font-size:.8rem;white-space:nowrap;color:var(--sumi-soft)}
+.trans .note{font-size:.75rem;color:var(--sumi-soft);margin-top:.5rem}
+
+/* 예약·발권 가이드 섹션 */
+.guide{background:var(--washi-deep);padding:4.4rem 6vw 4.8rem;border-top:1px solid rgba(30,35,48,.08);border-bottom:1px solid rgba(30,35,48,.08)}
+.guide-wrap{max-width:1044px;margin:0 auto}
+.guide h2{font-weight:800;font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:.5rem}
+.guide .lead{color:var(--sumi-soft);font-weight:300;max-width:38rem;margin-bottom:2.2rem;font-size:.92rem}
+.guide-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.3rem}
+.gcard{background:var(--card);border-radius:14px;padding:1.5rem 1.6rem;box-shadow:0 8px 24px rgba(30,35,48,.1);border-top:5px solid var(--momiji)}
+.gcard.alt{border-top-color:var(--onsen)}
+.gcard.alt2{border-top-color:var(--dusk)}
+.gcard h3{font-size:1rem;display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem}
+.gcard h3 .num{width:22px;height:22px;border-radius:50%;background:var(--momiji);color:#fff;font-size:.72rem;
+  display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;flex-shrink:0}
+.gcard.alt h3 .num{background:var(--onsen)}
+.gcard.alt2 h3 .num{background:var(--dusk)}
+.gcard ol{list-style:none;counter-reset:step}
+.gcard ol li{counter-increment:step;position:relative;padding:.4rem 0 .4rem 1.7rem;font-size:.87rem;color:var(--sumi);
+  border-bottom:1px dashed rgba(30,35,48,.12)}
+.gcard ol li:last-child{border-bottom:0}
+.gcard ol li::before{content:counter(step);position:absolute;left:0;top:.45rem;width:16px;height:16px;border-radius:4px;
+  background:rgba(200,68,43,.14);color:var(--momiji);font-size:.68rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace}
+.gcard.alt ol li::before{background:rgba(62,142,126,.15);color:var(--onsen)}
+.gcard.alt2 ol li::before{background:rgba(90,83,144,.15);color:var(--dusk)}
+.gcard .gnote{margin-top:.8rem;font-size:.78rem;color:var(--sumi-soft);background:rgba(217,164,65,.14);
+  border-left:3px solid var(--gold);padding:.5rem .8rem;border-radius:0 6px 6px 0}
+.glink{display:inline-flex;align-items:center;gap:.3rem;margin-top:.9rem;font-size:.8rem;color:var(--onsen);text-decoration:none;font-weight:500}
+.gcard.alt .glink{color:var(--momiji)}
+.glink:hover{text-decoration:underline}
+.tip .glink{margin-top:.4rem;color:var(--line);filter:saturate(1.2)}
+
+/* ───────────────── 숙소 예약 정보 (역명판 계열) ───────────────── */
+.stay{background:var(--washi);padding:4.4rem 6vw 4.8rem;border-bottom:1px solid rgba(30,35,48,.08)}
+.stay-wrap{max-width:1044px;margin:0 auto}
+.stay h2{font-weight:800;font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:.5rem}
+.stay .lead{color:var(--sumi-soft);font-weight:300;max-width:38rem;margin-bottom:2.2rem;font-size:.92rem}
+.stay-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.4rem}
+.scard{background:var(--card);border-radius:14px;overflow:hidden;
+  box-shadow:0 8px 30px rgba(30,35,48,.12);border:1px solid rgba(30,35,48,.08)}
+.scard-top{padding:1.35rem 1.6rem 1.15rem}
+.scard-date{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.18em;color:var(--sumi-soft);margin-bottom:.3rem}
+.scard-title{font-weight:800;font-size:clamp(1.2rem,2.4vw,1.5rem);line-height:1.3;letter-spacing:-.01em}
+.scard-romaji{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sumi-soft);margin-top:.25rem}
+.scard-line{height:14px;background:var(--line)}
+.scard-body{padding:1.05rem 1.6rem 1.2rem}
+.scard-body ul{list-style:none}
+.scard-body li{font-size:.88rem;padding:.5rem 0;border-bottom:1px dashed rgba(30,35,48,.14);
+  display:flex;justify-content:space-between;align-items:baseline;gap:.9rem}
+.scard-body li:last-child{border-bottom:0}
+.scard-body .k{color:var(--sumi-soft);font-size:.8rem;font-weight:500;white-space:nowrap}
+.scard-body .v{text-align:right;font-weight:600;word-break:break-word}
+.scard-body .v.num{font-family:'IBM Plex Mono',monospace;font-size:.92rem;letter-spacing:.02em}
+.scard-body .v .sub{display:block;font-family:'Noto Sans KR',sans-serif;font-size:.75rem;color:var(--sumi-soft);font-weight:300;margin-top:.15rem}
+.scard-foot{display:flex;justify-content:space-between;gap:.8rem;padding:.6rem 1.2rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--sumi-soft);background:#F8F9FB;
+  border-top:1px solid rgba(30,35,48,.06)}
+.copy{margin-left:.4rem;border:1px solid rgba(30,35,48,.18);background:transparent;color:var(--sumi-soft);
+  border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.06em;
+  padding:.1rem .45rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.copy:hover{background:var(--line);border-color:var(--line);color:#fff}
+.copy.done{background:var(--line);border-color:var(--line);color:#fff}
+
+/* 예약번호 뱃지 — 일정 타임라인 안에서 사용 */
+.legbadge.bk{background:transparent;border-style:dashed}
+.legbadge.bk .bkno{color:var(--line);font-weight:700;filter:saturate(1.25)}
+
+/* 요금 비교 미니 패널 (교통 카드와 같은 어법) */
+.fares{background:var(--card);border:1px solid rgba(30,35,48,.1);border-radius:10px;
+  padding:.75rem .95rem .8rem;margin-top:.7rem;box-shadow:0 4px 16px rgba(30,35,48,.06)}
+.fares h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--sumi-soft);font-weight:500;margin-bottom:.35rem}
+.fares ul{list-style:none}
+.fares li{display:flex;justify-content:space-between;align-items:baseline;gap:.8rem;
+  font-size:.88rem;padding:.42rem 0;border-bottom:1px dashed rgba(30,35,48,.14)}
+.fares li:last-child{border-bottom:0}
+.fares li .fseat .sub{display:block;font-size:.75rem;color:var(--sumi-soft);font-weight:300;margin-top:.1rem}
+.fares li .fyen{font-family:'IBM Plex Mono',monospace;font-size:.92rem;font-weight:600;white-space:nowrap;color:var(--sumi)}
+.fares li.pick .fyen{color:var(--line);filter:saturate(1.2)}
+
+/* 단계별 안내 리스트 (예약 절차 등) */
+.osteps{list-style:none;margin-top:.5rem}
+.osteps li{font-size:.8rem;color:var(--sumi);padding:.22rem 0 .22rem 1.1rem;position:relative}
+.osteps li::before{content:"·";position:absolute;left:0;color:var(--dusk);font-weight:700}
+
+/* 일차 시작 — 오늘의 이동경로 지도 */
+.routemap{
+  position:relative;
+  border-radius:14px;overflow:hidden;background:#dfe4ea;
+  box-shadow:0 8px 30px rgba(30,35,48,.14);border:1px solid rgba(30,35,48,.08);
+  margin-bottom:2.6rem;
+}
+.routemap iframe{display:block;width:100%;height:340px;border:0;filter:saturate(.92)}
+.lmap{width:100%;height:380px;background:#dfe4ea;z-index:0;cursor:pointer}
+
+/* 지도 크게 보기(전체화면) */
+.mapzoom-btn{
+  position:absolute;top:12px;right:12px;z-index:1000;
+  background:rgba(255,255,255,.95);border:1px solid rgba(30,35,48,.16);
+  border-radius:999px;padding:.42rem .85rem;cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;font-size:.76rem;font-weight:600;color:var(--sumi);
+  box-shadow:0 2px 10px rgba(30,35,48,.2);transition:background .15s,transform .15s;
+}
+.mapzoom-btn:hover{background:#fff;transform:translateY(-1px)}
+.mapzoom-hint{
+  display:inline-block;margin:0 0 12px 12px;pointer-events:none;
+  background:rgba(30,35,48,.72);color:#fff;border-radius:999px;
+  padding:.3rem .72rem;font-size:.7rem;font-weight:500;letter-spacing:.01em;
+  opacity:.92;transition:opacity .3s;white-space:nowrap;max-width:calc(100vw - 40px);
+}
+.routemap.is-expanded{
+  position:fixed;inset:0;z-index:9999;margin:0;border-radius:0;border:0;
+  box-shadow:none;background:var(--washi);
+  display:flex;flex-direction:column;
+}
+.routemap.is-expanded .lmap{flex:1 1 auto;height:auto;min-height:0}
+.routemap.is-expanded .routemap-foot{flex:0 0 auto;max-height:42vh;overflow-y:auto}
+body.map-locked{overflow:hidden}
+.numpin{
+  width:26px;height:26px;border-radius:50% 50% 50% 4px;transform:rotate(0deg);
+  background:var(--pin,#C8442B);color:#fff;border:2.5px solid #fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:700;
+  box-shadow:0 3px 8px rgba(0,0,0,.35);
+}
+.leaflet-popup-content{font-family:'Noto Sans KR',sans-serif;font-size:.82rem;font-weight:500;margin:8px 12px}
+.leaflet-container{font-family:'Noto Sans KR',sans-serif}
+.routemap-foot{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .3rem;
+  padding:.75rem 1.1rem;background:var(--card);font-size:.8rem;color:var(--sumi-soft);
+}
+.routemap-foot b{font-weight:600;color:var(--sumi)}
+.routestep{display:flex;align-items:center;gap:.35rem}
+.routestep .rn{
+  width:18px;height:18px;border-radius:50%;background:var(--line);color:#fff;
+  font-size:.66rem;font-weight:700;display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;flex-shrink:0;
+}
+.routearrow{opacity:.45;padding:0 .1rem}
+
+/* ───────────────── 시세/정보 카드 섹션 ───────────────── */
+.extras{background:var(--sumi);color:#EDE9DF;padding:5rem 6vw 5.5rem}
+.extras-wrap{max-width:1044px;margin:0 auto}
+.extras h2{font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.6rem}
+.extras .lead{color:#B9BECF;font-weight:300;max-width:40rem;margin-bottom:2.4rem;font-size:.95rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
+.xcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.4rem 1.5rem}
+.xcard h3{font-size:1rem;display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem;color:#fff}
+.xcard h3 .nd{width:10px;height:10px;border-radius:50%}
+.pricetable{width:100%;border-collapse:collapse;font-size:.86rem}
+.pricetable th{font-weight:500;color:#9aa0b4;text-align:left;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:.76rem;letter-spacing:.06em}
+.pricetable td{padding:.5rem 0;border-bottom:1px dashed rgba(255,255,255,.12)}
+.pricetable td:last-child,.pricetable th:last-child{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:.8rem}
+.pricetable tr:last-child td{border-bottom:0}
+.xnote{font-size:.74rem;color:#9aa0b4;margin-top:.7rem}
+.xcard ul{list-style:none}
+.xcard li{padding:.4rem 0 .4rem 1.2rem;position:relative;font-size:.88rem;color:#D8DCE8;font-weight:300}
+.xcard li::before{content:"◦";position:absolute;left:0;color:var(--gold)}
+
+footer{background:#141824;color:#7d8398;text-align:center;padding:2.6rem 1rem;font-size:.78rem}
+footer a{color:var(--gold);text-decoration:none}
+footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
+
+/* 편의점 브랜드별 꿀템 */
+.conbini{background:var(--washi);padding:5rem 6vw 5.5rem}
+.conbini-wrap{max-width:1044px;margin:0 auto}
+.conbini h2{font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.6rem}
+.conbini .lead{color:var(--sumi-soft);font-weight:300;max-width:40rem;margin-bottom:2.4rem;font-size:.95rem}
+.cb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.cbcard{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 8px 26px rgba(30,35,48,.12);
+  border:1px solid rgba(30,35,48,.08);display:flex;flex-direction:column}
+.cbcard .cbphoto{width:100%;height:150px;background:var(--washi-deep);position:relative;overflow:hidden}
+.cbcard .cbphoto img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s ease}
+.cbcard .cbphoto img.loaded{opacity:1}
+.cbcard .cbbody{padding:1.2rem 1.3rem 1.4rem}
+.cbcard h3{font-size:1.02rem;display:flex;align-items:center;gap:.5rem;margin-bottom:.15rem;color:var(--sumi)}
+.cbcard h3 .tag{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.cbcard .cbromaji{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:var(--sumi-soft);
+  text-transform:uppercase;margin-bottom:.85rem}
+.cbcard ul{list-style:none}
+.cbcard li{padding:.5rem 0;border-bottom:1px dashed rgba(30,35,48,.12)}
+.cbcard li:last-child{border-bottom:0}
+.cbcard li .iname{font-size:.87rem;font-weight:500;color:var(--sumi);display:flex;justify-content:space-between;gap:.6rem}
+.cbcard li .iname .iprice{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.76rem;color:var(--sumi-soft);white-space:nowrap}
+.cbcard li .idesc{font-size:.78rem;color:var(--sumi-soft);font-weight:300;margin-top:.15rem;line-height:1.5}
+
+/* 스크롤 리빌 */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.on{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+@media(max-width:600px){
+  .day{padding:3.8rem 5vw 3rem}
+  .routemap iframe{height:260px}
+  .lmap{height:300px}
+  .hero-inner{padding-bottom:14vh}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Hokkaido · 10.5 – 10.9</span>
+    <h1>삿포로 · 노보리베츠 · 오타루<br><em>4박 5일</em> 여행 일정표</h1>
+    <p class="hero-sub">10월 5일(월) 13:00 신치토세공항 도착 – 10월 9일(금) 14:30 출발. 노보리베츠 온천 1박, 삿포로 3박, 오타루 당일 일정입니다.</p>
+    <div class="route-strip">
+      <span class="route-stop"><span class="route-dot"></span><b>신치토세공항</b></span><span class="route-arrow">▸</span>
+      <span class="route-stop"><span class="route-dot"></span><b>노보리베츠</b> 1박</span><span class="route-arrow">▸</span>
+      <span class="route-stop"><span class="route-dot"></span><b>삿포로</b> 3박</span><span class="route-arrow">▸</span>
+      <span class="route-stop"><span class="route-dot"></span><b>오타루</b> 당일</span><span class="route-arrow">▸</span>
+      <span class="route-stop"><span class="route-dot"></span><b>귀국</b> 14:30</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav class="daynav">
+  <a href="#guide"><span class="nd" style="background:var(--sumi-soft)"></span>예약 가이드</a>
+  <a href="#stay"><span class="nd" style="background:var(--gold)"></span>숙소 예약</a>
+  <a href="#d1"><span class="nd" style="background:var(--momiji)"></span>D1 노보리베츠</a>
+  <a href="#d2"><span class="nd" style="background:var(--onsen)"></span>D2 삿포로 시내·야경</a>
+  <a href="#d3"><span class="nd" style="background:var(--icho)"></span>D3 마루야마·야경</a>
+  <a href="#d4"><span class="nd" style="background:var(--dusk)"></span>D4 장외시장·오타루</a>
+  <a href="#d5"><span class="nd" style="background:var(--sora)"></span>D5 귀국</a>
+  <a href="#info"><span class="nd" style="background:var(--gold)"></span>시세·팁</a>
+  <a href="#conbini"><span class="nd" style="background:var(--dusk)"></span>편의점</a>
+</nav>
+
+<!-- ═══════════════ 예약 · 발권 가이드 (JR & 도난버스 공통) ═══════════════ -->
+<section class="guide" id="guide">
+  <div class="guide-wrap">
+    <h2 class="reveal">떠나기 전 예약·발권 가이드</h2>
+    <p class="lead reveal">공항↔노보리베츠 구간의 <b>JR 특급열차</b>, 1일차에 이용할 <b>도난버스</b>, 그리고 2일차 노보리베츠→삿포로 구간에서 이용할 <b>유유라이너(호텔 직행 셔틀)</b> 예약 방법을 미리 정리했어요. 모두 한국에서 스마트폰으로 예약 가능합니다.</p>
+    <div class="guide-cards">
+      <div class="gcard reveal alt">
+        <h3><span class="num">JR</span>특급열차 (전 구간 공통) — 지정석권 발권</h3>
+        <ol>
+          <li>가장 간단한 방법은 <b>당일 역 발매기</b>: 신치토세공항역·노보리베츠역·삿포로역 모두 한국어 지원 지정석 발매기가 있어 구간·시간만 고르면 바로 발권돼요.</li>
+          <li>성수기·특정 시간대를 놓치기 싫다면 <b>JR 홋카이도 에키넷(えきねっと)</b>에서 사전 예약 — 사이트/앱 회원가입 → 승차구간·날짜·열차 선택 → 신용카드 결제.</li>
+          <li>에키넷으로 예약했다면 승차 전 반드시 <b>지정석 발매기(지정석마크)</b>에서 예약번호 입력 → 실물 승차권으로 교환(결제한 카드 지참).</li>
+          <li>교환한 승차권(자유석 승차권 + 지정석권 2장)을 개찰구 통과 시 함께 넣거나 태그.</li>
+        </ol>
+        <div class="gnote"><b>TIP</b> 사전 예약이 필수는 아니에요. 사람이 몰리는 금·토 오후만 아니면 당일 발매기로도 충분합니다.</div>
+        <a class="glink" href="https://www.jrhokkaido.co.jp/global/korean/index.html" target="_blank" rel="noopener">↳ JR 홋카이도 공식 홈페이지 (한국어)</a>
+      </div>
+      <div class="gcard reveal">
+        <h3><span class="num">Bus</span>도난버스 직행 에어포트호 — 완전 예약제</h3>
+        <ol>
+          <li><b>도난버스 공식 홈페이지</b>(donanbus.co.jp) 접속 → 한국어 페이지에서 "고속 노보리베츠 온천 에어포트호" 노선 선택.</li>
+          <li>승차일(10/5)·승차 정류장(신치토세공항 국제선 1층)·인원 입력 후 원하는 시간대(예: 15:10발) 선택.</li>
+          <li>이름·연락처 입력 후 <b>신용카드로 결제</b> — 완전 예약제라 당일 현장 구매는 좌석이 없으면 불가할 수 있어요.</li>
+          <li>결제 완료 메일의 <b>예약번호(QR)</b>를 캡처/저장 → 당일 승차 시 기사에게 제시.</li>
+          <li>운행 편수가 하루 몇 편뿐이라 늦어도 <b>출발 1~2일 전</b>에는 예약하는 걸 추천해요.</li>
+        </ol>
+        <div class="gnote"><b>TIP</b> 왕복으로 끊으면 소폭 할인되는 경우가 있어요. 예약 화면 스크린샷과 실제 예시가 궁금하면 아래 후기 글을 참고하세요.</div>
+        <a class="glink" href="https://blog.naver.com/moonv616/224193807228" target="_blank" rel="noopener">↳ 참고: 도난버스 예약 후기 (네이버 블로그)</a>
+      </div>
+      <div class="gcard reveal alt2">
+        <h3><span class="num">2일</span>유유라이너 — 노보리베츠→삿포로 호텔 직행 셔틀</h3>
+        <ol>
+          <li><b>유유라이너</b>는 노보리베츠 온천가의 료칸·호텔 앞에서 삿포로 시내(삿포로역 인근)까지 <b>환승 없이 데려다주는</b> 예약제 셔틀버스예요. 역까지 짐 들고 이동할 필요가 없는 게 최대 장점.</li>
+          <li>예약은 <b>유유라이너 오퍼레이션센터</b>(☎ +81-11-223-1888, 접수시간 9:00~18:00 연중무휴) 전화 또는 온라인 예약 페이지에서 진행.</li>
+          <li>승차일·인원·픽업 호텔(노보리베츠 그랜드호텔)·하차 희망지(삿포로역 인근)를 지정하고 예약을 확정.</li>
+          <li>예약 확인서(또는 예약번호)를 당일 호텔 로비/픽업 장소에서 기사에게 제시하면 OK.</li>
+        </ol>
+        <div class="gnote"><b>TIP</b> 좌석이 한정적이라 출발 며칠~1주 전에는 예약해두는 게 안전해요. 실제 예약 화면과 후기는 아래 링크 참고.</div>
+        <a class="glink" href="https://blog.naver.com/wisesarah72/224298473791" target="_blank" rel="noopener">↳ 참고: 유유라이너 예약 후기 (네이버 블로그)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 숙소 예약 정보 ═══════════════ -->
+<section class="stay" id="stay">
+  <div class="stay-wrap">
+    <h2 class="reveal">숙소 예약 정보</h2>
+    <p class="lead reveal">4박을 보낼 두 곳의 예약 확정 내용입니다. 체크인 때 프런트에 <b>예약자명과 예약번호</b>를 보여주면 돼요. 카드 색은 각 일차의 노선 색과 같습니다.</p>
+    <div class="stay-cards">
+
+      <article class="scard reveal" style="--line:var(--momiji)">
+        <div class="scard-top">
+          <div class="scard-date">DAY 1 · 10.5 MON – 10.6 TUE · 1박</div>
+          <div class="scard-title">노보리베츠 그랜드호텔</div>
+          <div class="scard-romaji">Noboribetsu Grand Hotel</div>
+        </div>
+        <div class="scard-line"></div>
+        <div class="scard-body">
+          <ul>
+            <li><span class="k">예약자명</span><span class="v">Heo SeongWook</span></li>
+            <li><span class="k">예약 번호</span><span class="v num">22315095826087<button class="copy" data-copy="22315095826087">복사</button></span></li>
+            <li><span class="k">예약 ID</span><span class="v num">21315091035381<button class="copy" data-copy="21315091035381">복사</button></span></li>
+            <li><span class="k">식사</span><span class="v">석식 18:00–20:00<span class="sub">조식 7:00–9:00</span></span></li>
+          </ul>
+          <div class="tip"><b>TIP</b> 체크인 시간보다 일찍 도착하면 프런트에 짐만 맡기고 오유누마 족탕부터 다녀오세요. 다음 날 유유라이너도 이 호텔 앞에서 탑니다.</div>
+        </div>
+        <div class="scard-foot"><span>IN 10.5 15:00–</span><span>OUT 10.6 10:00</span></div>
+      </article>
+
+      <article class="scard reveal" style="--line:var(--onsen)">
+        <div class="scard-top">
+          <div class="scard-date">DAY 2–5 · 10.6 TUE – 10.9 FRI · 3박</div>
+          <div class="scard-title">삿포로 그랜드호텔</div>
+          <div class="scard-romaji">Sapporo Grand Hotel</div>
+        </div>
+        <div class="scard-line"></div>
+        <div class="scard-body">
+          <ul>
+            <li><span class="k">예약자명</span><span class="v">Heo SeongWook</span></li>
+            <li><span class="k">예약 번호</span><span class="v num">1715976631<button class="copy" data-copy="1715976631">복사</button></span></li>
+            <li><span class="k">객실</span><span class="v">별관 4인 쿼드러플룸 · 금연<span class="sub">Annex Building Quadruple Room for 4 People – Non-Smoking</span></span></li>
+            <li><span class="k">조식</span><span class="v">노던 테라스 다이너 6:30–10:00<span class="sub">가든 다이닝 와라쿠 7:00–10:00</span></span></li>
+          </ul>
+          <div class="tip"><b>TIP</b> 객실이 별관이라 조식 회장(본관 4층·동관 1층)과 건물이 다릅니다. 체크인 때 조식 장소와 가는 길을 한 번 확인해두면 편해요.</div>
+        </div>
+        <div class="scard-foot"><span>IN 10.6 15:00–</span><span>OUT 10.9 11:00</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.copy'); if(!b) return;
+  var t=b.getAttribute('data-copy');
+  var done=function(){var o=b.textContent;b.textContent='복사됨';b.classList.add('done');
+    setTimeout(function(){b.textContent=o;b.classList.remove('done')},1400)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(function(){})}
+  else{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');done()}catch(err){}document.body.removeChild(ta)}
+});
+</script>
+
+<main>
+
+<!-- ═══════════════ DAY 1 ═══════════════ -->
+<section class="day" id="d1" style="--line:var(--momiji)">
+  <div class="day-wrap">
+  <div class="sign reveal">
+    <div class="sign-top">
+      <div class="sign-date">DAY 1 · 10.5 MON</div>
+      <div class="sign-title">노보리베츠 온천</div>
+      <div class="sign-romaji">NOBORIBETSU ONSEN</div>
+    </div>
+    <div class="sign-line"></div>
+    <div class="sign-nav"><span>◀ 인천 ICN</span><span>삿포로 ▶</span></div>
+  </div>
+
+  <div class="routemap reveal">
+    <div class="lmap" id="map-d1" title="1일차 이동경로: 신치토세공항 → 온천 버스터미널 → 오유누마 족탕 → 극락거리 상점가"></div>
+    <div class="routemap-foot">
+      <span class="routestep"><span class="rn" style="background:var(--momiji)">1</span><b>신치토세공항</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--momiji)">2</span>온천 버스터미널·그랜드호텔</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--momiji)">3</span>오유누마 천연족탕</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--momiji)">4</span>극락거리 상점가</span>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="tl reveal">
+      <div class="stop">
+        <div class="stop-time">13:00</div>
+        <h3>신치토세공항 도착 ✈️</h3>
+        <p>입국심사·수하물까지 넉넉히 1시간. 국내선 터미널 지하 1층에 JR역이 바로 연결돼 있어요. 티켓 발매기는 한국어 지원.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">13:20</div>
+        <h3>공항에서 점심 🍜</h3>
+        <p>국내선 터미널의 <b>라멘도장</b>이나 스카이숍에서 여유 있게 점심. 짐 찾은 그대로 이동할 수 있어 편해요.</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">14:20</div>
+        <h3>도난버스 승차장 이동</h3>
+        <p>국제선 1층 도난버스 승차장으로 이동해 대기. 완전 예약제라 위 <a href="#guide" style="color:var(--momiji)">「예약·발권 가이드」</a>를 참고해 미리 예약해 두세요.</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">15:10</div>
+        <h3>도난버스 직행 에어포트호 승차 <span class="badge">환승 없음</span></h3>
+        <div class="legbadge"><span class="legicon">🚌</span><span class="legroute">신치토세공항 → 노보리베츠 온천</span><span class="legsep">·</span><span class="legtime">약 80분</span></div>
+        <p>공항 → 노보리베츠 온천마을까지 환승 없이 약 80분. 짐 들고 갈아탈 필요 없이 온천가 버스터미널 앞까지 바로 데려다줘요.</p>
+        <div class="ofare" style="font-family:'IBM Plex Mono',monospace;font-size:.82rem;color:var(--sumi-soft);margin-top:.4rem">약 2,000~2,300엔 · 도착 약 16:30</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">16:30</div>
+        <h3>노보리베츠 그랜드호텔 짐 맡기기 🏨</h3>
+        <p>버스터미널 바로 앞. 체크인 전이면 프런트에 짐만 맡기고 바로 산책 출발. 로마풍 대욕장과 폭포 정원 노천탕이 이 호텔의 자랑.</p>
+        <div class="legbadge bk"><span class="legicon">🎫</span><span class="legroute">예약 Heo SeongWook</span><span class="legsep">·</span><span class="bkno">22315095826087</span></div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">16:45</div>
+        <h3>오유누마가와 천연족탕 ♨️</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">그랜드호텔 → 오유누마가와</span><span class="legsep">·</span><span class="legtime">도보 약 15~20분</span></div>
+        <p>호텔에서 도로 방면으로 도보 약 15~20분(지옥계곡 산책로를 거치지 않는 코스). 숲속 개울이 그대로 족탕이 되는 <b>오유누마가와 천연족탕</b>에서 발 담그기. 노보리베츠에서 인기가 많은 무료 명소예요.</p>
+        <div class="tip"><b>TIP</b> 10월 초 일몰은 17시 15분 전후. 족탕은 해 지기 전에! 수건 하나 챙겨가면 좋아요.</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">17:30</div>
+        <h3>극락거리 상점가 · 엔마당 👹</h3>
+        <p>온천가 메인거리. 곳곳의 도깨비(오니) 동상과 기념품 가게 구경. <b>엔마당</b>에서는 정해진 시간마다 염라대왕 인형이 '지옥의 심판' 퍼포먼스를 합니다(무료).</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">18:00–20:00</div>
+        <h3>호텔 저녁 & 온천 🦀</h3>
+        <p>노보리베츠 그랜드호텔 석식 뷔페 운영시간은 <b>18:00~20:00</b>. 게·해산물 포함 뷔페로 여유 있게 즐기고, 식후에는 유황천·식염천·철천 세 가지 원천을 가진 대욕장과 노천탕에서 여독 풀기.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">21:00</div>
+        <h3>상점가 야경 산책 🏮</h3>
+        <p>저녁 식사 후 극락거리 상점가를 한 번 더. 밤에는 은은한 조명이 켜져 낮과는 다른 분위기예요. 유카타에 겉옷 걸치고 가볍게 다녀오기 좋아요. 밤엔 쌀쌀하니(10월 초 5~10℃) 따뜻하게.</p>
+      </div>
+    </div>
+
+    <aside class="aside reveal">
+      <figure class="photo" id="ph-noboribetsu"><img alt="노보리베츠 온천 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-oyunuma"><img alt="오유누마 사진"><figcaption></figcaption></figure>
+      <div class="trans">
+        <h4>🚆 오늘의 교통</h4>
+        <ul>
+          <li><span>공항 → 노보리베츠 온천 (도난버스 직행)</span><span class="fare">약 2,000~2,300엔</span></li>
+        </ul>
+        <p class="note">※ 도난버스는 완전 예약제입니다. 요금·시간은 대략치이며 시즌에 따라 변동될 수 있어요.</p>
+      </div>
+    </aside>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DAY 2 ═══════════════ -->
+<section class="day" id="d2" style="--line:var(--onsen)">
+  <div class="day-wrap">
+  <div class="sign reveal">
+    <div class="sign-top">
+      <div class="sign-date">DAY 2 · 10.6 TUE</div>
+      <div class="sign-title">노보리베츠 → 삿포로 이동</div>
+      <div class="sign-romaji">NOBORIBETSU → SAPPORO</div>
+    </div>
+    <div class="sign-line"></div>
+    <div class="sign-nav"><span>◀ 노보리베츠</span><span>스스키노 ▶</span></div>
+  </div>
+
+  <div class="routemap reveal">
+    <div class="lmap" id="map-d2" title="2일차 이동경로: 노보리베츠 온천 → 지옥계곡 → 카모리빌딩3 → 홋카이도청 → 그랜드호텔 → 시계탑 → 오도리공원·TV타워 → GARAKU → 모이와야마 → 스스키노"></div>
+    <div class="routemap-foot">
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">1</span><b>노보리베츠 온천</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">2</span>지옥계곡</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">3</span>카모리빌딩3</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">4</span>홋카이도청(아카렌가)</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">5</span>삿포로 그랜드호텔</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">6</span>시계탑</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">7</span>오도리공원·TV타워</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">8</span>GARAKU 수프카레</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">9</span>모이와야마</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen)">10</span>스스키노</span>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="tl reveal">
+      <div class="stop">
+        <div class="stop-time">07:00</div>
+        <h3>조식 뷔페 & 아침 온천</h3>
+        <p>노보리베츠 그랜드호텔 조식 운영시간은 <b>7:00~9:00</b>. 홋카이도 재료 조식 뷔페로 든든하게 먹고, 아침 시간대 노천탕도 여유 있게 이용해 보세요.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">08:00</div>
+        <h3>지옥계곡(지고쿠다니) 🍁</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">그랜드호텔 → 지옥계곡</span><span class="legsep">·</span><span class="legtime">도보 약 10분</span></div>
+        <p>호텔에서 도보 10분. 유황 연기가 피어오르는 화산 분화구 계곡으로, 10월 초엔 단풍이 물들기 시작해 단풍과 증기가 어우러진 대표 명소. 아침 햇살 아래 전망대 + 목재 산책로 한 바퀴 약 30~40분.</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">09:10</div>
+        <h3>유유라이너 승차장으로 이동</h3>
+        <p>노보리베츠 그랜드호텔 앞(또는 지정 정류장)에서 <b>유유라이너</b> 픽업. 온천가 호텔 앞까지 직접 와주기 때문에 노보리베츠역까지 갈 필요 없이 짐을 끌고 바로 승차하면 돼요.</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">09:30</div>
+        <h3>유유라이너로 삿포로 직행 <span class="badge">환승 없음</span></h3>
+        <div class="legbadge"><span class="legicon">🚌</span><span class="legroute">노보리베츠 온천 → 삿포로 카모리빌딩3</span><span class="legsep">·</span><span class="legtime">약 2시간</span></div>
+        <p>노보리베츠 온천 → 삿포로 시내(오도리 인근 <b>카모리빌딩3</b> 앞) 환승 없이 약 2시간. <b>사전 예약제</b>로, 아래 예약 가이드를 참고해 출발 며칠 전 예약해 두세요. (정확한 출발·도착 시각은 예약 시 확정)</p>
+        <div class="tip"><b>대안</b> 시간이 안 맞으면 노보리베츠역에서 JR 특급 스즈란/호쿠토(약 1시간 15분, 5,410엔) 또는 도난버스 직행 고속온천호(약 1시간 50분, 2,500엔)도 가능해요.</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">11:30</div>
+        <h3>카모리빌딩3 도착 — 삿포로 시내 진입 🏙️</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">카모리빌딩3 → 홋카이도청 구본청사</span><span class="legsep">·</span><span class="legtime">도보 약 10분</span></div>
+        <p>유유라이너에서 내리는 <b>카모리빌딩3</b>(오도리 인근)에서 캐리어를 끌고 서쪽으로 걸어 첫 목적지인 <b>아카렌가청사</b>로. 삿포로 도심은 바둑판 구조라 길 찾기가 쉽고, 웬만한 곳은 전부 도보권이에요.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">11:45</div>
+        <h3>홋카이도청 구본청사(아카렌가) — 외관 감상 🧱</h3>
+        <p>1888년에 세워진 붉은 벽돌의 아메리칸 네오바로크 양식 건물, 국가 중요문화재. 짐이 있는 상태라 <b>내부는 생략하고 앞뜰에서 외관 사진만</b> 담습니다. 연못과 은행나무가 있는 앞뜰이 정면 포토스팟이고, 10월 초면 잎이 노랗게 물들기 시작해요.</p>
+        <div class="tip"><b>참고</b> 2019년부터 6년간의 대규모 개보수를 마치고 <b>2025년 7월 25일 리뉴얼 오픈</b>했어요. 1층에는 <b>입장료 없이 볼 수 있는 무료존</b>과 '시로이코이비토'의 ISHIYA가 운영하는 <b>Akarenga sweets labo</b>, 기념품숍이 있어 시간이 남으면 잠깐 들러도 좋아요. (앞뜰·외관은 언제든 무료)</div>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">12:15</div>
+        <h3>그랜드호텔에 짐 맡기기 🧳</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">아카렌가청사 → 삿포로 그랜드호텔</span><span class="legsep">·</span><span class="legtime">도보 약 8분</span></div>
+        <p>체크인 시간(15:00) 전이라 프런트에 <b>캐리어만 맡기고</b> 가볍게 시내로 나섭니다. 오후에 다시 돌아와 체크인할 예정이니 필요한 물건만 챙기세요.</p>
+        <div class="legbadge bk"><span class="legicon">🎫</span><span class="legroute">예약 Heo SeongWook</span><span class="legsep">·</span><span class="bkno">1715976631</span><span class="legsep">·</span><span class="legroute">별관 4인실</span></div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">12:35</div>
+        <h3>삿포로 시계탑 🕰️ <span class="badge">200엔</span></h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">호텔 → 삿포로 시계탑</span><span class="legsep">·</span><span class="legtime">도보 약 5분</span></div>
+        <p>1878년 삿포로농학교 연무장으로 지어진 일본 최고(最古)의 현역 목조 시계탑. 빌딩 사이에 낀 모습 때문에 '일본 3대 실망 명소'로 놀림받지만, 안에 들어가면 개척기 자료와 클라크 박사 관련 전시가 알차요. 정각마다 울리는 종소리도 들어볼 만합니다.</p>
+        <div class="tip"><b>이용안내</b> 관람료 대인 <b>200엔</b>(고교생 이하 무료), 8:45~17:10(입관 17:00), 연시 외 연중무휴. <b>TV타워 공통입장권</b>을 사면 대인 150엔 할인되고, 방금 본 <b>아카렌가청사와도 상호할인</b>이 있어요. 정문 옆에 사진용 스마트폰 거치대가 설치돼 있습니다.</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">13:00</div>
+        <h3>오도리공원 산책 · TV타워 전망대 🌳🗼</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">시계탑 → 오도리공원 → TV타워</span><span class="legsep">·</span><span class="legtime">도보 약 5분</span></div>
+        <p>도심을 동서로 가로지르는 오도리공원을 동쪽으로 걸어 내려가며 노랗게 물들기 시작한 은행·단풍을 즐기고, 끝자락의 <b>삿포로 TV타워</b> 전망대(지상 90m)에서 일직선으로 뻗은 공원과 시가지를 내려다봐요. 날이 맑으면 이시카리평야까지 보입니다.</p>
+        <div class="tip"><b>이용안내</b> 전망대 입장료는 <b>2026년 1월 1일부로 인상</b>되어 대인 <b>1,200엔</b>(초·중생 600엔), 운영 09:00~22:00. 공원 노점의 <b>구운 옥수수·감자버터</b>는 삿포로 가을의 국룰 간식이에요.</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">14:10</div>
+        <h3>점심 — 수프카레 GARAKU 본점 🍛 <span class="badge">웨이팅</span></h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">TV타워 → GARAKU 본점</span><span class="legsep">·</span><span class="legtime">도보 약 8분</span></div>
+        <p>삿포로에서 가장 줄이 긴 수프카레집. 21종 스파이스에 <b>가쓰오 등 화풍 다시</b>를 더한 국물이 GARAKU의 시그니처예요. 대표 메뉴는 뼈에서 살이 저절로 떨어지는 <b>부드러운 닭다리와 채소(약 1,480엔)</b>, 튀긴 브로콜리 토핑 추가가 숨은 정답. 매운맛 단계와 밥 양을 고를 수 있습니다.</p>
+        <div class="tip"><b>웨이팅 팁</b> 런치 11:30~15:30(<b>주문 마감 15:00</b>) · 예약 불가 · 수프 소진 시 조기 마감. 피크(11:30~13:30)엔 30~60분 대기가 기본이라 <b>14시대 방문이 대기가 가장 짧습니다</b>. 본점은 정리권(整理券)을 운영하니 도착하면 먼저 번호표부터 받으세요.<br>
+        <b>위치 주의</b> 본점은 예전 다누키코지 자리가 아니라 <b>南3条東2</b>(버스센터마에역 도보 5분)로 옮겼습니다. 지도 검색 시 '札幌本店'인지 확인하세요.</div>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">15:20</div>
+        <h3>호텔 체크인 · 휴식 🏨</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">GARAKU → 삿포로 그랜드호텔</span><span class="legsep">·</span><span class="legtime">도보 약 12분</span></div>
+        <p>맡겨둔 짐을 찾아 <b>체크인</b>하고 방에서 <b>16:00까지 휴식</b>. 노보리베츠에서 아침부터 움직인 날이라 여기서 한 번 쉬어 가는 게 중요해요. 모이와야마 정상은 시내보다 훨씬 추우니 <b>겉옷·장갑</b>을 챙겨 다시 나섭니다.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">16:00</div>
+        <h3>모이와야마 전망대 — 일몰 & 야경 🌃</h3>
+        <div class="legbadge"><span class="legicon">🚋</span><span class="legroute">호텔 → 시덴 로프웨이이리구치 → 모이와야마 산정</span><span class="legsep">·</span><span class="legtime">약 50분</span></div>
+        <p>'일본 신 3대 야경'으로 꼽히는 삿포로의 대표 전망대. 시덴(노면전차) <b>로프웨이이리구치</b> 하차 → 무료 셔틀 → 로프웨이 → 미니케이블카로 산정에 오릅니다. <b>10월 초 일몰이 약 17:10</b>이라 16:50쯤 산정에 서면 노을부터 야경까지 한 번에 볼 수 있어요.</p>
+        <div class="tip"><b>참고</b> 로프웨이+미니케이블카 왕복 약 2,100엔. 산정 전망대는 바람이 강해 체감온도가 시내보다 5도 이상 낮습니다. '사랑의 자물쇠' 종과 전망 레스토랑도 있어요.</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">19:00</div>
+        <h3>스스키노의 밤 — 저녁 🍖</h3>
+        <div class="legbadge"><span class="legicon">🚋</span><span class="legroute">모이와야마 → 스스키노</span><span class="legsep">·</span><span class="legtime">시덴 약 20분</span></div>
+        <p>일본 3대 번화가 스스키노로 내려와 저녁. <b>징기스칸 다루마</b>의 양고기 구이가 대표 선택지이고, 해산물이 당기면 근처 이자카야도 좋아요. 니카상 네온 간판 앞 인증샷은 필수 코스.</p>
+        <div class="tip"><b>야식·쇼핑</b> 스스키노 바로 북쪽이 <b>다누키코지 상점가</b>(약 1km 아케이드)예요. 드럭스토어·돈키호테가 늦게까지 열려 있어 저녁 후 기념품 쇼핑을 붙이기 좋습니다.</div>
+      </div>
+    </div>
+
+    <aside class="aside reveal">
+      <figure class="photo" id="ph-akarenga"><img alt="홋카이도청 구본청사 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-odori"><img alt="오도리공원 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-moiwa"><img alt="모이와야마 야경 사진"><figcaption></figcaption></figure>
+      <div class="trans">
+        <h4>🚆 오늘의 교통 · 입장료</h4>
+        <ul>
+          <li><span>노보리베츠 → 삿포로 (유유라이너)</span><span class="fare">예약 필요</span></li>
+          <li><span>시내 이동 (전부 도보권)</span><span class="fare">아카렌가~오도리</span></li>
+          <li><span>삿포로 시계탑 관람</span><span class="fare">200엔</span></li>
+          <li><span>TV타워 전망대</span><span class="fare">1,200엔</span></li>
+          <li><span>시덴(노면전차) 편도</span><span class="fare">230엔</span></li>
+          <li><span>모이와야마 로프웨이 왕복</span><span class="fare">약 2,100엔</span></li>
+        </ul>
+        <p class="note">※ 유유라이너는 완전 예약제 — 요금·정확한 시각표는 예약 시 확인.<br>※ 시계탑+TV타워 <b>공통입장권</b>이면 대인 150엔 할인, 시계탑↔아카렌가청사 상호할인도 있어요.<br>※ 모이와야마는 시덴 '로프웨이이리구치' 하차 후 무료 셔틀 이용.</p>
+      </div>
+    </aside>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DAY 3 ═══════════════ -->
+<section class="day" id="d3" style="--line:var(--icho)">
+  <div class="day-wrap">
+  <div class="sign reveal">
+    <div class="sign-top">
+      <div class="sign-date">DAY 3 · 10.7 WED</div>
+      <div class="sign-title">사이미 라멘 · 마루야마 · 야경</div>
+      <div class="sign-romaji">RAMEN · MARUYAMA · NIGHT VIEW</div>
+    </div>
+    <div class="sign-line"></div>
+    <div class="sign-nav"><span>◀ 미소노</span><span>삿포로역 ▶</span></div>
+  </div>
+
+  <div class="routemap reveal">
+    <div class="lmap" id="map-d3" title="3일차 이동경로: 멘야 사이미 → 마루야마공원 → 홋카이도 신궁 → 마루야마 동물원 → 맥주박물관 → 삿포로 팩토리 → JR타워"></div>
+    <div class="routemap-foot">
+      <span class="routestep"><span class="rn" style="background:var(--icho)">1</span><b>멘야 사이미</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho)">2</span>마루야마공원</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho)">3</span>홋카이도 신궁</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho)">4</span>마루야마 동물원</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho)">5</span>맥주박물관</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho)">6</span>삿포로 팩토리</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho)">7</span>JR타워 T38</span>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="tl reveal">
+      <div class="stop">
+        <div class="stop-time">07:30–08:30</div>
+        <h3>조식 — 노던 테라스 다이너 🍽️</h3>
+        <p>삿포로 그랜드호텔 뷔페 조식 <b>'노던 테라스 다이너'</b>(동관 1층), 운영시간 <b>06:30~10:00</b>. 점심이 이른 오픈런 라멘이니 아침은 가볍게, 커피 한 잔 정도로 여유 있게.</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">10:15</div>
+        <h3>호텔 출발 — 미소노로</h3>
+        <div class="legbadge"><span class="legicon">🚇</span><span class="legroute">오도리역 → 도호선 → 미소노역</span><span class="legsep">·</span><span class="legtime">약 10분</span></div>
+        <p>호텔에서 오도리역까지 도보 5분, <b>지하철 도호선</b>(파란색) 후쿠즈미 방면으로 4정거장. 미소노역 <b>1번 출구</b>에서 도보 3~4분이면 가게 앞이에요.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">10:40</div>
+        <h3>멘야 사이미 도착 — 오픈런 🍜 <span class="badge">줄서기</span></h3>
+        <p>삿포로 미소라멘의 최강자로 꼽히는 <b>멘야 사이미(麺屋 彩未)</b>. 정식 오픈은 <b>11:00</b>이지만 <b>혼잡 시 평일 10:45부터 앞당겨 열어요</b>. 10:40 도착이면 1회전(첫 타임)에 앉을 확률이 높습니다.</p>
+        <div class="fares">
+          <h4>라멘 らーめん</h4>
+          <ul>
+            <li class="pick"><span class="fseat">미소 라멘 <b>← 간판</b><span class="sub">味噌らーめん · 미소 라-멘 (된장)</span></span><span class="fyen">¥1,000</span></li>
+            <li><span class="fseat">쇼유 라멘<span class="sub">醤油らーめん · 쇼유 라-멘 (간장)</span></span><span class="fyen">¥1,000</span></li>
+            <li><span class="fseat">시오 라멘<span class="sub">塩らーめん · 시오 라-멘 (소금)</span></span><span class="fyen">¥1,000</span></li>
+            <li><span class="fseat">매운 미소 라멘<span class="sub">辛味噌らーめん · 카라미소 라-멘</span></span><span class="fyen">¥1,050</span></li>
+            <li><span class="fseat">매운 쇼유 라멘<span class="sub">辛醤油らーめん · 카라쇼유 라-멘</span></span><span class="fyen">¥1,050</span></li>
+          </ul>
+        </div>
+        <div class="fares">
+          <h4>토핑 추가 · 밥</h4>
+          <ul>
+            <li><span class="fseat">곱빼기 (면 추가)<span class="sub">大盛 · 오오모리</span></span><span class="fyen">+¥100</span></li>
+            <li class="pick"><span class="fseat">차슈멘 (고기 듬뿍)<span class="sub">チャーシューめん · 차-슈-멘</span></span><span class="fyen">+¥400</span></li>
+            <li><span class="fseat">밥 (대)<span class="sub">ライス 大 · 라이스 다이</span></span><span class="fyen">¥200</span></li>
+            <li><span class="fseat">밥 (중)<span class="sub">ライス 中 · 라이스 츄-</span></span><span class="fyen">¥150</span></li>
+            <li><span class="fseat">밥 (소)<span class="sub">ライス 小 · 라이스 쇼-</span></span><span class="fyen">¥100</span></li>
+          </ul>
+        </div>
+        <div class="fares">
+          <h4>음료 · 주류</h4>
+          <ul>
+            <li><span class="fseat">주스 · 펩시콜라<span class="sub">ジュース・ペプシコーラ · 쥬-스 / 페푸시코-라</span></span><span class="fyen">¥200</span></li>
+            <li><span class="fseat">세피아의 자극 (탄산음료)<span class="sub">セピアのしげき · 세피아노 시게키</span></span><span class="fyen">¥200</span></li>
+            <li><span class="fseat">흑우롱차<span class="sub">黒烏龍茶 · 쿠로우론챠</span></span><span class="fyen">¥200</span></li>
+            <li><span class="fseat">맥주<span class="sub">ビール · 비-루</span></span><span class="fyen">¥500</span></li>
+          </ul>
+        </div>
+        <div class="tip"><b>주문 팁</b> 처음이라면 무조건 <b>미소라멘 1,000엔</b>. 고기를 좋아하면 <b>+400엔 차슈멘</b>, 국물에 밥 말아 먹을 거면 <b>라이스 소 100엔</b>을 곁들이는 조합이 정석이에요. 카운터 20석 남짓의 작은 가게라 회전이 빨라 30~40분이면 나옵니다.<br>
+        <b>휴무 주의</b> 매주 <b>월요일</b> + 월 2회 부정기 휴무. 10/7은 수요일이라 영업일이지만, 부정기 휴무는 공식 홈페이지에 공지되니 전날 한 번 확인하세요.<br>
+        <a class="glink" href="https://www.menya-saimi.com/" target="_blank" rel="noopener">↳ 멘야 사이미 공식 홈페이지 (휴무 공지)</a></div>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">11:45</div>
+        <h3>마루야마로 이동</h3>
+        <div class="legbadge"><span class="legicon">🚇</span><span class="legroute">미소노역 → 오도리 환승 → 마루야마코엔역</span><span class="legsep">·</span><span class="legtime">약 25분</span></div>
+        <p>도호선으로 <b>오도리역</b>까지 온 뒤 <b>도자이선</b>(주황색) 미야노사와 방면으로 환승. 마루야마코엔역 <b>3번 출구</b>로 나오면 바로 공원 입구예요.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">12:15</div>
+        <h3>마루야마공원 단풍 산책 🍁</h3>
+        <p>원시림이 그대로 남은 도심 속 숲. 역에서 신궁으로 이어지는 참배길이 그대로 산책로가 됩니다. 10월 초는 단풍이 막 물들기 시작할 무렵으로, 노랑·초록이 섞인 색감이 오히려 예뻐요.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">12:45</div>
+        <h3>홋카이도 신궁 ⛩️</h3>
+        <p>홋카이도 개척의 수호신을 모신 신궁. 넓은 자갈 참배길과 큰 도리이가 인상적이고, 경내 <b>롯카테이 판매소</b>에서는 이곳에서만 파는 구운 떡 <b>'한주(判官さま)'</b>와 무료 차 한 잔을 즐길 수 있어요(10월 개문 6:00~17:00).</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">13:30</div>
+        <h3>마루야마 동물원 🐻 <span class="badge">입장 800엔</span></h3>
+        <p>신궁 옆문에서 도보 5~7분. 홋카이도의 곰·늑대·눈표범과 북극곰관이 대표 볼거리이고, 언덕을 오르내리는 구조라 <b>2시간 정도</b> 잡으면 알차게 봅니다. 개원 9:30~16:30(최종 입장 16:00).</p>
+        <div class="tip"><b>휴원일 꼭 확인</b> 마루야마 동물원은 <b>매월 둘째·넷째 수요일</b> 휴원입니다. 10/7은 <b>첫째 수요일이라 정상 개원</b>이지만, 구글맵에는 '수요일 휴무'로 표시되는 경우가 있으니 공식 개원 캘린더로 한 번 더 확인하세요. 입장권은 현금 또는 온라인 전자티켓(카드 결제 가능).<br>
+        <a class="glink" href="https://www.city.sapporo.jp/zoo/info/kaienzikan-kyuenbi/20210311.html" target="_blank" rel="noopener">↳ 마루야마 동물원 개원일 캘린더 (공식)</a></div>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">15:30</div>
+        <h3>맥주박물관으로 이동</h3>
+        <div class="legbadge"><span class="legicon">🚇</span><span class="legroute">마루야마코엔역 → 오도리 환승 → 히가시쿠야쿠쇼마에역</span><span class="legsep">·</span><span class="legtime">약 45분(도보 포함)</span></div>
+        <p>동물원에서 마루야마코엔역까지 숲길 도보 약 15분 → 도자이선 → 오도리 환승 → 도호선 <b>히가시쿠야쿠쇼마에역 4번 출구</b> → 도보 10분.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">16:20</div>
+        <h3>삿포로 맥주박물관 🍺 <span class="badge">유료화</span></h3>
+        <p>일본에서 가장 오래된 맥주 박물관, 붉은 벽돌 건물 자체가 홋카이도 유산. 3층 → 1층 일방통행 순로로 15~40분이면 둘러봅니다. 관람 후 1층 <b>Tasting Hall</b>에서 공장 직송 생맥주를 맛보는 게 하이라이트.</p>
+        <div class="tip"><b>2026년 7월 리뉴얼로 입관 유료화</b> — 자유견학 대인 <b>1,000엔</b>(<b>한국어 음성가이드</b> 포함), 중학생~20세 미만 500엔. 시음은 별도로 흑라벨·클래식 각 450엔, 개척사맥주 550엔, <b>3종 비교 세트 1,200엔</b>.<br>
+        운영 11:00~18:00(<b>최종 입관 17:30</b>), 시음홀 라스트오더 18:00 · 좌석 이용 30분 제한. 예약 없이 당일 입장 가능하지만 전자티켓을 미리 사두면 줄이 짧아요.<br>
+        <a class="glink" href="https://www.sapporobeer.jp/brewery/s_museum/kengaku/" target="_blank" rel="noopener">↳ 맥주박물관 이용안내 · 티켓 (공식)</a></div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">17:45</div>
+        <h3>삿포로 팩토리 — 저녁 & 쇼핑 🏭</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">맥주박물관 → 삿포로 팩토리</span><span class="legsep">·</span><span class="legtime">도보 약 20분 (택시 5분)</span></div>
+        <p>1876년 <b>개척사 맥주양조소</b> 터에 들어선 붉은 벽돌 복합몰. 유리지붕의 거대한 <b>아트리움</b>이 상징이고, 굴뚝광장의 <b>삿포로 개척사 맥주 판매소</b>에서는 갓 뽑은 맥주를 한 잔 저렴하게 맛볼 수 있어요. 쇼핑 10:00~20:00 · 레스토랑 11:00~22:00.</p>
+        <div class="tip"><b>저녁</b> 팩토리 1조관·프론티어관 쪽 레스토랑층에서 해결하면 동선이 깔끔해요. 아웃도어 브랜드(노스페이스·스노우피크) 매장이 크고 <b>면세</b>도 되니 기념품·방한용품 쇼핑도 여기서.</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">19:40</div>
+        <h3>JR타워 전망실 T38 — 야경 🌃</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">삿포로 팩토리 → 삿포로역</span><span class="legsep">·</span><span class="legtime">도보 약 12분</span></div>
+        <p>지상 160m, 38층에서 360도로 펼쳐지는 삿포로 야경. 바둑판처럼 반듯한 시가지 불빛과 멀리 모이와야마·이시카리만까지 보입니다. 10월 초 일몰이 <b>약 17:10</b>이라 이 시간이면 완전히 어두워진 뒤예요.</p>
+        <div class="tip"><b>이용안내</b> 입장료 대인 <b>740엔</b>(중·고생 520엔), 운영 10:00~22:00 <b>최종 입장 21:30</b>. 입장 접수는 <b>JR타워 이스트 6층</b>(삿포로 스텔라플레이스 이스트 6F) — 38층 직통 엘리베이터를 탑니다. 38층 <b>T'CAFE</b>는 밤에 바 메뉴를 운영해 야경 보며 한 잔 하기 좋고, '전망 화장실'도 유명한 포토스팟.<br>
+        <a class="glink" href="https://www.jr-tower.com/t38_info" target="_blank" rel="noopener">↳ JR타워 전망실 T38 요금·영업시간 (공식)</a></div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">21:00</div>
+        <h3>호텔 복귀 · 마무리 🍨</h3>
+        <p>삿포로역에서 호텔까지 도보 10분. 아직 여력이 있다면 스스키노의 <b>시메파르페</b>(밤에 먹는 파르페) 한 그릇이나 다누키코지 야식으로 하루를 마무리.</p>
+      </div>
+    </div>
+
+    <aside class="aside reveal">
+      <figure class="photo" id="ph-jingu"><img alt="홋카이도 신궁 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-zoo"><img alt="마루야마 동물원 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-beer"><img alt="삿포로 맥주박물관 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-jrtower"><img alt="JR타워 야경 사진"><figcaption></figcaption></figure>
+      <div class="trans">
+        <h4>🚇 오늘의 교통 · 입장료</h4>
+        <ul>
+          <li><span>지하철 전용 1일 승차권</span><span class="fare">830엔</span></li>
+          <li><span>마루야마 동물원 입장</span><span class="fare">800엔</span></li>
+          <li><span>맥주박물관 자유견학</span><span class="fare">1,000엔</span></li>
+          <li><span>JR타워 전망실 T38</span><span class="fare">740엔</span></li>
+        </ul>
+        <p class="note">※ 오늘 지하철 3구간(250+290+290엔)이면 딱 1일권 값 — 자유롭게 타려면 830엔 1일권이 편해요.<br>※ 맥주박물관 시음은 별도(450엔~), 3종 비교 세트 1,200엔.</p>
+      </div>
+    </aside>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DAY 4 ═══════════════ -->
+<section class="day" id="d4" style="--line:var(--dusk)">
+  <div class="day-wrap">
+  <div class="sign reveal">
+    <div class="sign-top">
+      <div class="sign-date">DAY 4 · 10.8 THU</div>
+      <div class="sign-title">장외시장 · 오타루</div>
+      <div class="sign-romaji">MARKET · OTARU</div>
+    </div>
+    <div class="sign-line"></div>
+    <div class="sign-nav"><span>◀ 삿포로</span><span>오타루 ▶</span></div>
+  </div>
+
+  <div class="routemap reveal">
+    <div class="lmap" id="map-d4" title="4일차 이동경로: 삿포로 호텔 → 장외시장 → 오타루역 → 사카이마치 → 오타루운하"></div>
+    <div class="routemap-foot">
+      <span class="routestep"><span class="rn" style="background:var(--dusk)">1</span><b>삿포로 호텔(송영버스)</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk)">2</span>장외시장</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk)">3</span>오타루역</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk)">4</span>사카이마치</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk)">5</span>오타루 운하</span>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="tl reveal">
+      <div class="stop">
+        <div class="stop-time">07:30–08:30</div>
+        <h3>조식 — 가든 다이닝 와라쿠 🍚</h3>
+        <p>삿포로 그랜드호텔 일본 가정식 조식 <b>'가든 다이닝 와라쿠'</b>(본관 4층), 운영시간 <b>07:00~10:00</b>. 밥·미소시루·구이생선 중심의 정갈한 일식 조식 — 점심이 털게 한 상이니 아침은 가볍게 즐겨도 좋아요.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">08:30–10:20</div>
+        <h3>호텔에서 여유롭게 ☕</h3>
+        <p>오전을 비워 둔 날입니다. 늦잠·짐 정리·기념품 포장에 써도 좋고, 호텔에서 도보 5분 <b>오도리공원</b> 쪽으로 아침 산책만 짧게 다녀와도 딱 맞는 시간이에요. 오후에 오타루까지 다녀와야 하니 체력을 아껴 두는 쪽을 추천.</p>
+        <div class="tip"><b>송영버스 대기</b> 10:30 픽업이라 <b>10:20까지 호텔 로비/정문 앞</b>으로 내려와 있으면 됩니다.</div>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">10:30</div>
+        <h3>무료 송영버스 승차 <span class="badge">예약제</span></h3>
+        <div class="legbadge"><span class="legicon">🚐</span><span class="legroute">삿포로 그랜드호텔 앞 → 장외시장</span><span class="legsep">·</span><span class="legtime">환승 없이 직행</span></div>
+        <p>장외시장 상점 기타노구루메가 삿포로시 주오구·기타구 호텔 및 삿포로역에서 운행하는 <b>무료 송영차량</b>. 마중 시각은 7:30·8:30·9:30·<b>10:30</b>·11:30·12:30(정시), 환승 없이 장외시장 바로 앞까지 데려다줘요.</p>
+        <ul class="osteps" style="margin-top:.6rem">
+          <li>예약: 프리다이얼 0120-004-070 (또는 TEL 011-621-3545), 전일 15:00까지 연락 권장 — 당일 연락도 가능</li>
+          <li>삿포로역 북쪽 출구 픽업 시 서쪽 개찰구(니시콘코스) 밖 <b>훼미리마트 앞</b>에서 대기</li>
+          <li>영어·중국어 가능 직원 있음, 돌아갈 때도 호텔/역 중 선택해 배웅 가능</li>
+        </ul>
+        <div class="tip"><b>TIP</b> 다른 장외시장 상점(니조시장 인근 가게 등)도 유사한 무료 송영 서비스를 운영하는 경우가 있어요. 실제 예약 화면과 후기는 아래 참고 글에서 확인하세요.<br>
+        <a href="https://blog.naver.com/medwell1140/223974698887" target="_blank" rel="noopener" style="color:var(--dusk);font-weight:600">↳ 참고: 장외시장 송영버스 예약 후기 (네이버 블로그)</a></div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">10:50</div>
+        <h3>장외시장 — 털게 점심 🦀</h3>
+        <p>홋카이도 최대 중앙도매시장 바로 옆, 약 60개 점포. 수조의 살아있는 털게를 골라 그 자리에서 쪄 주거나, 식당에서 털게+카이센동 세트로. 성게·연어알 시식 인심도 후해요.</p>
+        <div class="tip"><b>털게(케가니) 대략 시세</b> — 시가라 매일 다르지만 감 잡기용:<br>· 소(400~500g) 4,000~6,000엔 · 중(600~800g) 8,000~12,000엔 · 대(1kg~) 15,000엔~<br>코로나 이후 가격이 2배 가까이 올랐어요. 2~3명이면 중 사이즈 1마리 + 카이센동 조합 추천. 흥정과 가격 비교는 필수!</div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">13:00</div>
+        <h3>호텔 들러 휴식 🏨</h3>
+        <p>돌아갈 때도 기타노구루메 송영버스(배웅 시각 매정시 8:00~14:00)를 이용해 호텔 또는 삿포로역까지 편하게 복귀. 1시간 정도 쉬며 짐 정리, 오타루용 가벼운 차림으로 재출발.</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">14:30</div>
+        <h3>JR 쾌속 에어포트로 오타루 <span class="badge">바다 조망</span></h3>
+        <div class="legbadge"><span class="legicon">🚆</span><span class="legroute">삿포로역 → 오타루역</span><span class="legsep">·</span><span class="legtime">약 35분</span></div>
+        <p>삿포로 → 오타루 약 35분. <b>진행 방향 오른쪽 창가</b>에 앉으면 제니바코부터 바다가 바로 옆으로 펼쳐집니다.</p>
+        <div class="fares">
+          <h4>좌석 · 편도 요금</h4>
+          <ul>
+            <li><span class="fseat">자유석<span class="sub">좌석 지정 없음 · 평일 낮은 대체로 여유</span></span><span class="fyen">¥800</span></li>
+            <li class="pick"><span class="fseat">지정석 U-Seat<span class="sub">바다 쪽 오른쪽 창가 미리 확보</span></span><span class="fyen">¥1,800</span></li>
+          </ul>
+        </div>
+        <div class="tip"><b>예매</b> 아래 링크는 <b>10/8 삿포로(JR)→오타루</b> 조건이 채워진 상태로 열려요. 시간대만 고르면 됩니다. 자유석이면 당일 발매기·IC카드로도 바로 탈 수 있으니 일정이 유동적이면 미리 살 필요는 없어요.<br>
+        <a class="glink" href="https://kr.trip.com/trains/asia/list?tripTab=train&amp;scheduleType=single&amp;biztype=JP&amp;departurecountrycode=JP&amp;arrivalcountrycode=JP&amp;departdate=2026-10-08&amp;departurecitycode=JP03724&amp;arrivalcitycode=JP02277&amp;departurecity=%EC%82%BF%ED%8F%AC%EB%A1%9C%28%EF%BC%AA%EF%BC%B2%29&amp;arrivalcity=%EC%98%A4%ED%83%80%EB%A3%A8" target="_blank" rel="noopener">↳ 트립닷컴에서 예매 (10/8 삿포로→오타루)</a><br>
+        <a class="glink" href="https://www.jrhokkaido.co.jp/global/korean/index.html" target="_blank" rel="noopener">↳ JR 홋카이도 공식 홈페이지 (한국어)</a></div>
+      </div>
+      <div class="stop">
+        <div class="stop-time">15:20</div>
+        <h3>사카이마치 거리 산책 🕰️</h3>
+        <p>메르헨 교차로의 증기시계 → 오르골당 → <b>르타오 본점</b>에서 더블 프로마주 한 조각. 유리공예 기타이치가라스 골목까지 천천히.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">16:20</div>
+        <h3>간단 초밥 🍣</h3>
+        <p>'초밥의 거리' 오타루답게 가볍게 한 접시 — <b>스시야도리</b>의 노포나 오타루역 옆 <b>산카쿠시장</b>의 카이센 초밥. 저녁은 삿포로에서 먹을 거라 8~10칸 정도로 가볍게.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">17:00</div>
+        <h3>오타루 운하 일몰 🌅</h3>
+        <p>10월 초 일몰은 <b>약 17:10</b>. 아사쿠사바시 다리에서 노을에 물드는 창고군을 보고, 해가 지면 하나둘 켜지는 <b>가스등 63개</b>의 불빛까지.</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">18:10</div>
+        <h3>삿포로 복귀 → 저녁 🦀</h3>
+        <div class="legbadge"><span class="legicon">🚆</span><span class="legroute">오타루역 → 삿포로역</span><span class="legsep">·</span><span class="legtime">약 35분</span></div>
+        <p>JR로 삿포로 복귀(35분, 자유석 800엔). 마지막 밤 저녁은 스스키노 <b>가니혼케</b>(게 코스 요리)나 못다 먹은 미소라멘·이자카야로. 다누키코지에서 마지막 쇼핑.</p>
+      </div>
+    </div>
+
+    <aside class="aside reveal">
+      <figure class="photo" id="ph-kegani"><img alt="털게 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-otaru"><img alt="오타루 운하 사진"><figcaption></figcaption></figure>
+      <div class="trans">
+        <h4>🚆 오늘의 교통</h4>
+        <ul>
+          <li><span>장외시장 송영버스 (기타노구루메)</span><span class="fare">무료·예약제</span></li>
+          <li><span>삿포로 ↔ 오타루 (JR 자유석 편도)</span><span class="fare">800엔</span></li>
+          <li><span>삿포로 ↔ 오타루 (JR 지정석 편도)</span><span class="fare">1,800엔</span></li>
+        </ul>
+        <p class="note">※ 삿포로–오타루 왕복이면 '오타루 웰컴 패스'(JR왕복+지하철 1일권 세트)도 비교해 보세요.</p>
+      </div>
+    </aside>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DAY 5 ═══════════════ -->
+<section class="day" id="d5" style="--line:var(--sora)">
+  <div class="day-wrap">
+  <div class="sign reveal">
+    <div class="sign-top">
+      <div class="sign-date">DAY 5 · 10.9 FRI</div>
+      <div class="sign-title">귀국 — 14:30 출발</div>
+      <div class="sign-romaji">SAPPORO → CTS AIRPORT</div>
+    </div>
+    <div class="sign-line"></div>
+    <div class="sign-nav"><span>◀ 삿포로</span><span>인천 ICN ▶</span></div>
+  </div>
+
+  <div class="routemap reveal">
+    <div class="lmap" id="map-d5" title="5일차 이동경로: 삿포로 그랜드호텔 → 삿포로역 → 신치토세공항"></div>
+    <div class="routemap-foot">
+      <span class="routestep"><span class="rn" style="background:var(--sora)">1</span><b>삿포로 그랜드호텔</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--sora)">2</span>삿포로역</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--sora)">3</span>신치토세공항</span>
+    </div>
+  </div>
+
+  <div class="day-grid">
+    <div class="tl reveal">
+      <div class="stop">
+        <div class="stop-time">08:00</div>
+        <h3>조식 & 짐 싸기</h3>
+        <p>삿포로 그랜드호텔 마지막 조식은 <b>뷔페(노던 테라스 다이너)</b> 또는 <b>일본 가정식(가든 다이닝 와라쿠)</b> 중 취향껏 선택. 식사 후 캐리어 최종 점검, 액체류·기념품 위탁수하물 정리.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">10:00</div>
+        <h3>체크아웃 → 역 주변 가벼운 쇼핑 🛍️</h3>
+        <p>짐은 끌고 지하보도로 삿포로역까지. 다이마루 지하 식품관·스텔라플레이스에서 마지막 쇼핑(르타오·기타카로 등). 무리하지 말고 1시간만!</p>
+      </div>
+      <div class="stop transfer">
+        <div class="stop-time">11:20</div>
+        <h3>JR 쾌속 에어포트 탑승 <span class="badge">직행 37분</span></h3>
+        <div class="legbadge"><span class="legicon">🚆</span><span class="legroute">삿포로역 → 신치토세공항역</span><span class="legsep">·</span><span class="legtime">약 37~40분</span></div>
+        <p>삿포로역 → 신치토세공항역, 약 37~40분(자유석 1,150엔 / 지정석 uSeat 1,990엔). 12분 간격 운행이지만 <b>국제선은 출발 2시간 전 도착</b>이 원칙이니 11시 반 이전 열차로.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">12:10</div>
+        <h3>공항 도착 — 마지막 미션 🍫</h3>
+        <p>체크인·수하물 위탁 후 시간이 남으면 국내선 터미널의 로이즈·시로이코이비토·르타오 매장에서 최종 기념품. 도라에몽 스카이파크는 시간 여유 있을 때만.</p>
+      </div>
+      <div class="stop">
+        <div class="stop-time">14:30</div>
+        <h3>이륙 ✈️</h3>
+        <p>4박 5일 일정 완료. 즐거운 여행 되셨길 바랍니다!</p>
+      </div>
+    </div>
+
+    <aside class="aside reveal">
+      <figure class="photo" id="ph-cts"><img alt="신치토세공항 사진"><figcaption></figcaption></figure>
+      <div class="trans">
+        <h4>🚆 오늘의 교통</h4>
+        <ul>
+          <li><span>삿포로 → 공항 (쾌속 에어포트)</span><span class="fare">1,150엔~</span></li>
+        </ul>
+        <p class="note">※ 아침 러시가 지난 시간대라 자유석도 대체로 앉을 수 있지만, 캐리어가 크면 지정석(uSeat)이 편해요.</p>
+      </div>
+    </aside>
+  </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 시세 · 예산 · 팁 ═══════════════ -->
+<section class="extras" id="info">
+  <div class="extras-wrap">
+    <h2 class="reveal">시세 · 교통비 · 준비 팁</h2>
+    <p class="lead reveal">가격은 2026년 기준 대략치이며, 게는 '시가(時価)'라 매일 달라집니다. 감을 잡는 용도로 봐주세요.</p>
+    <div class="cards">
+      <div class="xcard reveal">
+        <h3><span class="nd" style="background:var(--momiji)"></span>🦀 장외시장 털게 시세표</h3>
+        <table class="pricetable">
+          <tr><th>크기</th><th>대략 무게</th><th>가격대</th></tr>
+          <tr><td>소</td><td>400~500g</td><td>¥4,000~6,000</td></tr>
+          <tr><td>중 ★추천</td><td>600~800g</td><td>¥8,000~12,000</td></tr>
+          <tr><td>대</td><td>1kg 이상</td><td>¥15,000~</td></tr>
+          <tr><td>100g당 환산</td><td>—</td><td>약 ¥1,300~1,800</td></tr>
+        </table>
+        <p class="xnote">· 근년 어획 감소로 코로나 이전보다 2배 가까이 올랐어요.<br>· 살아있는 게를 고르면 찜에 20~30분 — 그 사이 시장 구경.<br>· 여러 가게 가격을 비교하고, 무게·마릿수 흥정도 자연스러운 문화입니다.</p>
+      </div>
+      <div class="xcard reveal">
+        <h3><span class="nd" style="background:var(--onsen)"></span>🚆 교통비 한눈에 (1인)</h3>
+        <table class="pricetable">
+          <tr><th>구간</th><th></th><th>요금</th></tr>
+          <tr><td>공항 → 노보리베츠</td><td>특급</td><td>약 ¥3,400</td></tr>
+          <tr><td>노보리베츠 ↔ 온천</td><td>버스 ×2</td><td>약 ¥700</td></tr>
+          <tr><td>노보리베츠 → 삿포로</td><td>특급</td><td>약 ¥5,410</td></tr>
+          <tr><td>삿포로 ↔ 오타루</td><td>JR 왕복</td><td>¥1,500</td></tr>
+          <tr><td>삿포로 → 공항</td><td>쾌속</td><td>¥1,150</td></tr>
+          <tr><td>지하철 1일권 ×1일</td><td></td><td>¥830</td></tr>
+          <tr><td><b>합계(대략)</b></td><td></td><td><b>약 ¥13,000</b></td></tr>
+        </table>
+        <p class="xnote">· 노보리베츠→삿포로를 고속버스(¥2,500)로 바꾸면 약 ¥10,100.<br>· '삿포로–노보리베츠 에리어 패스'는 이 동선(공항→노보리베츠→삿포로→오타루→공항)에서 대체로 본전 언저리 — 특급 왕복이 아니라면 필수는 아니에요.</p>
+      </div>
+      <div class="xcard reveal">
+        <h3><span class="nd" style="background:var(--gold)"></span>🍁 10월 초 홋카이도 팁</h3>
+        <ul>
+          <li>기온 낮 12~17℃ / 아침저녁 5~10℃ — 얇은 패딩·바람막이 필수</li>
+          <li>일몰이 17:10~17:20으로 빨라요. 야외 일정은 오전~이른 오후에</li>
+          <li>특급열차(스즈란·호쿠토)는 전 차량 지정석 — 에키넷 사전 예매 추천</li>
+          <li>온천용 작은 수건 1장 챙기면 족탕에서 유용</li>
+          <li>시내 코스는 참고한 <a href="https://www.google.com/maps/d/u/0/viewer?mid=1wip7T-TuQGncxJQOsN2xrd62ZpBTtQI" target="_blank" rel="noopener" style="color:var(--gold)">체크인데이 삿포로 코스 지도</a>의 시내 1·2일차 동선을 기반으로 구성했어요</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 편의점 브랜드별 꿀템 ═══════════════ -->
+<section class="conbini" id="conbini">
+  <div class="conbini-wrap">
+    <h2 class="reveal">편의점 브랜드별 꿀템</h2>
+    <p class="lead reveal">일본은 브랜드마다 미는 메뉴가 달라요. 특히 홋카이도는 <b>세이코마트(세코마)</b>라는 로컬 편의점이 세븐일레븐보다 매장이 더 많은 지역이라 꼭 한 번은 들러볼 만합니다. 숙소 근처나 이동 중 눈에 띄면 아래 메뉴 위주로 골라보세요.</p>
+    <div class="cb-grid">
+
+      <div class="cbcard reveal">
+        <div class="cbphoto"><img id="cb-seicomart" alt="세이코마트 매장"></div>
+        <div class="cbbody">
+          <h3><span class="tag" style="background:var(--momiji)"></span>세이코마트 Seicomart</h3>
+          <div class="cbromaji">홋카이도 로컬 · 매장 수 1위</div>
+          <ul>
+            <li><div class="iname"><span>핫셰프 치킨·돈카츠동</span><span class="iprice">¥200~400</span></div>
+              <div class="idesc">매장에서 직접 튀기고 밥 짓는 즉석 조리 코너. 홋카이도 여행자들의 필수 코스.</div></li>
+            <li><div class="iname"><span>유제품 소프트아이스크림</span><span class="iprice">¥150~250</span></div>
+              <div class="idesc">홋카이도산 우유 100% 사용. 멜론 소프트도 계절 한정으로 만날 수 있어요.</div></li>
+            <li><div class="iname"><span>가격이 저렴한 PB 음료·안주</span><span class="iprice">¥100~198</span></div>
+              <div class="idesc">타 편의점보다 전반적으로 저렴해서 온천 호텔 야식 조달용으로 딱이에요.</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cbcard reveal">
+        <div class="cbphoto"><img id="cb-lawson" alt="로손 가라아게군"></div>
+        <div class="cbbody">
+          <h3><span class="tag" style="background:var(--onsen)"></span>로손 Lawson</h3>
+          <div class="cbromaji">디저트 · 가라아게군</div>
+          <ul>
+            <li><div class="iname"><span>가라아게군 (레귤러/치즈)</span><span class="iprice">약 ¥248</span></div>
+              <div class="idesc">한입 크기 닭튀김. 로손 하면 바로 떠오르는 스테디셀러 스낵.</div></li>
+            <li><div class="iname"><span>우치카페 바스크 치즈케이크</span><span class="iprice">약 ¥250</span></div>
+              <div class="idesc">진한 크림치즈 맛, '우치카페' 디저트 라인업 중 최고 인기.</div></li>
+            <li><div class="iname"><span>모찌롤 케이크</span><span class="iprice">약 ¥190</span></div>
+              <div class="idesc">쫀득한 찹쌀떡 시트에 부드러운 생크림. 온천 후 야식 디저트로 추천.</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cbcard reveal">
+        <div class="cbphoto"><img id="cb-seven" alt="세븐일레븐 오니기리"></div>
+        <div class="cbbody">
+          <h3><span class="tag" style="background:var(--icho)"></span>세븐일레븐 7-Eleven</h3>
+          <div class="cbromaji">오니기리 · 에그샌드</div>
+          <ul>
+            <li><div class="iname"><span>참치마요 오니기리</span><span class="iprice">약 ¥160</span></div>
+              <div class="idesc">부동의 1위 삼각김밥. 김이 눅눅해지지 않는 개별 포장 방식.</div></li>
+            <li><div class="iname"><span>골드 시리즈 (이쿠라·연어)</span><span class="iprice">약 ¥250</span></div>
+              <div class="idesc">연어알·생선살이 통째로 들어가 일반 오니기리보다 조금 비싸지만 만족도 높음.</div></li>
+            <li><div class="iname"><span>타마고산도 (에그샌드위치)</span><span class="iprice">약 ¥230</span></div>
+              <div class="idesc">부드러운 스크램블 에그가 가득. 세븐일레븐 대표 샌드위치.</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cbcard reveal">
+        <div class="cbphoto"><img id="cb-familymart" alt="훼미리마트 파미치키"></div>
+        <div class="cbbody">
+          <h3><span class="tag" style="background:var(--dusk)"></span>훼미리마트 FamilyMart</h3>
+          <div class="cbromaji">파미치키 · 도시락</div>
+          <ul>
+            <li><div class="iname"><span>파미치키</span><span class="iprice">약 ¥210</span></div>
+              <div class="idesc">편의점 치킨 열풍의 원조. 겉은 바삭, 속은 육즙 가득한 대표 핫스낵.</div></li>
+            <li><div class="iname"><span>훼미마 도시락</span><span class="iprice">¥400~600</span></div>
+              <div class="idesc">가성비 좋은 한 끼 도시락 라인업. 이동 중 기차에서 먹기 좋아요.</div></li>
+            <li><div class="iname"><span>계절 한정 빵·디저트</span><span class="iprice">¥150~300</span></div>
+              <div class="idesc">독특한 콜라보 베이커리 상품이 자주 나와요. 진열대 앞쪽 신상 확인!</div></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p class="fin">삿포로 4박 5일 여행 일정표</p>
+  <p>일정·요금은 2026년 기준 참고용입니다 · 사진: Wikipedia(온라인 연결 시 자동 표시) · 지도: Google Maps</p>
+</footer>
+
+<script>
+/* 스크롤 리빌 */
+(function(){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+
+/* 위키피디아 실사진 자동 로드 (오프라인이면 일러스트만 표시) */
+(function(){
+  const spots=[
+    ['ph-noboribetsu','登別温泉','노보리베츠 온천 · 지옥계곡'],
+    ['ph-oyunuma','大湯沼','오유누마'],
+    ['ph-akarenga','北海道庁旧本庁舎','홋카이도청 구본청사(붉은 벽돌)'],
+    ['ph-odori','大通公園','오도리공원과 TV타워'],
+    ['ph-beer','サッポロビール博物館','삿포로 맥주박물관'],
+    ['ph-zoo','札幌市円山動物園','마루야마 동물원'],
+    ['ph-jrtower','JRタワー','JR타워에서 본 삿포로 야경'],
+    ['ph-jingu','北海道神宮','홋카이도 신궁'],
+    ['ph-moiwa','藻岩山','모이와야마에서 본 야경'],
+    ['ph-kegani','ケガニ','털게(케가니)'],
+    ['ph-otaru','小樽運河','오타루 운하'],
+    ['ph-cts','新千歳空港','신치토세공항']
+  ];
+  spots.forEach(([id,title,cap])=>{
+    const fig=document.getElementById(id);
+    if(!fig)return;
+    fetch('https://ja.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+      .then(r=>r.ok?r.json():null)
+      .then(d=>{
+        const src=d&&((d.originalimage&&d.originalimage.source)||(d.thumbnail&&d.thumbnail.source));
+        if(!src)return;
+        const img=fig.querySelector('img');
+        img.onload=()=>fig.classList.add('loaded');
+        img.src=src;
+        fig.querySelector('figcaption').textContent='📷 '+cap+' — 사진: Wikipedia';
+      }).catch(()=>{});
+  });
+})();
+
+/* 편의점 브랜드 이미지 자동 로드 */
+(function(){
+  const cb=[
+    ['cb-seicomart','Seicomart'],
+    ['cb-lawson','Lawson'],
+    ['cb-seven','7-Eleven'],
+    ['cb-familymart','FamilyMart']
+  ];
+  cb.forEach(([id,title])=>{
+    const img=document.getElementById(id);
+    if(!img)return;
+    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
+      .then(r=>r.ok?r.json():null)
+      .then(d=>{
+        const src=d&&((d.originalimage&&d.originalimage.source)||(d.thumbnail&&d.thumbnail.source));
+        if(!src)return;
+        img.onload=()=>img.classList.add('loaded');
+        img.src=src;
+      }).catch(()=>{});
+  });
+})();
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* 일차별 이동경로 지도 — 방문지 번호 핀 + 경로선 */
+(function(){
+  if(typeof L==='undefined')return; // 오프라인 등 라이브러리 로드 실패 시 스킵
+  const DAYS={
+    'map-d1':{color:'#C8442B',stops:[
+      [42.7752,141.6923,'① 신치토세공항 (도난버스 15:10 승차)'],
+      [42.4926,141.1462,'② 온천 버스터미널·그랜드호텔'],
+      [42.5052,141.1443,'③ 오유누마 천연족탕 (족욕)'],
+      [42.4936,141.1466,'④ 극락거리 상점가']
+    ]},
+    'map-d2':{color:'#3E8E7E',stops:[
+      [42.4926,141.1462,'① 노보리베츠 온천 (유유라이너 승차)'],
+      [42.4993,141.1477,'② 지옥계곡'],
+      [43.0658908,141.3494389,'③ 카모리빌딩3 (삿포로 도착)'],
+      [43.0639,141.3480,'④ 홋카이도청 구본청사 (외관)'],
+      [43.0644,141.3496,'⑤ 삿포로 그랜드호텔 (짐 맡기기·체크인)'],
+      [43.0626,141.3535,'⑥ 삿포로 시계탑'],
+      [43.0611,141.3565,'⑦ 오도리공원·TV타워'],
+      [43.0584,141.3589,'⑧ 수프카레 GARAKU 본점 (점심)'],
+      [43.0329,141.3218,'⑨ 모이와야마 로프웨이 (야경)'],
+      [43.0554,141.3529,'⑩ 스스키노 (저녁)']
+    ]},
+    'map-d3':{color:'#C9862B',stops:[
+      [43.0353,141.3819,'① 멘야 사이미 (오픈런 점심)'],
+      [43.0557,141.3126,'② 마루야마공원'],
+      [43.0545,141.3084,'③ 홋카이도 신궁'],
+      [43.0515,141.3079,'④ 마루야마 동물원'],
+      [43.0718,141.3699,'⑤ 삿포로 맥주박물관'],
+      [43.0654,141.3624,'⑥ 삿포로 팩토리 (저녁)'],
+      [43.0681,141.3524,'⑦ JR타워 전망실 T38 (야경)']
+    ]},
+    'map-d4':{color:'#5A5390',stops:[
+      [43.0644,141.3496,'① 삿포로 그랜드호텔 (송영버스 픽업·복귀)'],
+      [43.0702,141.3125,'② 장외시장 (털게 점심)'],
+      [43.1907,140.9946,'③ 오타루역'],
+      [43.1889,141.0089,'④ 사카이마치·메르헨교차로'],
+      [43.1985,141.0021,'⑤ 오타루 운하 (일몰)']
+    ]},
+    'map-d5':{color:'#4A7FB5',stops:[
+      [43.0644,141.3496,'① 삿포로 그랜드호텔'],
+      [43.0687,141.3508,'② 삿포로역 (쇼핑 후 쾌속 에어포트)'],
+      [42.7752,141.6923,'③ 신치토세공항 14:30 출발']
+    ]}
+  };
+  Object.entries(DAYS).forEach(([id,day])=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const map=L.map(id,{scrollWheelZoom:true,attributionControl:true});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      maxZoom:18,attribution:'&copy; OpenStreetMap'
+    }).addTo(map);
+    const latlngs=day.stops.map(s=>[s[0],s[1]]);
+    const allBounds=L.latLngBounds(latlngs).pad(0.18);
+
+    /* ── 지도를 클릭하면 전체화면으로 확대 / 휠로 +− ── */
+    const wrap=el.closest('.routemap');
+    if(wrap){
+      const zbtn=document.createElement('button');
+      zbtn.type='button';zbtn.className='mapzoom-btn';zbtn.textContent='⛶ 크게 보기';
+      wrap.appendChild(zbtn);
+      const zhintCtl=L.control({position:'bottomleft'});
+      zhintCtl.onAdd=function(){
+        const d=L.DomUtil.create('div','mapzoom-hint');
+        d.textContent='지도를 클릭하면 전체화면 · 마우스 휠로 확대/축소';
+        return d;
+      };
+      zhintCtl.addTo(map);
+      const zhint=zhintCtl.getContainer();
+      const setExpanded=on=>{
+        wrap.classList.toggle('is-expanded',on);
+        document.body.classList.toggle('map-locked',on);
+        zbtn.textContent=on?'✕ 닫기 (ESC)':'⛶ 크게 보기';
+        zhint.textContent=on?'마우스 휠로 확대/축소 · 드래그로 이동':'지도를 클릭하면 전체화면 · 마우스 휠로 확대/축소';
+        const c=map.getCenter(),z=map.getZoom();
+        setTimeout(()=>{map.invalidateSize();map.setView(c,z);},220);
+      };
+      zbtn.addEventListener('click',e=>{e.stopPropagation();setExpanded(!wrap.classList.contains('is-expanded'));});
+      map.on('click',()=>{if(!wrap.classList.contains('is-expanded'))setExpanded(true);});
+      document.addEventListener('keydown',e=>{
+        if(e.key==='Escape'&&wrap.classList.contains('is-expanded'))setExpanded(false);
+      });
+      setTimeout(()=>{zhint.style.opacity='0';},6000);
+      wrap.addEventListener('mouseenter',()=>{zhint.style.opacity='.92';});
+      wrap.addEventListener('mouseleave',()=>{zhint.style.opacity='0';});
+    }
+    /* 방문지 번호 핀 */
+    const markers=day.stops.map((s,i)=>{
+      const icon=L.divIcon({className:'',html:'<div class="numpin" style="--pin:'+day.color+'">'+(i+1)+'</div>',
+        iconSize:[26,26],iconAnchor:[13,24],popupAnchor:[0,-22]});
+      return L.marker([s[0],s[1]],{icon}).addTo(map).bindPopup(s[2]);
+    });
+    /* 기본: 전체 경로 (점선 → OSRM 성공 시 실선 도로경로) */
+    let baseLines=[],activeIdx=null,legLayers=[];
+    const dimBase=dim=>baseLines.forEach(l=>l.setStyle({opacity:dim?0.15:l._orig}));
+    const clearLeg=()=>{legLayers.forEach(l=>map.removeLayer(l));legLayers=[];};
+    const fallback=L.polyline(latlngs,{color:day.color,weight:3,opacity:.65,dashArray:'6 8'}).addTo(map);
+    fallback._orig=.65; baseLines.push(fallback);
+    map.fitBounds(allBounds);
+    const coordStr=latlngs.map(p=>p[1]+','+p[0]).join(';');
+    fetch('https://router.project-osrm.org/route/v1/driving/'+coordStr+'?overview=full&geometries=geojson')
+      .then(r=>r.ok?r.json():null)
+      .then(d=>{
+        if(!d||!d.routes||!d.routes[0])return;
+        const road=d.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
+        map.removeLayer(fallback);baseLines=[];
+        const casing=L.polyline(road,{color:'#ffffff',weight:7,opacity:.9}).addTo(map);casing._orig=.9;
+        const main=L.polyline(road,{color:day.color,weight:4,opacity:.95}).addTo(map);main._orig=.95;
+        baseLines.push(casing,main);
+        if(activeIdx!==null)dimBase(true);
+      }).catch(()=>{});
+
+    /* ── 지도 아래 번호 칩: 클릭 시 이전 장소 → 해당 장소 구간 경로 표시 ── */
+    const foot=el.closest('.routemap')?el.closest('.routemap').querySelector('.routemap-foot'):null;
+    if(!foot)return;
+    foot.innerHTML='';
+    const HINT_DEFAULT='번호를 누르면 이전 장소 → 해당 장소의 이동 경로가 지도에 표시됩니다 (다시 누르면 전체 경로)';
+    const hint=document.createElement('span');
+    hint.className='routehint';
+    hint.textContent=HINT_DEFAULT;
+    foot.appendChild(hint);
+    const clean=t=>t.replace(/^[\u2460-\u2473]\s*/,'').replace(/\s*\(.*\)$/,'');
+    const fmtDur=sec=>{const m=Math.round(sec/60);return m>=60?Math.floor(m/60)+'시간 '+(m%60?m%60+'분':''):m+'분';};
+    const fmtDist=m=>m>=1000?(m/1000).toFixed(1)+'km':Math.round(m)+'m';
+    const chips=[];
+    day.stops.forEach((s,i)=>{
+      if(i>0){const ar=document.createElement('span');ar.className='routearrow';ar.textContent='→';foot.appendChild(ar);}
+      const chip=document.createElement('span');
+      chip.className='routestep';
+      chip.innerHTML='<span class="rn" style="background:'+day.color+'">'+(i+1)+'</span>'+
+        (i===0?'<b>':'')+s[2].replace(/^[\u2460-\u2473]\s*/,'')+(i===0?'</b>':'');
+      foot.appendChild(chip);
+      chips.push(chip);
+      chip.addEventListener('click',()=>{
+        if(activeIdx===i){ /* 다시 누르면 전체 경로로 복귀 */
+          activeIdx=null;clearLeg();dimBase(false);
+          chips.forEach(c=>c.classList.remove('active'));
+          markers[i].setPopupContent(day.stops[i][2]);
+          hint.textContent=HINT_DEFAULT;
+          map.closePopup();map.fitBounds(allBounds);return;
+        }
+        if(activeIdx!==null)markers[activeIdx].setPopupContent(day.stops[activeIdx][2]);
+        activeIdx=i;
+        chips.forEach((c,ci)=>c.classList.toggle('active',ci===i));
+        clearLeg();
+        if(i===0){ /* 첫 장소: 위치만 확대 */
+          dimBase(false);
+          hint.textContent='출발 지점입니다 — 여기서부터 하루 일정이 시작돼요';
+          map.setView(latlngs[0],14);markers[0].openPopup();return;
+        }
+        dimBase(true);
+        const a=latlngs[i-1],b=latlngs[i];
+        const fromName=clean(day.stops[i-1][2]),toName=clean(day.stops[i][2]);
+        hint.textContent=fromName+' → '+toName+' · 이동시간 계산 중…';
+        const dash=L.polyline([a,b],{color:day.color,weight:4,opacity:.9,dashArray:'6 8'}).addTo(map);
+        legLayers.push(dash);
+        map.fitBounds(L.latLngBounds([a,b]).pad(0.25));
+        markers[i].openPopup();
+        /* 해당 구간의 실제 도로 경로 + 이동시간·거리 */
+        fetch('https://router.project-osrm.org/route/v1/driving/'+a[1]+','+a[0]+';'+b[1]+','+b[0]+'?overview=full&geometries=geojson')
+          .then(r=>r.ok?r.json():null)
+          .then(d=>{
+            if(activeIdx!==i)return; /* 그 사이 다른 칩을 눌렀으면 무시 */
+            if(!d||!d.routes||!d.routes[0]){
+              const straight=map.distance(a,b);
+              hint.textContent=fromName+' → '+toName+' · 직선거리 약 '+fmtDist(straight);
+              return;
+            }
+            const road=d.routes[0].geometry.coordinates.map(c=>[c[1],c[0]]);
+            const info='차량 기준 약 '+fmtDur(d.routes[0].duration)+' · '+fmtDist(d.routes[0].distance);
+            hint.textContent=fromName+' → '+toName+' · '+info;
+            markers[i].setPopupContent(day.stops[i][2]+'<br><span style="font-size:.76rem;color:#666">'+fromName+'에서 '+info+'</span>');
+            markers[i].openPopup();
+            clearLeg();
+            const cas=L.polyline(road,{color:'#ffffff',weight:8,opacity:.95}).addTo(map);
+            const ln=L.polyline(road,{color:day.color,weight:5,opacity:1}).addTo(map);
+            legLayers.push(cas,ln);
+            map.fitBounds(L.latLngBounds(road).pad(0.15));
+          }).catch(()=>{
+            if(activeIdx!==i)return;
+            const straight=map.distance(a,b);
+            hint.textContent=fromName+' → '+toName+' · 직선거리 약 '+fmtDist(straight);
+          });
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
