@@ -15,14 +15,63 @@
   --sumi:#1E2330;         /* 먹빛 남색 */
   --sumi-soft:#3A4152;
   --gold:#D9A441;         /* 은행잎 금색 */
+  --gold-ink:#8A6318;     /* 금색 계열 글자용 */
+  /* 노선 색 = 선·점·핀용(선명) / -ink = 글자용(대비 4.5:1 이상) */
   --momiji:#C8442B;       /* 단풍 주홍 — 1일차 라인 */
+  --momiji-ink:#A83621;
   --onsen:#3E8E7E;        /* 온천 청록 — 2일차 라인 */
-  --icho:#C9862B;         /* 은행 황금 — 3일차 라인 */
+  --onsen-ink:#2E7263;
+  --icho:#B06A22;         /* 은행 황금 — 3일차 라인 (금색 액센트와 분리) */
+  --icho-ink:#8A5A16;
   --dusk:#5A5390;         /* 황혼 보라 — 4일차 라인 */
+  --dusk-ink:#4E4880;
   --sora:#4A7FB5;         /* 하늘색 — 5일차 라인 */
+  --sora-ink:#35618F;
+  /* 일차별 배경 틴트 — 스크롤 중 일차 경계를 느끼게 하는 최소한의 색 */
+  --tint-1:#FAF5F3; --tint-2:#F2F8F6; --tint-3:#FAF6F0; --tint-4:#F6F5FA; --tint-5:#F2F6FA;
   --card:#FFFFFF;
+  --card-sub:#F8F9FB;     /* 역명판 하단·카드 푸터 */
+  --map-bg:#DFE4EA;
+  --panel-ink:#1E2330;    /* 시세 섹션처럼 라이트/다크 공통으로 어두운 패널 */
+  --on-ink:#FFFFFF;       /* 잉크색 배경 위 글자 */
+  --chip-bg:rgba(30,35,48,.04);
+  --hair-1:rgba(30,35,48,.09);
+  --hair-2:rgba(30,35,48,.14);
+  --hair-3:rgba(30,35,48,.20);
+  --shadow-1:0 4px 16px rgba(30,35,48,.07);
+  --shadow-2:0 8px 26px rgba(30,35,48,.12);
+  --shadow-3:0 8px 30px rgba(30,35,48,.14);
   --line-w:3px;
+  color-scheme:light dark;
   font-size:16px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --washi:#12161F;
+    --washi-deep:#1A1F2B;
+    --sumi:#E7EAF2;
+    --sumi-soft:#A6AEC1;
+    --gold:#E0B45E;
+    --gold-ink:#EAC078;
+    --momiji-ink:#F0937A;
+    --onsen-ink:#6FC7B3;
+    --icho-ink:#E2A854;
+    --dusk-ink:#A9A1E2;
+    --sora-ink:#82B4E7;
+    --tint-1:#191519; --tint-2:#121A1B; --tint-3:#1A1712; --tint-4:#16161F; --tint-5:#121820;
+    --card:#1B2130;
+    --card-sub:#212838;
+    --map-bg:#2A3242;
+    --panel-ink:#0D1119;
+    --on-ink:#12161F;
+    --chip-bg:rgba(255,255,255,.06);
+    --hair-1:rgba(255,255,255,.09);
+    --hair-2:rgba(255,255,255,.15);
+    --hair-3:rgba(255,255,255,.24);
+    --shadow-1:0 4px 16px rgba(0,0,0,.35);
+    --shadow-2:0 8px 26px rgba(0,0,0,.45);
+    --shadow-3:0 8px 30px rgba(0,0,0,.55);
+  }
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -33,7 +82,7 @@ body{
   line-height:1.7;
   overflow-x:hidden;
 }
-::selection{background:var(--gold);color:var(--sumi)}
+::selection{background:var(--gold);color:#1E2330}
 .mono{font-family:'IBM Plex Mono',monospace}
 .serif{font-family:'Noto Sans KR',sans-serif;font-weight:800}
 
@@ -81,14 +130,16 @@ body{
 .daynav a:hover{background:rgba(255,255,255,.12);color:#fff}
 
 /* ───────────────── DAY SECTION ───────────────── */
-.day{padding:5.5rem 6vw 4rem;max-width:1180px;margin:0 auto}
+.day{padding:5.5rem 6vw 4rem;margin:0 auto;background:var(--tint,var(--washi))}
 .day-wrap{max-width:1044px;margin:0 auto}
+/* 스티키 내비에 제목이 가리지 않도록 */
+.day,.guide,.stay,.extras,.conbini{scroll-margin-top:3.4rem}
 
 /* 역명판(駅名標) 스타일 헤더 */
 .sign{
   background:var(--card);border-radius:14px;overflow:hidden;
-  box-shadow:0 8px 30px rgba(30,35,48,.12);
-  border:1px solid rgba(30,35,48,.08);
+  box-shadow:var(--shadow-3);
+  border:1px solid var(--hair-1);
   margin-bottom:2.6rem;
 }
 .sign-top{padding:1.5rem 1.8rem 1.1rem;text-align:center;color:var(--sumi)}
@@ -96,7 +147,7 @@ body{
 .sign-title{font-family:'Noto Sans KR',sans-serif;font-weight:800;font-size:clamp(1.4rem,3vw,2rem);line-height:1.3;letter-spacing:-.01em}
 .sign-romaji{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--sumi-soft);margin-top:.25rem}
 .sign-line{height:14px;background:var(--line);position:relative}
-.sign-nav{display:flex;justify-content:space-between;padding:.55rem 1.2rem;font-size:.78rem;color:var(--sumi-soft);background:#F8F9FB}
+.sign-nav{display:flex;justify-content:space-between;padding:.55rem 1.2rem;font-size:.78rem;color:var(--sumi-soft);background:var(--card-sub)}
 .sign-nav span{display:flex;align-items:center;gap:.4rem}
 
 /* 본문 그리드 */
@@ -115,69 +166,72 @@ body{
   content:"";position:absolute;left:calc(-2.1rem + .55rem + var(--line-w)/2);top:.5rem;
   width:15px;height:15px;border-radius:50%;transform:translateX(-50%);
   background:var(--card);border:3.5px solid var(--line);
-  box-shadow:0 0 0 4px var(--washi);
+  box-shadow:0 0 0 4px var(--tint,var(--washi));
 }
 .stop.transfer::before{border-radius:4px}
-.stop-time{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.82rem;color:var(--line);
-  filter:saturate(1.2);letter-spacing:.04em}
+.stop-time{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:.84rem;color:var(--line-ink,var(--line));
+  letter-spacing:.04em}
 .stop h3{font-size:1.12rem;font-weight:700;margin:.1rem 0 .3rem;letter-spacing:-.01em}
 .stop p{font-size:.93rem;color:var(--sumi-soft);font-weight:300}
 .stop .badge{
   display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.05em;
-  background:var(--line);color:#fff;border-radius:4px;padding:.12rem .5rem;margin-left:.45rem;vertical-align:2px;
+  background:var(--line-ink,var(--line));color:var(--on-ink);border-radius:4px;padding:.12rem .5rem;margin-left:.45rem;vertical-align:2px;
 }
 /* 이동경로 · 이동시간 뱃지 */
 .legbadge{
   display:inline-flex;flex-wrap:wrap;align-items:center;gap:.4rem;
-  background:rgba(0,0,0,.035);border:1px solid var(--line);border-radius:999px;
+  background:var(--chip-bg);border:1px solid var(--line);border-radius:999px;
   padding:.3rem .75rem;margin:.4rem 0 .6rem;
   font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--sumi);
 }
 .legbadge .legicon{font-size:.88rem;line-height:1}
 .legbadge .legroute{color:var(--sumi-soft);font-weight:500}
 .legbadge .legsep{opacity:.4;padding:0 .1rem}
-.legbadge .legtime{color:var(--line);font-weight:700;filter:saturate(1.25)}
+.legbadge .legtime{color:var(--line-ink,var(--line));font-weight:700}
 
 /* 지도 아래 번호 칩 — 클릭 시 구간 경로 표시 */
 .routehint{flex-basis:100%;font-size:.76rem;font-weight:500;color:var(--sumi-soft);padding-bottom:.3rem}
 .routestep{cursor:pointer;user-select:none;padding:.2rem .6rem .2rem .35rem;border-radius:999px;
   transition:background .15s,color .15s;border:1px solid transparent}
-.routestep:hover{background:rgba(30,35,48,.07)}
-.routestep.active{background:var(--sumi);color:#fff;border-color:var(--sumi)}
-.routestep.active b{color:#fff}
+.routestep:hover{background:var(--hair-1)}
+.routestep.active{background:var(--sumi);color:var(--washi);border-color:var(--sumi)}
+.routestep.active b{color:var(--washi)}
 .tip{
   margin-top:.7rem;background:rgba(217,164,65,.14);border-left:3px solid var(--gold);
   border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;color:var(--sumi);
 }
-.tip b{color:#8a6318}
+.tip b{color:var(--line-ink,var(--gold-ink))}
 
 /* 사이드: 지도 / 사진 / 교통 카드 */
 .aside{display:flex;flex-direction:column;gap:1.3rem;position:sticky;top:4.2rem}
 @media(max-width:880px){.aside{position:static}}
-figure.photo{border-radius:14px;overflow:hidden;box-shadow:0 8px 26px rgba(30,35,48,.14);
-  background:var(--washi-deep);display:none}
-figure.photo.loaded{display:block;animation:fadein .8s ease}
-@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-figure.photo img{display:block;width:100%;height:230px;object-fit:cover}
+/* 사진 — 로드 전에도 자리를 잡아 레이아웃이 밀리지 않게 */
+figure.photo{border-radius:14px;overflow:hidden;box-shadow:var(--shadow-2);
+  background:var(--washi-deep);display:block}
+figure.photo:not(.loaded){animation:skeleton 1.9s ease-in-out infinite}
+figure.photo:not(.loaded) figcaption{display:none}
+@keyframes skeleton{0%,100%{opacity:.6}50%{opacity:.95}}
+figure.photo img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;opacity:0;transition:opacity .7s ease}
+figure.photo.loaded img{opacity:1}
 figure.photo figcaption{padding:.5rem .95rem;font-size:.72rem;color:var(--sumi-soft);background:var(--card)}
 .trans{
   background:var(--card);border-radius:14px;padding:1.1rem 1.25rem;
-  box-shadow:0 8px 26px rgba(30,35,48,.12);border-top:5px solid var(--line);color:var(--sumi);
+  box-shadow:var(--shadow-2);border-top:5px solid var(--line);color:var(--sumi);
 }
 .trans h4{font-size:.85rem;letter-spacing:.14em;color:var(--sumi-soft);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
 .trans ul{list-style:none}
-.trans li{font-size:.88rem;padding:.42rem 0;border-bottom:1px dashed rgba(30,35,48,.14);display:flex;justify-content:space-between;gap:.8rem}
+.trans li{font-size:.88rem;padding:.42rem 0;border-bottom:1px dashed var(--hair-2);display:flex;justify-content:space-between;gap:.8rem}
 .trans li:last-child{border-bottom:0}
 .trans li .fare{font-family:'IBM Plex Mono',monospace;font-size:.8rem;white-space:nowrap;color:var(--sumi-soft)}
 .trans .note{font-size:.75rem;color:var(--sumi-soft);margin-top:.5rem}
 
 /* 예약·발권 가이드 섹션 */
-.guide{background:var(--washi-deep);padding:4.4rem 6vw 4.8rem;border-top:1px solid rgba(30,35,48,.08);border-bottom:1px solid rgba(30,35,48,.08)}
+.guide{background:var(--washi-deep);padding:4.4rem 6vw 4.8rem;border-top:1px solid var(--hair-1);border-bottom:1px solid var(--hair-1)}
 .guide-wrap{max-width:1044px;margin:0 auto}
 .guide h2{font-weight:800;font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:.5rem}
 .guide .lead{color:var(--sumi-soft);font-weight:300;max-width:38rem;margin-bottom:2.2rem;font-size:.92rem}
 .guide-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:1.3rem}
-.gcard{background:var(--card);border-radius:14px;padding:1.5rem 1.6rem;box-shadow:0 8px 24px rgba(30,35,48,.1);border-top:5px solid var(--momiji)}
+.gcard{background:var(--card);border-radius:14px;padding:1.5rem 1.6rem;box-shadow:var(--shadow-2);border-top:5px solid var(--momiji)}
 .gcard.alt{border-top-color:var(--onsen)}
 .gcard.alt2{border-top-color:var(--dusk)}
 .gcard h3{font-size:1rem;display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem}
@@ -187,28 +241,28 @@ figure.photo figcaption{padding:.5rem .95rem;font-size:.72rem;color:var(--sumi-s
 .gcard.alt2 h3 .num{background:var(--dusk)}
 .gcard ol{list-style:none;counter-reset:step}
 .gcard ol li{counter-increment:step;position:relative;padding:.4rem 0 .4rem 1.7rem;font-size:.87rem;color:var(--sumi);
-  border-bottom:1px dashed rgba(30,35,48,.12)}
+  border-bottom:1px dashed var(--hair-2)}
 .gcard ol li:last-child{border-bottom:0}
 .gcard ol li::before{content:counter(step);position:absolute;left:0;top:.45rem;width:16px;height:16px;border-radius:4px;
-  background:rgba(200,68,43,.14);color:var(--momiji);font-size:.68rem;font-weight:700;
+  background:rgba(200,68,43,.14);color:var(--momiji-ink);font-size:.68rem;font-weight:700;
   display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace}
-.gcard.alt ol li::before{background:rgba(62,142,126,.15);color:var(--onsen)}
-.gcard.alt2 ol li::before{background:rgba(90,83,144,.15);color:var(--dusk)}
+.gcard.alt ol li::before{background:rgba(62,142,126,.15);color:var(--onsen-ink)}
+.gcard.alt2 ol li::before{background:rgba(90,83,144,.15);color:var(--dusk-ink)}
 .gcard .gnote{margin-top:.8rem;font-size:.78rem;color:var(--sumi-soft);background:rgba(217,164,65,.14);
   border-left:3px solid var(--gold);padding:.5rem .8rem;border-radius:0 6px 6px 0}
-.glink{display:inline-flex;align-items:center;gap:.3rem;margin-top:.9rem;font-size:.8rem;color:var(--onsen);text-decoration:none;font-weight:500}
-.gcard.alt .glink{color:var(--momiji)}
+.glink{display:inline-flex;align-items:center;gap:.3rem;margin-top:.9rem;font-size:.8rem;color:var(--onsen-ink);text-decoration:none;font-weight:500}
+.gcard.alt .glink{color:var(--momiji-ink)}
 .glink:hover{text-decoration:underline}
-.tip .glink{margin-top:.4rem;color:var(--line);filter:saturate(1.2)}
+.tip .glink{margin-top:.4rem;color:var(--line-ink,var(--gold-ink))}
 
 /* ───────────────── 숙소 예약 정보 (역명판 계열) ───────────────── */
-.stay{background:var(--washi);padding:4.4rem 6vw 4.8rem;border-bottom:1px solid rgba(30,35,48,.08)}
+.stay{background:var(--washi);padding:4.4rem 6vw 4.8rem;border-bottom:1px solid var(--hair-1)}
 .stay-wrap{max-width:1044px;margin:0 auto}
 .stay h2{font-weight:800;font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:.5rem}
 .stay .lead{color:var(--sumi-soft);font-weight:300;max-width:38rem;margin-bottom:2.2rem;font-size:.92rem}
 .stay-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:1.4rem}
 .scard{background:var(--card);border-radius:14px;overflow:hidden;
-  box-shadow:0 8px 30px rgba(30,35,48,.12);border:1px solid rgba(30,35,48,.08)}
+  box-shadow:var(--shadow-3);border:1px solid var(--hair-1)}
 .scard-top{padding:1.35rem 1.6rem 1.15rem}
 .scard-date{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.18em;color:var(--sumi-soft);margin-bottom:.3rem}
 .scard-title{font-weight:800;font-size:clamp(1.2rem,2.4vw,1.5rem);line-height:1.3;letter-spacing:-.01em}
@@ -217,7 +271,7 @@ figure.photo figcaption{padding:.5rem .95rem;font-size:.72rem;color:var(--sumi-s
 .scard-line{height:14px;background:var(--line)}
 .scard-body{padding:1.05rem 1.6rem 1.2rem}
 .scard-body ul{list-style:none}
-.scard-body li{font-size:.88rem;padding:.5rem 0;border-bottom:1px dashed rgba(30,35,48,.14);
+.scard-body li{font-size:.88rem;padding:.5rem 0;border-bottom:1px dashed var(--hair-2);
   display:flex;justify-content:space-between;align-items:baseline;gap:.9rem}
 .scard-body li:last-child{border-bottom:0}
 .scard-body .k{color:var(--sumi-soft);font-size:.8rem;font-weight:500;white-space:nowrap}
@@ -225,55 +279,55 @@ figure.photo figcaption{padding:.5rem .95rem;font-size:.72rem;color:var(--sumi-s
 .scard-body .v.num{font-family:'IBM Plex Mono',monospace;font-size:.92rem;letter-spacing:.02em}
 .scard-body .v .sub{display:block;font-family:'Noto Sans KR',sans-serif;font-size:.75rem;color:var(--sumi-soft);font-weight:300;margin-top:.15rem}
 .scard-foot{display:flex;justify-content:space-between;gap:.8rem;padding:.6rem 1.2rem;
-  font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--sumi-soft);background:#F8F9FB;
-  border-top:1px solid rgba(30,35,48,.06)}
-.copy{margin-left:.4rem;border:1px solid rgba(30,35,48,.18);background:transparent;color:var(--sumi-soft);
+  font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--sumi-soft);background:var(--card-sub);
+  border-top:1px solid var(--hair-1)}
+.copy{margin-left:.4rem;border:1px solid var(--hair-3);background:transparent;color:var(--sumi-soft);
   border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.06em;
   padding:.1rem .45rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
-.copy:hover{background:var(--line);border-color:var(--line);color:#fff}
-.copy.done{background:var(--line);border-color:var(--line);color:#fff}
+.copy:hover{background:var(--line-ink,var(--sumi));border-color:var(--line-ink,var(--sumi));color:var(--on-ink)}
+.copy.done{background:var(--line-ink,var(--sumi));border-color:var(--line-ink,var(--sumi));color:var(--on-ink)}
 
 /* 예약번호 뱃지 — 일정 타임라인 안에서 사용 */
 .legbadge.bk{background:transparent;border-style:dashed}
-.legbadge.bk .bkno{color:var(--line);font-weight:700;filter:saturate(1.25)}
+.legbadge.bk .bkno{color:var(--line-ink,var(--line));font-weight:700}
 
 /* 요금 비교 미니 패널 (교통 카드와 같은 어법) */
-.fares{background:var(--card);border:1px solid rgba(30,35,48,.1);border-radius:10px;
-  padding:.75rem .95rem .8rem;margin-top:.7rem;box-shadow:0 4px 16px rgba(30,35,48,.06)}
+.fares{background:var(--card);border:1px solid var(--hair-1);border-radius:10px;
+  padding:.75rem .95rem .8rem;margin-top:.7rem;box-shadow:var(--shadow-1)}
 .fares h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--sumi-soft);font-weight:500;margin-bottom:.35rem}
 .fares ul{list-style:none}
 .fares li{display:flex;justify-content:space-between;align-items:baseline;gap:.8rem;
-  font-size:.88rem;padding:.42rem 0;border-bottom:1px dashed rgba(30,35,48,.14)}
+  font-size:.88rem;padding:.42rem 0;border-bottom:1px dashed var(--hair-2)}
 .fares li:last-child{border-bottom:0}
 .fares li .fseat .sub{display:block;font-size:.75rem;color:var(--sumi-soft);font-weight:300;margin-top:.1rem}
 .fares li .fyen{font-family:'IBM Plex Mono',monospace;font-size:.92rem;font-weight:600;white-space:nowrap;color:var(--sumi)}
-.fares li.pick .fyen{color:var(--line);filter:saturate(1.2)}
+.fares li.pick .fyen{color:var(--line-ink,var(--line))}
 
 /* 단계별 안내 리스트 (예약 절차 등) */
 .osteps{list-style:none;margin-top:.5rem}
 .osteps li{font-size:.8rem;color:var(--sumi);padding:.22rem 0 .22rem 1.1rem;position:relative}
-.osteps li::before{content:"·";position:absolute;left:0;color:var(--dusk);font-weight:700}
+.osteps li::before{content:"·";position:absolute;left:0;color:var(--dusk-ink);font-weight:700}
 
 /* 일차 시작 — 오늘의 이동경로 지도 */
 .routemap{
   position:relative;
-  border-radius:14px;overflow:hidden;background:#dfe4ea;
-  box-shadow:0 8px 30px rgba(30,35,48,.14);border:1px solid rgba(30,35,48,.08);
+  border-radius:14px;overflow:hidden;background:var(--map-bg);
+  box-shadow:var(--shadow-3);border:1px solid var(--hair-1);
   margin-bottom:2.6rem;
 }
 .routemap iframe{display:block;width:100%;height:340px;border:0;filter:saturate(.92)}
-.lmap{width:100%;height:380px;background:#dfe4ea;z-index:0;cursor:pointer}
+.lmap{width:100%;height:380px;background:var(--map-bg);z-index:0;cursor:pointer}
 
 /* 지도 크게 보기(전체화면) */
 .mapzoom-btn{
   position:absolute;top:12px;right:12px;z-index:1000;
-  background:rgba(255,255,255,.95);border:1px solid rgba(30,35,48,.16);
+  background:var(--card);border:1px solid var(--hair-3);
   border-radius:999px;padding:.42rem .85rem;cursor:pointer;
   font-family:'Noto Sans KR',sans-serif;font-size:.76rem;font-weight:600;color:var(--sumi);
-  box-shadow:0 2px 10px rgba(30,35,48,.2);transition:background .15s,transform .15s;
+  box-shadow:var(--shadow-2);transition:background .15s,transform .15s;
 }
-.mapzoom-btn:hover{background:#fff;transform:translateY(-1px)}
+.mapzoom-btn:hover{background:var(--card);transform:translateY(-1px)}
 .mapzoom-hint{
   display:inline-block;margin:0 0 12px 12px;pointer-events:none;
   background:rgba(30,35,48,.72);color:#fff;border-radius:999px;
@@ -311,7 +365,7 @@ body.map-locked{overflow:hidden}
 .routearrow{opacity:.45;padding:0 .1rem}
 
 /* ───────────────── 시세/정보 카드 섹션 ───────────────── */
-.extras{background:var(--sumi);color:#EDE9DF;padding:5rem 6vw 5.5rem}
+.extras{background:var(--panel-ink);color:#EDE9DF;padding:5rem 6vw 5.5rem}
 .extras-wrap{max-width:1044px;margin:0 auto}
 .extras h2{font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.6rem}
 .extras .lead{color:#B9BECF;font-weight:300;max-width:40rem;margin-bottom:2.4rem;font-size:.95rem}
@@ -340,8 +394,8 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
 .conbini h2{font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.6rem}
 .conbini .lead{color:var(--sumi-soft);font-weight:300;max-width:40rem;margin-bottom:2.4rem;font-size:.95rem}
 .cb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:1.5rem}
-.cbcard{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 8px 26px rgba(30,35,48,.12);
-  border:1px solid rgba(30,35,48,.08);display:flex;flex-direction:column}
+.cbcard{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-2);
+  border:1px solid var(--hair-1);display:flex;flex-direction:column}
 .cbcard .cbphoto{width:100%;height:150px;background:var(--washi-deep);position:relative;overflow:hidden}
 .cbcard .cbphoto img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s ease}
 .cbcard .cbphoto img.loaded{opacity:1}
@@ -351,7 +405,7 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
 .cbcard .cbromaji{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:var(--sumi-soft);
   text-transform:uppercase;margin-bottom:.85rem}
 .cbcard ul{list-style:none}
-.cbcard li{padding:.5rem 0;border-bottom:1px dashed rgba(30,35,48,.12)}
+.cbcard li{padding:.5rem 0;border-bottom:1px dashed var(--hair-2)}
 .cbcard li:last-child{border-bottom:0}
 .cbcard li .iname{font-size:.87rem;font-weight:500;color:var(--sumi);display:flex;justify-content:space-between;gap:.6rem}
 .cbcard li .iname .iprice{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.76rem;color:var(--sumi-soft);white-space:nowrap}
@@ -360,6 +414,103 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
 /* 스크롤 리빌 */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
 .reveal.on{opacity:1;transform:none}
+
+/* ───────────────── 접이식 요금·메뉴표 ───────────────── */
+details.fares > summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:.45rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--sumi-soft);font-weight:500;margin-bottom:.35rem;
+}
+details.fares > summary::-webkit-details-marker{display:none}
+details.fares > summary::before{
+  content:"▸";display:inline-block;font-size:.82rem;line-height:1;
+  color:var(--line-ink,var(--sumi-soft));transition:transform .2s ease;
+}
+details.fares[open] > summary::before{transform:rotate(90deg)}
+details.fares > summary:hover{color:var(--line-ink,var(--sumi))}
+details.fares:not([open]) > summary{margin-bottom:0}
+
+/* ───────────────── 히어로 CTA · D-day ───────────────── */
+.hero-cta{margin-top:1.7rem;display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+.btn-jump{
+  display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;
+  background:var(--gold);color:#1E2330;font-weight:700;font-size:.9rem;
+  border-radius:999px;padding:.62rem 1.35rem;
+  box-shadow:0 6px 18px rgba(217,164,65,.28);transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn-jump::after{content:"↓";font-family:'IBM Plex Mono',monospace}
+.btn-jump:hover{transform:translateY(-1px);box-shadow:0 9px 24px rgba(217,164,65,.42)}
+.dcount{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.06em;color:#C6CCDB}
+
+/* ───────────────── 내비 현재 위치 ───────────────── */
+.daynav a.active{background:rgba(255,255,255,.2);color:#fff;font-weight:700}
+.daynav a.is-today .nd{box-shadow:0 0 0 3px rgba(217,164,65,.55)}
+.navsep{flex:0 0 auto;align-self:center;width:1px;height:15px;background:rgba(255,255,255,.2);margin:0 .3rem}
+
+/* ───────────────── 오늘의 일차 강조 ───────────────── */
+.sign.is-today{box-shadow:0 0 0 2px var(--line-ink,var(--gold)),var(--shadow-3)}
+.today-badge{
+  display:inline-flex;align-items:center;gap:.3rem;margin-left:.5rem;vertical-align:1px;
+  background:var(--line-ink,var(--gold));color:var(--on-ink);border-radius:999px;
+  padding:.06rem .5rem;font-size:.62rem;font-weight:700;letter-spacing:.1em;
+}
+
+/* ───────────────── 플로팅 버튼 ───────────────── */
+.fab{
+  position:fixed;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;
+  right:max(14px,env(safe-area-inset-right,0px));
+  bottom:calc(16px + env(safe-area-inset-bottom,0px));
+}
+.fab-btn{
+  display:none;align-items:center;gap:.35rem;cursor:pointer;
+  border:1px solid var(--hair-3);background:var(--card);color:var(--sumi);
+  font-family:'Noto Sans KR',sans-serif;font-size:.8rem;font-weight:600;
+  border-radius:999px;padding:.55rem 1rem;box-shadow:var(--shadow-2);
+  transition:transform .15s ease;
+}
+.fab-btn.show{display:inline-flex}
+.fab-btn:hover{transform:translateY(-1px)}
+.fab-btn.primary{background:var(--gold);color:#1E2330;border-color:transparent}
+body.map-locked .fab{display:none}
+
+/* ───────────────── 다크 모드 세부 보정 ───────────────── */
+@media (prefers-color-scheme:dark){
+  .sign,.scard,.routemap,.cbcard,.fares,.trans,.gcard,.tablewrap{border-color:var(--hair-1)}
+  .trans li,.scard-body li,.fares li,.gcard ol li,.cbcard li,.scard-body ul li{border-bottom-color:var(--hair-2)}
+  .tip{background:rgba(217,164,65,.12)}
+  .gcard .gnote{background:rgba(217,164,65,.12)}
+  .gcard ol li::before{background:rgba(200,68,43,.22)}
+  .gcard.alt ol li::before{background:rgba(62,142,126,.24)}
+  .gcard.alt2 ol li::before{background:rgba(90,83,144,.3)}
+  .lmap,.routemap iframe{filter:saturate(.85) brightness(.86)}
+  .numpin{border-color:#1B2130}
+  .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);color:var(--sumi)}
+}
+
+/* ───────────────── 인쇄 (오프라인 백업용) ───────────────── */
+@media print{
+  @page{margin:14mm}
+  html{scroll-behavior:auto}
+  body{background:#fff;color:#000;font-size:10.5pt;line-height:1.55}
+  .daynav,.fab,.routemap,.mapzoom-btn,.hero-cta,figure.photo,.copy,.glink{display:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+  .hero{background:#fff;color:#000;padding:0 0 8mm;border-bottom:2px solid #000}
+  .hero h1,.hero h1 em{color:#000}
+  .hero-eyebrow,.hero-sub,.route-stop,.route-arrow{color:#333}
+  .hero-eyebrow::before,.route-dot{background:#666}
+  .route-stop{border-color:#999;background:none}
+  .day{page-break-before:always;padding:6mm 0 0;background:#fff}
+  #d1{page-break-before:avoid}
+  .day-grid{display:block}
+  .aside{margin-top:6mm}
+  .stop,.gcard,.scard,.xcard,.cbcard,.trans{page-break-inside:avoid}
+  .sign,.scard,.trans,.fares,.cbcard,.gcard{box-shadow:none;border:1px solid #999}
+  .extras,.guide,.stay,.conbini{background:#fff;color:#000;padding:6mm 0}
+  .extras h2,.extras .lead,.xcard,.xcard h3,.xcard li,.pricetable td,.pricetable th{color:#000}
+  .xcard{border:1px solid #999;background:none}
+  .tip,.gnote{background:#f2f2f2;border-left-color:#666}
+  a{color:#000;text-decoration:none}
+}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -370,7 +521,7 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
 /* ═══════════ 반응형 — 태블릿 ═══════════ */
 @media(max-width:880px){
   .hero{padding:4.2rem 6vw 2.8rem}
-  figure.photo img{height:210px}
+  figure.photo img{aspect-ratio:16/9}
   .guide,.stay{padding-top:3.6rem;padding-bottom:3.8rem}
   .extras,.conbini{padding-top:3.8rem;padding-bottom:4rem}
 }
@@ -414,7 +565,7 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
   .tl{padding-left:1.7rem}
   .tl::before{left:.42rem}
   .stop{padding-bottom:1.6rem}
-  .stop::before{left:calc(-1.7rem + .42rem + var(--line-w)/2);width:13px;height:13px;border-width:3px;box-shadow:0 0 0 3px var(--washi)}
+  .stop::before{left:calc(-1.7rem + .42rem + var(--line-w)/2);width:13px;height:13px;border-width:3px;box-shadow:0 0 0 3px var(--tint,var(--washi))}
   .stop h3{font-size:1.04rem;line-height:1.45}
   .stop p{font-size:.9rem}
   .stop .badge{margin-left:.35rem}
@@ -430,7 +581,11 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
   .gcard,.xcard{padding:1.2rem 1.15rem}
   .cbcard .cbbody{padding:1.1rem 1.1rem 1.25rem}
   .cbcard .cbphoto{height:135px}
-  figure.photo img{height:190px}
+  figure.photo img{aspect-ratio:16/9}
+  .hero-cta{margin-top:1.3rem;gap:.7rem}
+  .btn-jump{font-size:.86rem;padding:.58rem 1.15rem}
+  .dcount{font-size:.72rem}
+  .fab-btn{font-size:.78rem;padding:.5rem .9rem}
 
   /* 섹션 여백 */
   .guide,.stay,.extras,.conbini{padding-left:5vw;padding-right:5vw}
@@ -468,137 +623,37 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
     <h1>삿포로 · 노보리베츠 · 오타루<br><em>4박 5일</em> 여행 일정표</h1>
     <p class="hero-sub">10월 5일(월) 13:00 신치토세공항 도착 – 10월 9일(금) 14:30 출발. 노보리베츠 온천 1박, 삿포로 3박, 오타루 당일 일정입니다.</p>
     <div class="route-strip">
-      <span class="route-stop"><span class="route-dot"></span><b>신치토세공항</b></span><span class="route-arrow">▸</span>
-      <span class="route-stop"><span class="route-dot"></span><b>노보리베츠</b> 1박</span><span class="route-arrow">▸</span>
-      <span class="route-stop"><span class="route-dot"></span><b>삿포로</b> 3박</span><span class="route-arrow">▸</span>
-      <span class="route-stop"><span class="route-dot"></span><b>오타루</b> 당일</span><span class="route-arrow">▸</span>
+      <span class="route-stop"><span class="route-dot"></span><b>신치토세공항</b></span><span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><b>노보리베츠</b> 1박</span><span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><b>삿포로</b> 3박</span><span class="route-arrow">→</span>
+      <span class="route-stop"><span class="route-dot"></span><b>오타루</b> 당일</span><span class="route-arrow">→</span>
       <span class="route-stop"><span class="route-dot"></span><b>귀국</b> 14:30</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn-jump" href="#d1" id="heroJump">일정 보기</a>
+      <span class="dcount" id="dcount"></span>
     </div>
   </div>
 </header>
 
 <!-- ═══════════════ NAV ═══════════════ -->
-<nav class="daynav">
-  <a href="#guide"><span class="nd" style="background:var(--sumi-soft)"></span>예약 가이드</a>
+<nav class="daynav" id="daynav">
+  <a href="#d1" data-day="d1"><span class="nd" style="background:var(--momiji)"></span>D1 노보리베츠</a>
+  <a href="#d2" data-day="d2"><span class="nd" style="background:var(--onsen)"></span>D2 삿포로 시내·야경</a>
+  <a href="#d3" data-day="d3"><span class="nd" style="background:var(--icho)"></span>D3 마루야마·삿포로역</a>
+  <a href="#d4" data-day="d4"><span class="nd" style="background:var(--dusk)"></span>D4 장외시장·오타루</a>
+  <a href="#d5" data-day="d5"><span class="nd" style="background:var(--sora)"></span>D5 귀국</a>
+  <span class="navsep" aria-hidden="true"></span>
   <a href="#stay"><span class="nd" style="background:var(--gold)"></span>숙소 예약</a>
-  <a href="#d1"><span class="nd" style="background:var(--momiji)"></span>D1 노보리베츠</a>
-  <a href="#d2"><span class="nd" style="background:var(--onsen)"></span>D2 삿포로 시내·야경</a>
-  <a href="#d3"><span class="nd" style="background:var(--icho)"></span>D3 마루야마·야경</a>
-  <a href="#d4"><span class="nd" style="background:var(--dusk)"></span>D4 장외시장·오타루</a>
-  <a href="#d5"><span class="nd" style="background:var(--sora)"></span>D5 귀국</a>
+  <a href="#guide"><span class="nd" style="background:var(--sumi-soft)"></span>예약 가이드</a>
   <a href="#info"><span class="nd" style="background:var(--gold)"></span>시세·팁</a>
   <a href="#conbini"><span class="nd" style="background:var(--dusk)"></span>편의점</a>
 </nav>
 
-<!-- ═══════════════ 예약 · 발권 가이드 (JR & 도난버스 공통) ═══════════════ -->
-<section class="guide" id="guide">
-  <div class="guide-wrap">
-    <h2 class="reveal">떠나기 전 예약·발권 가이드</h2>
-    <p class="lead reveal">공항↔노보리베츠 구간의 <b>JR 특급열차</b>, 1일차에 이용할 <b>도난버스</b>, 그리고 2일차 노보리베츠→삿포로 구간에서 이용할 <b>유유라이너(호텔 직행 셔틀)</b> 예약 방법을 미리 정리했어요. 모두 한국에서 스마트폰으로 예약 가능합니다.</p>
-    <div class="guide-cards">
-      <div class="gcard reveal alt">
-        <h3><span class="num">JR</span>특급열차 (전 구간 공통) — 지정석권 발권</h3>
-        <ol>
-          <li>가장 간단한 방법은 <b>당일 역 발매기</b>: 신치토세공항역·노보리베츠역·삿포로역 모두 한국어 지원 지정석 발매기가 있어 구간·시간만 고르면 바로 발권돼요.</li>
-          <li>성수기·특정 시간대를 놓치기 싫다면 <b>JR 홋카이도 에키넷(えきねっと)</b>에서 사전 예약 — 사이트/앱 회원가입 → 승차구간·날짜·열차 선택 → 신용카드 결제.</li>
-          <li>에키넷으로 예약했다면 승차 전 반드시 <b>지정석 발매기(지정석마크)</b>에서 예약번호 입력 → 실물 승차권으로 교환(결제한 카드 지참).</li>
-          <li>교환한 승차권(자유석 승차권 + 지정석권 2장)을 개찰구 통과 시 함께 넣거나 태그.</li>
-        </ol>
-        <div class="gnote"><b>TIP</b> 사전 예약이 필수는 아니에요. 사람이 몰리는 금·토 오후만 아니면 당일 발매기로도 충분합니다.</div>
-        <a class="glink" href="https://www.jrhokkaido.co.jp/global/korean/index.html" target="_blank" rel="noopener">↳ JR 홋카이도 공식 홈페이지 (한국어)</a>
-      </div>
-      <div class="gcard reveal">
-        <h3><span class="num">Bus</span>도난버스 직행 에어포트호 — 완전 예약제</h3>
-        <ol>
-          <li><b>도난버스 공식 홈페이지</b>(donanbus.co.jp) 접속 → 한국어 페이지에서 "고속 노보리베츠 온천 에어포트호" 노선 선택.</li>
-          <li>승차일(10/5)·승차 정류장(신치토세공항 국제선 1층)·인원 입력 후 원하는 시간대(예: 15:10발) 선택.</li>
-          <li>이름·연락처 입력 후 <b>신용카드로 결제</b> — 완전 예약제라 당일 현장 구매는 좌석이 없으면 불가할 수 있어요.</li>
-          <li>결제 완료 메일의 <b>예약번호(QR)</b>를 캡처/저장 → 당일 승차 시 기사에게 제시.</li>
-          <li>운행 편수가 하루 몇 편뿐이라 늦어도 <b>출발 1~2일 전</b>에는 예약하는 걸 추천해요.</li>
-        </ol>
-        <div class="gnote"><b>TIP</b> 왕복으로 끊으면 소폭 할인되는 경우가 있어요. 예약 화면 스크린샷과 실제 예시가 궁금하면 아래 후기 글을 참고하세요.</div>
-        <a class="glink" href="https://blog.naver.com/moonv616/224193807228" target="_blank" rel="noopener">↳ 참고: 도난버스 예약 후기 (네이버 블로그)</a>
-      </div>
-      <div class="gcard reveal alt2">
-        <h3><span class="num">2일</span>유유라이너 — 노보리베츠→삿포로 호텔 직행 셔틀</h3>
-        <ol>
-          <li><b>유유라이너</b>는 노보리베츠 온천가의 료칸·호텔 앞에서 삿포로 시내(삿포로역 인근)까지 <b>환승 없이 데려다주는</b> 예약제 셔틀버스예요. 역까지 짐 들고 이동할 필요가 없는 게 최대 장점.</li>
-          <li>예약은 <b>유유라이너 오퍼레이션센터</b>(☎ +81-11-223-1888, 접수시간 9:00~18:00 연중무휴) 전화 또는 온라인 예약 페이지에서 진행.</li>
-          <li>승차일·인원·픽업 호텔(노보리베츠 그랜드호텔)·하차 희망지(삿포로역 인근)를 지정하고 예약을 확정.</li>
-          <li>예약 확인서(또는 예약번호)를 당일 호텔 로비/픽업 장소에서 기사에게 제시하면 OK.</li>
-        </ol>
-        <div class="gnote"><b>TIP</b> 좌석이 한정적이라 출발 며칠~1주 전에는 예약해두는 게 안전해요. 실제 예약 화면과 후기는 아래 링크 참고.</div>
-        <a class="glink" href="https://blog.naver.com/wisesarah72/224298473791" target="_blank" rel="noopener">↳ 참고: 유유라이너 예약 후기 (네이버 블로그)</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ 숙소 예약 정보 ═══════════════ -->
-<section class="stay" id="stay">
-  <div class="stay-wrap">
-    <h2 class="reveal">숙소 예약 정보</h2>
-    <p class="lead reveal">4박을 보낼 두 곳의 예약 확정 내용입니다. 체크인 때 프런트에 <b>예약자명과 예약번호</b>를 보여주면 돼요. 카드 색은 각 일차의 노선 색과 같습니다.</p>
-    <div class="stay-cards">
-
-      <article class="scard reveal" style="--line:var(--momiji)">
-        <div class="scard-top">
-          <div class="scard-date">DAY 1 · 10.5 MON – 10.6 TUE · 1박</div>
-          <div class="scard-title">노보리베츠 그랜드호텔</div>
-          <div class="scard-romaji">Noboribetsu Grand Hotel</div>
-        </div>
-        <div class="scard-line"></div>
-        <div class="scard-body">
-          <ul>
-            <li><span class="k">예약자명</span><span class="v">Heo SeongWook</span></li>
-            <li><span class="k">예약 번호</span><span class="v num">22315095826087<button class="copy" data-copy="22315095826087">복사</button></span></li>
-            <li><span class="k">예약 ID</span><span class="v num">21315091035381<button class="copy" data-copy="21315091035381">복사</button></span></li>
-            <li><span class="k">식사</span><span class="v">석식 18:00–20:00<span class="sub">조식 7:00–9:00</span></span></li>
-          </ul>
-          <div class="tip"><b>TIP</b> 체크인 시간보다 일찍 도착하면 프런트에 짐만 맡기고 오유누마 족탕부터 다녀오세요. 다음 날 유유라이너도 이 호텔 앞에서 탑니다.</div>
-        </div>
-        <div class="scard-foot"><span>IN 10.5 15:00–</span><span>OUT 10.6 10:00</span></div>
-      </article>
-
-      <article class="scard reveal" style="--line:var(--onsen)">
-        <div class="scard-top">
-          <div class="scard-date">DAY 2–5 · 10.6 TUE – 10.9 FRI · 3박</div>
-          <div class="scard-title">삿포로 그랜드호텔</div>
-          <div class="scard-romaji">Sapporo Grand Hotel</div>
-        </div>
-        <div class="scard-line"></div>
-        <div class="scard-body">
-          <ul>
-            <li><span class="k">예약자명</span><span class="v">Heo SeongWook</span></li>
-            <li><span class="k">예약 번호</span><span class="v num">1715976631<button class="copy" data-copy="1715976631">복사</button></span></li>
-            <li><span class="k">객실</span><span class="v">별관 4인 쿼드러플룸 · 금연<span class="sub">Annex Building Quadruple Room for 4 People – Non-Smoking</span></span></li>
-            <li><span class="k">조식</span><span class="v">노던 테라스 다이너 6:30–10:00<span class="sub">가든 다이닝 와라쿠 7:00–10:00</span></span></li>
-          </ul>
-          <div class="tip"><b>TIP</b> 객실이 별관이라 조식 회장(본관 4층·동관 1층)과 건물이 다릅니다. 체크인 때 조식 장소와 가는 길을 한 번 확인해두면 편해요.</div>
-        </div>
-        <div class="scard-foot"><span>IN 10.6 15:00–</span><span>OUT 10.9 11:00</span></div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<script>
-document.addEventListener('click',function(e){
-  var b=e.target.closest('.copy'); if(!b) return;
-  var t=b.getAttribute('data-copy');
-  var done=function(){var o=b.textContent;b.textContent='복사됨';b.classList.add('done');
-    setTimeout(function(){b.textContent=o;b.classList.remove('done')},1400)};
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(function(){})}
-  else{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
-    try{document.execCommand('copy');done()}catch(err){}document.body.removeChild(ta)}
-});
-</script>
-
 <main>
 
 <!-- ═══════════════ DAY 1 ═══════════════ -->
-<section class="day" id="d1" style="--line:var(--momiji)">
+<section class="day" id="d1" style="--line:var(--momiji);--line-ink:var(--momiji-ink);--tint:var(--tint-1)">
   <div class="day-wrap">
   <div class="sign reveal">
     <div class="sign-top">
@@ -607,16 +662,16 @@ document.addEventListener('click',function(e){
       <div class="sign-romaji">NOBORIBETSU ONSEN</div>
     </div>
     <div class="sign-line"></div>
-    <div class="sign-nav"><span>◀ 인천 ICN</span><span>삿포로 ▶</span></div>
+    <div class="sign-nav"><span>◀ 인천 ICN</span><a href="#d2">DAY 2 삿포로 시내 ▶</a></div>
   </div>
 
   <div class="routemap reveal">
     <div class="lmap" id="map-d1" title="1일차 이동경로: 신치토세공항 → 온천 버스터미널 → 오유누마 족탕 → 극락거리 상점가"></div>
     <div class="routemap-foot">
-      <span class="routestep"><span class="rn" style="background:var(--momiji)">1</span><b>신치토세공항</b></span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--momiji)">2</span>온천 버스터미널·그랜드호텔</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--momiji)">3</span>오유누마 천연족탕</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--momiji)">4</span>극락거리 상점가</span>
+      <span class="routestep"><span class="rn" style="background:var(--momiji-ink)">1</span><b>신치토세공항</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--momiji-ink)">2</span>온천 버스터미널·그랜드호텔</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--momiji-ink)">3</span>오유누마 천연족탕</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--momiji-ink)">4</span>극락거리 상점가</span>
     </div>
   </div>
 
@@ -690,7 +745,7 @@ document.addEventListener('click',function(e){
 </section>
 
 <!-- ═══════════════ DAY 2 ═══════════════ -->
-<section class="day" id="d2" style="--line:var(--onsen)">
+<section class="day" id="d2" style="--line:var(--onsen);--line-ink:var(--onsen-ink);--tint:var(--tint-2)">
   <div class="day-wrap">
   <div class="sign reveal">
     <div class="sign-top">
@@ -699,22 +754,22 @@ document.addEventListener('click',function(e){
       <div class="sign-romaji">NOBORIBETSU → SAPPORO</div>
     </div>
     <div class="sign-line"></div>
-    <div class="sign-nav"><span>◀ 노보리베츠</span><span>스스키노 ▶</span></div>
+    <div class="sign-nav"><a href="#d1">◀ DAY 1 노보리베츠</a><a href="#d3">DAY 3 마루야마 ▶</a></div>
   </div>
 
   <div class="routemap reveal">
     <div class="lmap" id="map-d2" title="2일차 이동경로: 노보리베츠 온천 → 지옥계곡 → 카모리빌딩3 → 홋카이도청 → 그랜드호텔 → 시계탑 → 오도리공원·TV타워 → GARAKU → 모이와야마 → 스스키노"></div>
     <div class="routemap-foot">
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">1</span><b>노보리베츠 온천</b></span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">2</span>지옥계곡</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">3</span>카모리빌딩3</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">4</span>홋카이도청(아카렌가)</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">5</span>삿포로 그랜드호텔</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">6</span>시계탑</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">7</span>오도리공원·TV타워</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">8</span>GARAKU 수프카레</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">9</span>모이와야마</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--onsen)">10</span>스스키노</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">1</span><b>노보리베츠 온천</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">2</span>지옥계곡</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">3</span>카모리빌딩3</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">4</span>홋카이도청(아카렌가)</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">5</span>삿포로 그랜드호텔</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">6</span>시계탑</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">7</span>오도리공원·TV타워</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">8</span>GARAKU 수프카레</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">9</span>모이와야마</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--onsen-ink)">10</span>스스키노</span>
     </div>
   </div>
 
@@ -828,7 +883,7 @@ document.addEventListener('click',function(e){
 </section>
 
 <!-- ═══════════════ DAY 3 ═══════════════ -->
-<section class="day" id="d3" style="--line:var(--icho)">
+<section class="day" id="d3" style="--line:var(--icho);--line-ink:var(--icho-ink);--tint:var(--tint-3)">
   <div class="day-wrap">
   <div class="sign reveal">
     <div class="sign-top">
@@ -837,17 +892,17 @@ document.addEventListener('click',function(e){
       <div class="sign-romaji">RAMEN · MARUYAMA · NIGHT VIEW</div>
     </div>
     <div class="sign-line"></div>
-    <div class="sign-nav"><span>◀ 미소노</span><span>삿포로역 ▶</span></div>
+    <div class="sign-nav"><a href="#d2">◀ DAY 2 삿포로 시내</a><a href="#d4">DAY 4 오타루 ▶</a></div>
   </div>
 
   <div class="routemap reveal">
     <div class="lmap" id="map-d3" title="3일차 이동경로: 멘야 사이미 → 마루야마공원 → 홋카이도 신궁 → 마루야마 동물원 → 삿포로역 쇼핑 · JR타워 T38"></div>
     <div class="routemap-foot">
-      <span class="routestep"><span class="rn" style="background:var(--icho)">1</span><b>멘야 사이미</b></span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--icho)">2</span>마루야마공원</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--icho)">3</span>홋카이도 신궁</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--icho)">4</span>마루야마 동물원</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--icho)">5</span>삿포로역 쇼핑 · JR타워 T38</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho-ink)">1</span><b>멘야 사이미</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho-ink)">2</span>마루야마공원</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho-ink)">3</span>홋카이도 신궁</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho-ink)">4</span>마루야마 동물원</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho-ink)">5</span>삿포로역 쇼핑 · JR타워 T38</span>
     </div>
   </div>
 
@@ -868,8 +923,8 @@ document.addEventListener('click',function(e){
         <div class="stop-time">10:40</div>
         <h3>멘야 사이미 도착 — 오픈런 🍜 <span class="badge">줄서기</span></h3>
         <p>삿포로 미소라멘의 최강자로 꼽히는 <b>멘야 사이미(麺屋 彩未)</b>. 정식 오픈은 <b>11:00</b>이지만 <b>혼잡 시 평일 10:45부터 앞당겨 열어요</b>. 10:40 도착이면 1회전(첫 타임)에 앉을 확률이 높습니다.</p>
-        <div class="fares">
-          <h4>라멘 らーめん</h4>
+        <details class="fares" open>
+          <summary>라멘 らーめん</summary>
           <ul>
             <li class="pick"><span class="fseat">미소 라멘 <b>← 간판</b><span class="sub">味噌らーめん · 미소 라-멘 (된장)</span></span><span class="fyen">¥1,000</span></li>
             <li><span class="fseat">쇼유 라멘<span class="sub">醤油らーめん · 쇼유 라-멘 (간장)</span></span><span class="fyen">¥1,000</span></li>
@@ -877,9 +932,9 @@ document.addEventListener('click',function(e){
             <li><span class="fseat">매운 미소 라멘<span class="sub">辛味噌らーめん · 카라미소 라-멘</span></span><span class="fyen">¥1,050</span></li>
             <li><span class="fseat">매운 쇼유 라멘<span class="sub">辛醤油らーめん · 카라쇼유 라-멘</span></span><span class="fyen">¥1,050</span></li>
           </ul>
-        </div>
-        <div class="fares">
-          <h4>토핑 추가 · 밥</h4>
+        </details>
+        <details class="fares">
+          <summary>토핑 추가 · 밥</summary>
           <ul>
             <li><span class="fseat">곱빼기 (면 추가)<span class="sub">大盛 · 오오모리</span></span><span class="fyen">+¥100</span></li>
             <li class="pick"><span class="fseat">차슈멘 (고기 듬뿍)<span class="sub">チャーシューめん · 차-슈-멘</span></span><span class="fyen">+¥400</span></li>
@@ -887,16 +942,16 @@ document.addEventListener('click',function(e){
             <li><span class="fseat">밥 (중)<span class="sub">ライス 中 · 라이스 츄-</span></span><span class="fyen">¥150</span></li>
             <li><span class="fseat">밥 (소)<span class="sub">ライス 小 · 라이스 쇼-</span></span><span class="fyen">¥100</span></li>
           </ul>
-        </div>
-        <div class="fares">
-          <h4>음료 · 주류</h4>
+        </details>
+        <details class="fares">
+          <summary>음료 · 주류</summary>
           <ul>
             <li><span class="fseat">주스 · 펩시콜라<span class="sub">ジュース・ペプシコーラ · 쥬-스 / 페푸시코-라</span></span><span class="fyen">¥200</span></li>
             <li><span class="fseat">세피아의 자극 (탄산음료)<span class="sub">セピアのしげき · 세피아노 시게키</span></span><span class="fyen">¥200</span></li>
             <li><span class="fseat">흑우롱차<span class="sub">黒烏龍茶 · 쿠로우론챠</span></span><span class="fyen">¥200</span></li>
             <li><span class="fseat">맥주<span class="sub">ビール · 비-루</span></span><span class="fyen">¥500</span></li>
           </ul>
-        </div>
+        </details>
         <div class="tip"><b>주문 팁</b> 처음이라면 무조건 <b>미소라멘 1,000엔</b>. 고기를 좋아하면 <b>+400엔 차슈멘</b>, 국물에 밥 말아 먹을 거면 <b>라이스 소 100엔</b>을 곁들이는 조합이 정석이에요. 카운터 20석 남짓의 작은 가게라 회전이 빨라 30~40분이면 나옵니다.<br>
         <b>휴무 주의</b> 매주 <b>월요일</b> + 월 2회 부정기 휴무. 10/7은 수요일이라 영업일이지만, 부정기 휴무는 공식 홈페이지에 공지되니 전날 한 번 확인하세요.<br>
         <a class="glink" href="https://www.menya-saimi.com/" target="_blank" rel="noopener">↳ 멘야 사이미 공식 홈페이지 (휴무 공지)</a></div>
@@ -980,7 +1035,7 @@ document.addEventListener('click',function(e){
 </section>
 
 <!-- ═══════════════ DAY 4 ═══════════════ -->
-<section class="day" id="d4" style="--line:var(--dusk)">
+<section class="day" id="d4" style="--line:var(--dusk);--line-ink:var(--dusk-ink);--tint:var(--tint-4)">
   <div class="day-wrap">
   <div class="sign reveal">
     <div class="sign-top">
@@ -989,17 +1044,17 @@ document.addEventListener('click',function(e){
       <div class="sign-romaji">MARKET · OTARU</div>
     </div>
     <div class="sign-line"></div>
-    <div class="sign-nav"><span>◀ 삿포로</span><span>오타루 ▶</span></div>
+    <div class="sign-nav"><a href="#d3">◀ DAY 3 마루야마</a><a href="#d5">DAY 5 귀국 ▶</a></div>
   </div>
 
   <div class="routemap reveal">
     <div class="lmap" id="map-d4" title="4일차 이동경로: 삿포로 호텔 → 장외시장 → 오타루역 → 사카이마치 → 오타루운하"></div>
     <div class="routemap-foot">
-      <span class="routestep"><span class="rn" style="background:var(--dusk)">1</span><b>삿포로 호텔(송영버스)</b></span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--dusk)">2</span>장외시장</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--dusk)">3</span>오타루역</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--dusk)">4</span>사카이마치</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--dusk)">5</span>오타루 운하</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk-ink)">1</span><b>삿포로 호텔(송영버스)</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk-ink)">2</span>장외시장</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk-ink)">3</span>오타루역</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk-ink)">4</span>사카이마치</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--dusk-ink)">5</span>오타루 운하</span>
     </div>
   </div>
 
@@ -1045,13 +1100,13 @@ document.addEventListener('click',function(e){
         <h3>JR 쾌속 에어포트로 오타루 <span class="badge">바다 조망</span></h3>
         <div class="legbadge"><span class="legicon">🚆</span><span class="legroute">삿포로역 → 오타루역</span><span class="legsep">·</span><span class="legtime">약 35분</span></div>
         <p>삿포로 → 오타루 약 35분. <b>진행 방향 오른쪽 창가</b>에 앉으면 제니바코부터 바다가 바로 옆으로 펼쳐집니다.</p>
-        <div class="fares">
-          <h4>좌석 · 편도 요금</h4>
+        <details class="fares" open>
+          <summary>좌석 · 편도 요금</summary>
           <ul>
             <li><span class="fseat">자유석<span class="sub">좌석 지정 없음 · 평일 낮은 대체로 여유</span></span><span class="fyen">¥800</span></li>
             <li class="pick"><span class="fseat">지정석 U-Seat<span class="sub">바다 쪽 오른쪽 창가 미리 확보</span></span><span class="fyen">¥1,800</span></li>
           </ul>
-        </div>
+        </details>
         <div class="tip"><b>예매</b> 아래 링크는 <b>10/8 삿포로(JR)→오타루</b> 조건이 채워진 상태로 열려요. 시간대만 고르면 됩니다. 자유석이면 당일 발매기·IC카드로도 바로 탈 수 있으니 일정이 유동적이면 미리 살 필요는 없어요.<br>
         <a class="glink" href="https://kr.trip.com/trains/asia/list?tripTab=train&amp;scheduleType=single&amp;biztype=JP&amp;departurecountrycode=JP&amp;arrivalcountrycode=JP&amp;departdate=2026-10-08&amp;departurecitycode=JP03724&amp;arrivalcitycode=JP02277&amp;departurecity=%EC%82%BF%ED%8F%AC%EB%A1%9C%28%EF%BC%AA%EF%BC%B2%29&amp;arrivalcity=%EC%98%A4%ED%83%80%EB%A3%A8" target="_blank" rel="noopener">↳ 트립닷컴에서 예매 (10/8 삿포로→오타루)</a><br>
         <a class="glink" href="https://www.jrhokkaido.co.jp/global/korean/index.html" target="_blank" rel="noopener">↳ JR 홋카이도 공식 홈페이지 (한국어)</a></div>
@@ -1097,7 +1152,7 @@ document.addEventListener('click',function(e){
 </section>
 
 <!-- ═══════════════ DAY 5 ═══════════════ -->
-<section class="day" id="d5" style="--line:var(--sora)">
+<section class="day" id="d5" style="--line:var(--sora);--line-ink:var(--sora-ink);--tint:var(--tint-5)">
   <div class="day-wrap">
   <div class="sign reveal">
     <div class="sign-top">
@@ -1106,15 +1161,15 @@ document.addEventListener('click',function(e){
       <div class="sign-romaji">SAPPORO → CTS AIRPORT</div>
     </div>
     <div class="sign-line"></div>
-    <div class="sign-nav"><span>◀ 삿포로</span><span>인천 ICN ▶</span></div>
+    <div class="sign-nav"><a href="#d4">◀ DAY 4 오타루</a><span>인천 ICN ▶</span></div>
   </div>
 
   <div class="routemap reveal">
     <div class="lmap" id="map-d5" title="5일차 이동경로: 삿포로 그랜드호텔 → 삿포로역 → 신치토세공항"></div>
     <div class="routemap-foot">
-      <span class="routestep"><span class="rn" style="background:var(--sora)">1</span><b>삿포로 그랜드호텔</b></span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--sora)">2</span>삿포로역</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--sora)">3</span>신치토세공항</span>
+      <span class="routestep"><span class="rn" style="background:var(--sora-ink)">1</span><b>삿포로 그랜드호텔</b></span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--sora-ink)">2</span>삿포로역</span><span class="routearrow">→</span>
+      <span class="routestep"><span class="rn" style="background:var(--sora-ink)">3</span>신치토세공항</span>
     </div>
   </div>
 
@@ -1159,6 +1214,111 @@ document.addEventListener('click',function(e){
       </div>
     </aside>
   </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 숙소 예약 정보 ═══════════════ -->
+<section class="stay" id="stay">
+  <div class="stay-wrap">
+    <h2 class="reveal">숙소 예약 정보</h2>
+    <p class="lead reveal">4박을 보낼 두 곳의 예약 확정 내용입니다. 체크인 때 프런트에 <b>예약자명과 예약번호</b>를 보여주면 돼요. 카드 색은 각 일차의 노선 색과 같습니다.</p>
+    <div class="stay-cards">
+
+      <article class="scard reveal" style="--line:var(--momiji);--line-ink:var(--momiji-ink)">
+        <div class="scard-top">
+          <div class="scard-date">DAY 1 · 10.5 MON – 10.6 TUE · 1박</div>
+          <div class="scard-title">노보리베츠 그랜드호텔</div>
+          <div class="scard-romaji">Noboribetsu Grand Hotel</div>
+        </div>
+        <div class="scard-line"></div>
+        <div class="scard-body">
+          <ul>
+            <li><span class="k">예약자명</span><span class="v">Heo SeongWook</span></li>
+            <li><span class="k">예약 번호</span><span class="v num">22315095826087<button class="copy" data-copy="22315095826087">복사</button></span></li>
+            <li><span class="k">예약 ID</span><span class="v num">21315091035381<button class="copy" data-copy="21315091035381">복사</button></span></li>
+            <li><span class="k">식사</span><span class="v">석식 18:00–20:00<span class="sub">조식 7:00–9:00</span></span></li>
+          </ul>
+          <div class="tip"><b>TIP</b> 체크인 시간보다 일찍 도착하면 프런트에 짐만 맡기고 오유누마 족탕부터 다녀오세요. 다음 날 유유라이너도 이 호텔 앞에서 탑니다.</div>
+        </div>
+        <div class="scard-foot"><span>IN 10.5 15:00–</span><span>OUT 10.6 10:00</span></div>
+      </article>
+
+      <article class="scard reveal" style="--line:var(--onsen);--line-ink:var(--onsen-ink)">
+        <div class="scard-top">
+          <div class="scard-date">DAY 2–5 · 10.6 TUE – 10.9 FRI · 3박</div>
+          <div class="scard-title">삿포로 그랜드호텔</div>
+          <div class="scard-romaji">Sapporo Grand Hotel</div>
+        </div>
+        <div class="scard-line"></div>
+        <div class="scard-body">
+          <ul>
+            <li><span class="k">예약자명</span><span class="v">Heo SeongWook</span></li>
+            <li><span class="k">예약 번호</span><span class="v num">1715976631<button class="copy" data-copy="1715976631">복사</button></span></li>
+            <li><span class="k">객실</span><span class="v">별관 4인 쿼드러플룸 · 금연<span class="sub">Annex Building Quadruple Room for 4 People – Non-Smoking</span></span></li>
+            <li><span class="k">조식</span><span class="v">노던 테라스 다이너 6:30–10:00<span class="sub">가든 다이닝 와라쿠 7:00–10:00</span></span></li>
+          </ul>
+          <div class="tip"><b>TIP</b> 객실이 별관이라 조식 회장(본관 4층·동관 1층)과 건물이 다릅니다. 체크인 때 조식 장소와 가는 길을 한 번 확인해두면 편해요.</div>
+        </div>
+        <div class="scard-foot"><span>IN 10.6 15:00–</span><span>OUT 10.9 11:00</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.copy'); if(!b) return;
+  var t=b.getAttribute('data-copy');
+  var done=function(){var o=b.textContent;b.textContent='복사됨';b.classList.add('done');
+    setTimeout(function(){b.textContent=o;b.classList.remove('done')},1400)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(function(){})}
+  else{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');done()}catch(err){}document.body.removeChild(ta)}
+});
+</script>
+
+<!-- ═══════════════ 예약 · 발권 가이드 (JR & 도난버스 공통) ═══════════════ -->
+<section class="guide" id="guide">
+  <div class="guide-wrap">
+    <h2 class="reveal">떠나기 전 예약·발권 가이드</h2>
+    <p class="lead reveal">공항↔노보리베츠 구간의 <b>JR 특급열차</b>, 1일차에 이용할 <b>도난버스</b>, 그리고 2일차 노보리베츠→삿포로 구간에서 이용할 <b>유유라이너(호텔 직행 셔틀)</b> 예약 방법을 미리 정리했어요. 모두 한국에서 스마트폰으로 예약 가능합니다.</p>
+    <div class="guide-cards">
+      <div class="gcard reveal alt">
+        <h3><span class="num">JR</span>특급열차 (전 구간 공통) — 지정석권 발권</h3>
+        <ol>
+          <li>가장 간단한 방법은 <b>당일 역 발매기</b>: 신치토세공항역·노보리베츠역·삿포로역 모두 한국어 지원 지정석 발매기가 있어 구간·시간만 고르면 바로 발권돼요.</li>
+          <li>성수기·특정 시간대를 놓치기 싫다면 <b>JR 홋카이도 에키넷(えきねっと)</b>에서 사전 예약 — 사이트/앱 회원가입 → 승차구간·날짜·열차 선택 → 신용카드 결제.</li>
+          <li>에키넷으로 예약했다면 승차 전 반드시 <b>지정석 발매기(지정석마크)</b>에서 예약번호 입력 → 실물 승차권으로 교환(결제한 카드 지참).</li>
+          <li>교환한 승차권(자유석 승차권 + 지정석권 2장)을 개찰구 통과 시 함께 넣거나 태그.</li>
+        </ol>
+        <div class="gnote"><b>TIP</b> 사전 예약이 필수는 아니에요. 사람이 몰리는 금·토 오후만 아니면 당일 발매기로도 충분합니다.</div>
+        <a class="glink" href="https://www.jrhokkaido.co.jp/global/korean/index.html" target="_blank" rel="noopener">↳ JR 홋카이도 공식 홈페이지 (한국어)</a>
+      </div>
+      <div class="gcard reveal">
+        <h3><span class="num">Bus</span>도난버스 직행 에어포트호 — 완전 예약제</h3>
+        <ol>
+          <li><b>도난버스 공식 홈페이지</b>(donanbus.co.jp) 접속 → 한국어 페이지에서 "고속 노보리베츠 온천 에어포트호" 노선 선택.</li>
+          <li>승차일(10/5)·승차 정류장(신치토세공항 국제선 1층)·인원 입력 후 원하는 시간대(예: 15:10발) 선택.</li>
+          <li>이름·연락처 입력 후 <b>신용카드로 결제</b> — 완전 예약제라 당일 현장 구매는 좌석이 없으면 불가할 수 있어요.</li>
+          <li>결제 완료 메일의 <b>예약번호(QR)</b>를 캡처/저장 → 당일 승차 시 기사에게 제시.</li>
+          <li>운행 편수가 하루 몇 편뿐이라 늦어도 <b>출발 1~2일 전</b>에는 예약하는 걸 추천해요.</li>
+        </ol>
+        <div class="gnote"><b>TIP</b> 왕복으로 끊으면 소폭 할인되는 경우가 있어요. 예약 화면 스크린샷과 실제 예시가 궁금하면 아래 후기 글을 참고하세요.</div>
+        <a class="glink" href="https://blog.naver.com/moonv616/224193807228" target="_blank" rel="noopener">↳ 참고: 도난버스 예약 후기 (네이버 블로그)</a>
+      </div>
+      <div class="gcard reveal alt2">
+        <h3><span class="num">2일</span>유유라이너 — 노보리베츠→삿포로 호텔 직행 셔틀</h3>
+        <ol>
+          <li><b>유유라이너</b>는 노보리베츠 온천가의 료칸·호텔 앞에서 삿포로 시내(삿포로역 인근)까지 <b>환승 없이 데려다주는</b> 예약제 셔틀버스예요. 역까지 짐 들고 이동할 필요가 없는 게 최대 장점.</li>
+          <li>예약은 <b>유유라이너 오퍼레이션센터</b>(☎ +81-11-223-1888, 접수시간 9:00~18:00 연중무휴) 전화 또는 온라인 예약 페이지에서 진행.</li>
+          <li>승차일·인원·픽업 호텔(노보리베츠 그랜드호텔)·하차 희망지(삿포로역 인근)를 지정하고 예약을 확정.</li>
+          <li>예약 확인서(또는 예약번호)를 당일 호텔 로비/픽업 장소에서 기사에게 제시하면 OK.</li>
+        </ol>
+        <div class="gnote"><b>TIP</b> 좌석이 한정적이라 출발 며칠~1주 전에는 예약해두는 게 안전해요. 실제 예약 화면과 후기는 아래 링크 참고.</div>
+        <a class="glink" href="https://blog.naver.com/wisesarah72/224298473791" target="_blank" rel="noopener">↳ 참고: 유유라이너 예약 후기 (네이버 블로그)</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1288,6 +1448,15 @@ document.addEventListener('click',function(e){
 
 </main>
 
+
+
+
+<!-- 플로팅 버튼: 오늘 일차로 / 맨 위로 -->
+<div class="fab">
+  <button class="fab-btn primary" id="fabToday" type="button">📍 오늘 일정</button>
+  <button class="fab-btn" id="fabTop" type="button">↑ 맨 위</button>
+</div>
+
 <footer>
   <p class="fin">삿포로 4박 5일 여행 일정표</p>
   <p>일정·요금은 2026년 기준 참고용입니다 · 사진: Wikipedia(온라인 연결 시 자동 표시) · 지도: Google Maps</p>
@@ -1321,16 +1490,21 @@ document.addEventListener('click',function(e){
   spots.forEach(([id,title,cap])=>{
     const fig=document.getElementById(id);
     if(!fig)return;
+    /* 자리(aspect-ratio)를 미리 잡아두고, 못 받아오면 그때 접는다 — 레이아웃이 밀리지 않게 */
+    let settled=false;
+    const drop=()=>{if(!settled){settled=true;fig.remove();}};
+    const timer=setTimeout(drop,8000);
     fetch('https://ja.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title))
       .then(r=>r.ok?r.json():null)
       .then(d=>{
         const src=d&&((d.originalimage&&d.originalimage.source)||(d.thumbnail&&d.thumbnail.source));
-        if(!src)return;
+        if(!src){clearTimeout(timer);drop();return;}
         const img=fig.querySelector('img');
-        img.onload=()=>fig.classList.add('loaded');
+        img.onload=()=>{settled=true;clearTimeout(timer);fig.classList.add('loaded');};
+        img.onerror=()=>{clearTimeout(timer);drop();};
         img.src=src;
         fig.querySelector('figcaption').textContent='📷 '+cap+' — 사진: Wikipedia';
-      }).catch(()=>{});
+      }).catch(()=>{clearTimeout(timer);drop();});
   });
 })();
 
@@ -1362,13 +1536,13 @@ document.addEventListener('click',function(e){
 (function(){
   if(typeof L==='undefined')return; // 오프라인 등 라이브러리 로드 실패 시 스킵
   const DAYS={
-    'map-d1':{color:'#C8442B',stops:[
+    'map-d1':{color:'#C8442B',ink:'#A83621',stops:[
       [42.7752,141.6923,'① 신치토세공항 (도난버스 15:10 승차)'],
       [42.4926,141.1462,'② 온천 버스터미널·그랜드호텔'],
       [42.5052,141.1443,'③ 오유누마 천연족탕 (족욕)'],
       [42.4936,141.1466,'④ 극락거리 상점가']
     ]},
-    'map-d2':{color:'#3E8E7E',stops:[
+    'map-d2':{color:'#3E8E7E',ink:'#2E7263',stops:[
       [42.4926,141.1462,'① 노보리베츠 온천 (유유라이너 승차)'],
       [42.4993,141.1477,'② 지옥계곡'],
       [43.0658908,141.3494389,'③ 카모리빌딩3 (삿포로 도착)'],
@@ -1380,21 +1554,21 @@ document.addEventListener('click',function(e){
       [43.0329,141.3218,'⑨ 모이와야마 로프웨이 (야경)'],
       [43.0554,141.3529,'⑩ 스스키노 (저녁)']
     ]},
-    'map-d3':{color:'#C9862B',stops:[
+    'map-d3':{color:'#B06A22',ink:'#8A5A16',stops:[
       [43.0353,141.3819,'① 멘야 사이미 (오픈런 점심)'],
       [43.0557,141.3126,'② 마루야마공원'],
       [43.0545,141.3084,'③ 홋카이도 신궁'],
       [43.0515,141.3079,'④ 마루야마 동물원'],
       [43.0681,141.3524,'⑤ 삿포로역 쇼핑 · JR타워 T38 (저녁·야경)']
     ]},
-    'map-d4':{color:'#5A5390',stops:[
+    'map-d4':{color:'#5A5390',ink:'#4E4880',stops:[
       [43.0644,141.3496,'① 삿포로 그랜드호텔 (송영버스 픽업·복귀)'],
       [43.0702,141.3125,'② 장외시장 (털게 점심)'],
       [43.1907,140.9946,'③ 오타루역'],
       [43.1889,141.0089,'④ 사카이마치·메르헨교차로'],
       [43.1985,141.0021,'⑤ 오타루 운하 (일몰)']
     ]},
-    'map-d5':{color:'#4A7FB5',stops:[
+    'map-d5':{color:'#4A7FB5',ink:'#35618F',stops:[
       [43.0644,141.3496,'① 삿포로 그랜드호텔'],
       [43.0687,141.3508,'② 삿포로역 (쇼핑 후 쾌속 에어포트)'],
       [42.7752,141.6923,'③ 신치토세공항 14:30 출발']
@@ -1490,7 +1664,7 @@ document.addEventListener('click',function(e){
       if(i>0){const ar=document.createElement('span');ar.className='routearrow';ar.textContent='→';foot.appendChild(ar);}
       const chip=document.createElement('span');
       chip.className='routestep';
-      chip.innerHTML='<span class="rn" style="background:'+day.color+'">'+(i+1)+'</span>'+
+      chip.innerHTML='<span class="rn" style="background:'+(day.ink||day.color)+'">'+(i+1)+'</span>'+
         (i===0?'<b>':'')+s[2].replace(/^[\u2460-\u2473]\s*/,'')+(i===0?'</b>':'');
       foot.appendChild(chip);
       chips.push(chip);
@@ -1547,6 +1721,103 @@ document.addEventListener('click',function(e){
       });
     });
   });
+})();
+
+/* ───────── 오늘의 일차 자동 강조 · D-day · 내비 스크롤스파이 · 플로팅 버튼 ───────── */
+(function(){
+  const TRIP=[
+    {id:'d1',date:'2026-10-05'},
+    {id:'d2',date:'2026-10-06'},
+    {id:'d3',date:'2026-10-07'},
+    {id:'d4',date:'2026-10-08'},
+    {id:'d5',date:'2026-10-09'}
+  ];
+  const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const today=ymd(new Date());
+  const cur=TRIP.find(t=>t.date===today);
+
+  /* 오늘이 여행 중이면 해당 일차에 배지 + 내비 표시 */
+  if(cur){
+    const sec=document.getElementById(cur.id);
+    const sign=sec&&sec.querySelector('.sign');
+    if(sign){
+      sign.classList.add('is-today');
+      const dateEl=sign.querySelector('.sign-date');
+      if(dateEl){
+        const b=document.createElement('span');
+        b.className='today-badge';b.textContent='TODAY';
+        dateEl.appendChild(b);
+      }
+    }
+    const navLink=document.querySelector('.daynav a[data-day="'+cur.id+'"]');
+    if(navLink)navLink.classList.add('is-today');
+  }
+
+  /* 히어로 CTA — 여행 중이면 오늘 일차로, 아니면 D-day 안내 */
+  const jump=document.getElementById('heroJump'),dc=document.getElementById('dcount');
+  const dayNum=id=>id.replace('d','');
+  if(cur){
+    if(jump){jump.href='#'+cur.id;jump.textContent='오늘 일정 보기 · DAY '+dayNum(cur.id);}
+    if(dc)dc.textContent='여행 '+dayNum(cur.id)+'일차 진행 중';
+  }else if(dc){
+    const start=new Date('2026-10-05T00:00:00'),end=new Date('2026-10-09T23:59:59'),now=new Date();
+    const diff=Math.ceil((start-now)/86400000);
+    if(now<start)dc.textContent='출발까지 D-'+diff;
+    else if(now>end)dc.textContent='다녀온 여행 · 기록 보관용';
+  }
+
+  /* 플로팅 버튼 */
+  const fabToday=document.getElementById('fabToday'),fabTop=document.getElementById('fabTop');
+  const target=cur?cur.id:null;
+  if(fabToday){
+    if(target){
+      fabToday.addEventListener('click',()=>{
+        document.getElementById(target).scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    }else{
+      fabToday.remove();
+    }
+  }
+  if(fabTop)fabTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  const onScroll=()=>{
+    const y=window.scrollY;
+    if(fabTop)fabTop.classList.toggle('show',y>700);
+    if(fabToday&&target)fabToday.classList.toggle('show',y>700);
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  /* 내비 스크롤스파이 — 현재 보고 있는 섹션 하이라이트 + 모바일에서 가로 스크롤 정렬 */
+  const nav=document.getElementById('daynav');
+  const links=nav?Array.from(nav.querySelectorAll('a[href^="#"]')):[];
+  const secs=links.map(a=>document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+  if(secs.length){
+    let active=null;
+    const spy=new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(!e.isIntersecting)return;
+        const link=links.find(a=>a.getAttribute('href')==='#'+e.target.id);
+        if(!link||link===active)return;
+        links.forEach(a=>a.classList.remove('active'));
+        link.classList.add('active');
+        active=link;
+        if(nav.scrollWidth>nav.clientWidth){
+          const l=link.offsetLeft-(nav.clientWidth-link.offsetWidth)/2;
+          nav.scrollTo({left:Math.max(0,l),behavior:'smooth'});
+        }
+      });
+    },{rootMargin:'-25% 0px -65% 0px',threshold:0});
+    secs.forEach(s=>spy.observe(s));
+  }
+
+  /* 인쇄 시 접힌 표를 모두 펼침 */
+  const folds=()=>document.querySelectorAll('details.fares');
+  let reopened=[];
+  window.addEventListener('beforeprint',()=>{
+    reopened=[];
+    folds().forEach(d=>{if(!d.open){d.open=true;reopened.push(d);}});
+  });
+  window.addEventListener('afterprint',()=>{reopened.forEach(d=>{d.open=false;});reopened=[];});
 })();
 </script>
 </body>
