@@ -176,7 +176,7 @@ figure.photo figcaption{padding:.5rem .95rem;font-size:.72rem;color:var(--sumi-s
 .guide-wrap{max-width:1044px;margin:0 auto}
 .guide h2{font-weight:800;font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:.5rem}
 .guide .lead{color:var(--sumi-soft);font-weight:300;max-width:38rem;margin-bottom:2.2rem;font-size:.92rem}
-.guide-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.3rem}
+.guide-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:1.3rem}
 .gcard{background:var(--card);border-radius:14px;padding:1.5rem 1.6rem;box-shadow:0 8px 24px rgba(30,35,48,.1);border-top:5px solid var(--momiji)}
 .gcard.alt{border-top-color:var(--onsen)}
 .gcard.alt2{border-top-color:var(--dusk)}
@@ -206,7 +206,7 @@ figure.photo figcaption{padding:.5rem .95rem;font-size:.72rem;color:var(--sumi-s
 .stay-wrap{max-width:1044px;margin:0 auto}
 .stay h2{font-weight:800;font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:.5rem}
 .stay .lead{color:var(--sumi-soft);font-weight:300;max-width:38rem;margin-bottom:2.2rem;font-size:.92rem}
-.stay-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.4rem}
+.stay-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:1.4rem}
 .scard{background:var(--card);border-radius:14px;overflow:hidden;
   box-shadow:0 8px 30px rgba(30,35,48,.12);border:1px solid rgba(30,35,48,.08)}
 .scard-top{padding:1.35rem 1.6rem 1.15rem}
@@ -315,11 +315,12 @@ body.map-locked{overflow:hidden}
 .extras-wrap{max-width:1044px;margin:0 auto}
 .extras h2{font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.6rem}
 .extras .lead{color:#B9BECF;font-weight:300;max-width:40rem;margin-bottom:2.4rem;font-size:.95rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));gap:1.4rem}
 .xcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.4rem 1.5rem}
 .xcard h3{font-size:1rem;display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem;color:#fff}
 .xcard h3 .nd{width:10px;height:10px;border-radius:50%}
-.pricetable{width:100%;border-collapse:collapse;font-size:.86rem}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pricetable{width:100%;min-width:265px;border-collapse:collapse;font-size:.86rem}
 .pricetable th{font-weight:500;color:#9aa0b4;text-align:left;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:.76rem;letter-spacing:.06em}
 .pricetable td{padding:.5rem 0;border-bottom:1px dashed rgba(255,255,255,.12)}
 .pricetable td:last-child,.pricetable th:last-child{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:.8rem}
@@ -338,7 +339,7 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
 .conbini-wrap{max-width:1044px;margin:0 auto}
 .conbini h2{font-weight:800;font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:.6rem}
 .conbini .lead{color:var(--sumi-soft);font-weight:300;max-width:40rem;margin-bottom:2.4rem;font-size:.95rem}
-.cb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.cb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:1.5rem}
 .cbcard{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 8px 26px rgba(30,35,48,.12);
   border:1px solid rgba(30,35,48,.08);display:flex;flex-direction:column}
 .cbcard .cbphoto{width:100%;height:150px;background:var(--washi-deep);position:relative;overflow:hidden}
@@ -365,11 +366,96 @@ footer .fin{font-weight:700;font-size:.98rem;color:#cfd4e2;margin-bottom:.5rem}
   .reveal{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
-@media(max-width:600px){
-  .day{padding:3.8rem 5vw 3rem}
-  .routemap iframe{height:260px}
+
+/* ═══════════ 반응형 — 태블릿 ═══════════ */
+@media(max-width:880px){
+  .hero{padding:4.2rem 6vw 2.8rem}
+  figure.photo img{height:210px}
+  .guide,.stay{padding-top:3.6rem;padding-bottom:3.8rem}
+  .extras,.conbini{padding-top:3.8rem;padding-bottom:4rem}
+}
+
+/* ═══════════ 반응형 — 모바일 ═══════════ */
+@media(max-width:640px){
+  /* 헤더 */
+  .hero{padding:3.2rem 5vw 2.2rem}
+  .hero-eyebrow{font-size:.7rem;letter-spacing:.16em;margin-bottom:.7rem}
+  .hero-sub{font-size:.88rem;margin-top:.75rem}
+  .route-strip{margin-top:1.3rem;font-size:.72rem;gap:.3rem .05rem}
+  .route-stop{padding:.26rem .62rem;gap:.35rem}
+  .route-arrow{padding:0 .2rem}
+
+  /* 내비 — 줄바꿈 대신 가로 스크롤 한 줄 */
+  .daynav{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;
+    gap:.3rem;padding:.5rem .7rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .daynav::-webkit-scrollbar{display:none}
+  .daynav a{flex:0 0 auto;font-size:.78rem;padding:.42rem .8rem;white-space:nowrap}
+
+  /* 일차 섹션 */
+  .day{padding:3rem 5vw 2.4rem}
+  .sign{margin-bottom:1.7rem}
+  .sign-top{padding:1.2rem 1rem .9rem}
+  .sign-nav{padding:.5rem .9rem;font-size:.72rem}
+  .day-grid{gap:1.7rem}
+
+  /* 지도 */
+  .routemap{margin-bottom:1.7rem}
   .lmap{height:300px}
-  .hero-inner{padding-bottom:14vh}
+  .routemap iframe{height:250px}
+  .routemap-foot{padding:.7rem .8rem;font-size:.76rem;gap:.35rem .25rem}
+  .routestep{padding:.3rem .55rem .3rem .3rem}
+  .mapzoom-btn{top:10px;right:10px;font-size:.72rem;padding:.42rem .75rem}
+  .mapzoom-hint{white-space:normal;font-size:.66rem;line-height:1.45;max-width:calc(100vw - 96px)}
+  .routemap.is-expanded{height:100dvh}
+  .routemap.is-expanded .mapzoom-btn{top:calc(10px + env(safe-area-inset-top,0px))}
+  .routemap.is-expanded .routemap-foot{max-height:38vh;padding-bottom:calc(.7rem + env(safe-area-inset-bottom,0px))}
+
+  /* 타임라인 — 선/점 간격 축소 */
+  .tl{padding-left:1.7rem}
+  .tl::before{left:.42rem}
+  .stop{padding-bottom:1.6rem}
+  .stop::before{left:calc(-1.7rem + .42rem + var(--line-w)/2);width:13px;height:13px;border-width:3px;box-shadow:0 0 0 3px var(--washi)}
+  .stop h3{font-size:1.04rem;line-height:1.45}
+  .stop p{font-size:.9rem}
+  .stop .badge{margin-left:.35rem}
+  .legbadge{width:100%;padding:.42rem .7rem;font-size:.72rem}
+  .tip{font-size:.83rem;padding:.6rem .78rem;line-height:1.65}
+
+  /* 카드류 — 좁은 화면에서 줄바꿈 허용 */
+  .trans li,.scard-body li,.fares li{flex-wrap:wrap}
+  .scard-body .v{text-align:left}
+  .scard-foot{flex-wrap:wrap;gap:.35rem .8rem}
+  .fares{padding:.7rem .8rem .75rem}
+  .trans{padding:1rem 1.05rem}
+  .gcard,.xcard{padding:1.2rem 1.15rem}
+  .cbcard .cbbody{padding:1.1rem 1.1rem 1.25rem}
+  .cbcard .cbphoto{height:135px}
+  figure.photo img{height:190px}
+
+  /* 섹션 여백 */
+  .guide,.stay,.extras,.conbini{padding-left:5vw;padding-right:5vw}
+  .guide,.stay{padding-top:3rem;padding-bottom:3.2rem}
+  .extras,.conbini{padding-top:3.2rem;padding-bottom:3.4rem}
+  .guide .lead,.stay .lead,.extras .lead,.conbini .lead{margin-bottom:1.6rem;font-size:.88rem}
+
+  /* 터치 타깃 */
+  .copy{padding:.2rem .6rem;font-size:.66rem}
+  footer{padding:2.2rem 1rem}
+}
+
+/* ═══════════ 반응형 — 소형 단말 ═══════════ */
+@media(max-width:380px){
+  :root{font-size:15px}
+  .day{padding:2.6rem 4.5vw 2.2rem}
+  .route-strip{font-size:.68rem}
+  .lmap{height:270px}
+  .stop h3{font-size:1rem}
+}
+
+/* 가로 모드에서 전체화면 지도가 너무 눌리지 않도록 */
+@media(max-height:520px) and (orientation:landscape){
+  .routemap.is-expanded .routemap-foot{max-height:34vh}
+  .lmap{height:240px}
 }
 </style>
 </head>
@@ -755,15 +841,13 @@ document.addEventListener('click',function(e){
   </div>
 
   <div class="routemap reveal">
-    <div class="lmap" id="map-d3" title="3일차 이동경로: 멘야 사이미 → 마루야마공원 → 홋카이도 신궁 → 마루야마 동물원 → 맥주박물관 → 삿포로 팩토리 → JR타워"></div>
+    <div class="lmap" id="map-d3" title="3일차 이동경로: 멘야 사이미 → 마루야마공원 → 홋카이도 신궁 → 마루야마 동물원 → 삿포로역 쇼핑 · JR타워 T38"></div>
     <div class="routemap-foot">
       <span class="routestep"><span class="rn" style="background:var(--icho)">1</span><b>멘야 사이미</b></span><span class="routearrow">→</span>
       <span class="routestep"><span class="rn" style="background:var(--icho)">2</span>마루야마공원</span><span class="routearrow">→</span>
       <span class="routestep"><span class="rn" style="background:var(--icho)">3</span>홋카이도 신궁</span><span class="routearrow">→</span>
       <span class="routestep"><span class="rn" style="background:var(--icho)">4</span>마루야마 동물원</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--icho)">5</span>맥주박물관</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--icho)">6</span>삿포로 팩토리</span><span class="routearrow">→</span>
-      <span class="routestep"><span class="rn" style="background:var(--icho)">7</span>JR타워 T38</span>
+      <span class="routestep"><span class="rn" style="background:var(--icho)">5</span>삿포로역 쇼핑 · JR타워 T38</span>
     </div>
   </div>
 
@@ -842,29 +926,29 @@ document.addEventListener('click',function(e){
       </div>
       <div class="stop transfer">
         <div class="stop-time">15:30</div>
-        <h3>맥주박물관으로 이동</h3>
-        <div class="legbadge"><span class="legicon">🚇</span><span class="legroute">마루야마코엔역 → 오도리 환승 → 히가시쿠야쿠쇼마에역</span><span class="legsep">·</span><span class="legtime">약 45분(도보 포함)</span></div>
-        <p>동물원에서 마루야마코엔역까지 숲길 도보 약 15분 → 도자이선 → 오도리 환승 → 도호선 <b>히가시쿠야쿠쇼마에역 4번 출구</b> → 도보 10분.</p>
+        <h3>삿포로역으로 이동</h3>
+        <div class="legbadge"><span class="legicon">🚇</span><span class="legroute">마루야마코엔역 → 오도리 환승 → 삿포로역</span><span class="legsep">·</span><span class="legtime">약 30분(도보 포함)</span></div>
+        <p>동물원에서 마루야마코엔역까지 숲길 도보 약 15분 → <b>도자이선</b>으로 오도리 → <b>남북선</b>(초록색) 아사부 방면 한 정거장이면 삿포로역. 지하로 바로 연결돼 비가 와도 젖지 않아요.</p>
       </div>
       <div class="stop">
-        <div class="stop-time">16:20</div>
-        <h3>삿포로 맥주박물관 🍺 <span class="badge">유료화</span></h3>
-        <p>일본에서 가장 오래된 맥주 박물관, 붉은 벽돌 건물 자체가 홋카이도 유산. 3층 → 1층 일방통행 순로로 15~40분이면 둘러봅니다. 관람 후 1층 <b>Tasting Hall</b>에서 공장 직송 생맥주를 맛보는 게 하이라이트.</p>
-        <div class="tip"><b>2026년 7월 리뉴얼로 입관 유료화</b> — 자유견학 대인 <b>1,000엔</b>(<b>한국어 음성가이드</b> 포함), 중학생~20세 미만 500엔. 시음은 별도로 흑라벨·클래식 각 450엔, 개척사맥주 550엔, <b>3종 비교 세트 1,200엔</b>.<br>
-        운영 11:00~18:00(<b>최종 입관 17:30</b>), 시음홀 라스트오더 18:00 · 좌석 이용 30분 제한. 예약 없이 당일 입장 가능하지만 전자티켓을 미리 사두면 줄이 짧아요.<br>
-        <a class="glink" href="https://www.sapporobeer.jp/brewery/s_museum/kengaku/" target="_blank" rel="noopener">↳ 맥주박물관 이용안내 · 티켓 (공식)</a></div>
+        <div class="stop-time">16:00</div>
+        <h3>삿포로역 쇼핑 🛍️ <span class="badge">면세</span></h3>
+        <p>역 하나가 통째로 쇼핑몰인 곳. 큰 축은 세 곳이에요 — <b>JR타워 스텔라플레이스</b>(센터·이스트, 패션·잡화 중심 200여 개 점포), <b>다이마루 삿포로점</b>(백화점, 브랜드·화장품), 역 지하의 <b>아피아(APIA)</b>. 세 곳 모두 지하·연결통로로 이어져 밖으로 나갈 일이 없습니다. 대체로 쇼핑 <b>10:00~21:00</b>(다이마루 본관은 10:00~20:00)이라 저녁까지 여유 있어요.</p>
+        <div class="tip"><b>기념품은 다이마루 지하 1층 식품관</b>에서 한 번에 — 롯카테이·기타카로·르타오·시로이코이비토 등 홋카이도 과자가 모두 모여 있어요. <b>면세</b>는 다이마루 8층·스텔라플레이스 면세 카운터에서 일괄 처리(여권 필수, 세금 포함 5,000엔 이상).<br>
+        <b>참고</b> 예전 가이드에 나오는 <b>에스타(ESTA)·파세오(PASEO)는 2023년 재개발로 폐관</b>했고, 에스타 10층에 있던 <b>삿포로 라멘공화국</b>도 함께 문을 닫았습니다. 지금 역 쇼핑은 위 세 곳이 중심이에요.<br>
+        <a class="glink" href="https://www.stellarplace.net/" target="_blank" rel="noopener">↳ JR타워 스텔라플레이스 (공식)</a></div>
       </div>
       <div class="stop">
-        <div class="stop-time">17:45</div>
-        <h3>삿포로 팩토리 — 저녁 & 쇼핑 🏭</h3>
-        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">맥주박물관 → 삿포로 팩토리</span><span class="legsep">·</span><span class="legtime">도보 약 20분 (택시 5분)</span></div>
-        <p>1876년 <b>개척사 맥주양조소</b> 터에 들어선 붉은 벽돌 복합몰. 유리지붕의 거대한 <b>아트리움</b>이 상징이고, 굴뚝광장의 <b>삿포로 개척사 맥주 판매소</b>에서는 갓 뽑은 맥주를 한 잔 저렴하게 맛볼 수 있어요. 쇼핑 10:00~20:00 · 레스토랑 11:00~22:00.</p>
-        <div class="tip"><b>저녁</b> 팩토리 1조관·프론티어관 쪽 레스토랑층에서 해결하면 동선이 깔끔해요. 아웃도어 브랜드(노스페이스·스노우피크) 매장이 크고 <b>면세</b>도 되니 기념품·방한용품 쇼핑도 여기서.</div>
+        <div class="stop-time">18:30</div>
+        <h3>저녁 — 역 안에서 해결 🍽️</h3>
+        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">쇼핑층 → 레스토랑층 (같은 건물)</span><span class="legsep">·</span><span class="legtime">도보 3분</span></div>
+        <p><b>다이마루 8층 레스토랑가</b>와 <b>스텔라플레이스 6층 다이닝</b>에 스시·해산물덮밥·수프카레·양고기(징기스칸)까지 다 있어요. 대부분 <b>11:00~22:00</b>(라스트오더 21:00 전후) 운영이라 야경 전 저녁으로 딱 맞습니다.</p>
+        <div class="tip"><b>동선 팁</b> 스텔라플레이스 <b>이스트 6층</b>이 곧 JR타워 전망실 T38 입장 접수처예요. 6층에서 저녁을 먹고 그 자리에서 바로 전망대 엘리베이터를 타면 이동 시간이 0에 가깝습니다.</div>
       </div>
       <div class="stop">
         <div class="stop-time">19:40</div>
         <h3>JR타워 전망실 T38 — 야경 🌃</h3>
-        <div class="legbadge"><span class="legicon">🚶</span><span class="legroute">삿포로 팩토리 → 삿포로역</span><span class="legsep">·</span><span class="legtime">도보 약 12분</span></div>
+        <div class="legbadge"><span class="legicon">🛗</span><span class="legroute">스텔라플레이스 이스트 6F → 38F 직통</span><span class="legsep">·</span><span class="legtime">도보 3분</span></div>
         <p>지상 160m, 38층에서 360도로 펼쳐지는 삿포로 야경. 바둑판처럼 반듯한 시가지 불빛과 멀리 모이와야마·이시카리만까지 보입니다. 10월 초 일몰이 <b>약 17:10</b>이라 이 시간이면 완전히 어두워진 뒤예요.</p>
         <div class="tip"><b>이용안내</b> 입장료 대인 <b>740엔</b>(중·고생 520엔), 운영 10:00~22:00 <b>최종 입장 21:30</b>. 입장 접수는 <b>JR타워 이스트 6층</b>(삿포로 스텔라플레이스 이스트 6F) — 38층 직통 엘리베이터를 탑니다. 38층 <b>T'CAFE</b>는 밤에 바 메뉴를 운영해 야경 보며 한 잔 하기 좋고, '전망 화장실'도 유명한 포토스팟.<br>
         <a class="glink" href="https://www.jr-tower.com/t38_info" target="_blank" rel="noopener">↳ JR타워 전망실 T38 요금·영업시간 (공식)</a></div>
@@ -879,17 +963,16 @@ document.addEventListener('click',function(e){
     <aside class="aside reveal">
       <figure class="photo" id="ph-jingu"><img alt="홋카이도 신궁 사진"><figcaption></figcaption></figure>
       <figure class="photo" id="ph-zoo"><img alt="마루야마 동물원 사진"><figcaption></figcaption></figure>
-      <figure class="photo" id="ph-beer"><img alt="삿포로 맥주박물관 사진"><figcaption></figcaption></figure>
+      <figure class="photo" id="ph-sapporosta"><img alt="JR 삿포로역 사진"><figcaption></figcaption></figure>
       <figure class="photo" id="ph-jrtower"><img alt="JR타워 야경 사진"><figcaption></figcaption></figure>
       <div class="trans">
         <h4>🚇 오늘의 교통 · 입장료</h4>
         <ul>
           <li><span>지하철 전용 1일 승차권</span><span class="fare">830엔</span></li>
           <li><span>마루야마 동물원 입장</span><span class="fare">800엔</span></li>
-          <li><span>맥주박물관 자유견학</span><span class="fare">1,000엔</span></li>
           <li><span>JR타워 전망실 T38</span><span class="fare">740엔</span></li>
         </ul>
-        <p class="note">※ 오늘 지하철 3구간(250+290+290엔)이면 딱 1일권 값 — 자유롭게 타려면 830엔 1일권이 편해요.<br>※ 맥주박물관 시음은 별도(450엔~), 3종 비교 세트 1,200엔.</p>
+        <p class="note">※ 오늘 지하철은 3구간(250+290+250엔 = 790엔) — 1일권 830엔과 거의 같으니, 중간에 한 번이라도 더 탈 것 같으면 1일권이 이득이에요.<br>※ 삿포로역 쇼핑·저녁은 지출이 사람마다 달라 별도로 잡았습니다.</p>
       </div>
     </aside>
   </div>
@@ -1087,6 +1170,7 @@ document.addEventListener('click',function(e){
     <div class="cards">
       <div class="xcard reveal">
         <h3><span class="nd" style="background:var(--momiji)"></span>🦀 장외시장 털게 시세표</h3>
+        <div class="tablewrap">
         <table class="pricetable">
           <tr><th>크기</th><th>대략 무게</th><th>가격대</th></tr>
           <tr><td>소</td><td>400~500g</td><td>¥4,000~6,000</td></tr>
@@ -1094,10 +1178,12 @@ document.addEventListener('click',function(e){
           <tr><td>대</td><td>1kg 이상</td><td>¥15,000~</td></tr>
           <tr><td>100g당 환산</td><td>—</td><td>약 ¥1,300~1,800</td></tr>
         </table>
+        </div>
         <p class="xnote">· 근년 어획 감소로 코로나 이전보다 2배 가까이 올랐어요.<br>· 살아있는 게를 고르면 찜에 20~30분 — 그 사이 시장 구경.<br>· 여러 가게 가격을 비교하고, 무게·마릿수 흥정도 자연스러운 문화입니다.</p>
       </div>
       <div class="xcard reveal">
         <h3><span class="nd" style="background:var(--onsen)"></span>🚆 교통비 한눈에 (1인)</h3>
+        <div class="tablewrap">
         <table class="pricetable">
           <tr><th>구간</th><th></th><th>요금</th></tr>
           <tr><td>공항 → 노보리베츠</td><td>특급</td><td>약 ¥3,400</td></tr>
@@ -1108,6 +1194,7 @@ document.addEventListener('click',function(e){
           <tr><td>지하철 1일권 ×1일</td><td></td><td>¥830</td></tr>
           <tr><td><b>합계(대략)</b></td><td></td><td><b>약 ¥13,000</b></td></tr>
         </table>
+        </div>
         <p class="xnote">· 노보리베츠→삿포로를 고속버스(¥2,500)로 바꾸면 약 ¥10,100.<br>· '삿포로–노보리베츠 에리어 패스'는 이 동선(공항→노보리베츠→삿포로→오타루→공항)에서 대체로 본전 언저리 — 특급 왕복이 아니라면 필수는 아니에요.</p>
       </div>
       <div class="xcard reveal">
@@ -1222,7 +1309,7 @@ document.addEventListener('click',function(e){
     ['ph-oyunuma','大湯沼','오유누마'],
     ['ph-akarenga','北海道庁旧本庁舎','홋카이도청 구본청사(붉은 벽돌)'],
     ['ph-odori','大通公園','오도리공원과 TV타워'],
-    ['ph-beer','サッポロビール博物館','삿포로 맥주박물관'],
+    ['ph-sapporosta','札幌駅','JR 삿포로역'],
     ['ph-zoo','札幌市円山動物園','마루야마 동물원'],
     ['ph-jrtower','JRタワー','JR타워에서 본 삿포로 야경'],
     ['ph-jingu','北海道神宮','홋카이도 신궁'],
@@ -1298,9 +1385,7 @@ document.addEventListener('click',function(e){
       [43.0557,141.3126,'② 마루야마공원'],
       [43.0545,141.3084,'③ 홋카이도 신궁'],
       [43.0515,141.3079,'④ 마루야마 동물원'],
-      [43.0718,141.3699,'⑤ 삿포로 맥주박물관'],
-      [43.0654,141.3624,'⑥ 삿포로 팩토리 (저녁)'],
-      [43.0681,141.3524,'⑦ JR타워 전망실 T38 (야경)']
+      [43.0681,141.3524,'⑤ 삿포로역 쇼핑 · JR타워 T38 (저녁·야경)']
     ]},
     'map-d4':{color:'#5A5390',stops:[
       [43.0644,141.3496,'① 삿포로 그랜드호텔 (송영버스 픽업·복귀)'],
@@ -1319,6 +1404,9 @@ document.addEventListener('click',function(e){
     const el=document.getElementById(id);
     if(!el)return;
     const map=L.map(id,{scrollWheelZoom:true,attributionControl:true});
+    /* 모바일(터치): 축소 상태에서는 지도 드래그를 끄고 페이지 스크롤을 우선 — 전체화면에서만 드래그 허용 */
+    const coarse=window.matchMedia('(pointer:coarse)').matches;
+    if(coarse)map.dragging.disable();
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
       maxZoom:18,attribution:'&copy; OpenStreetMap'
     }).addTo(map);
@@ -1331,10 +1419,12 @@ document.addEventListener('click',function(e){
       const zbtn=document.createElement('button');
       zbtn.type='button';zbtn.className='mapzoom-btn';zbtn.textContent='⛶ 크게 보기';
       wrap.appendChild(zbtn);
+      const HINT_SMALL=coarse?'지도를 탭하면 전체화면으로 크게 볼 수 있어요':'지도를 클릭하면 전체화면 · 마우스 휠로 확대/축소';
+      const HINT_BIG=coarse?'두 손가락으로 확대/축소 · 드래그로 이동':'마우스 휠로 확대/축소 · 드래그로 이동';
       const zhintCtl=L.control({position:'bottomleft'});
       zhintCtl.onAdd=function(){
         const d=L.DomUtil.create('div','mapzoom-hint');
-        d.textContent='지도를 클릭하면 전체화면 · 마우스 휠로 확대/축소';
+        d.textContent=HINT_SMALL;
         return d;
       };
       zhintCtl.addTo(map);
@@ -1342,8 +1432,9 @@ document.addEventListener('click',function(e){
       const setExpanded=on=>{
         wrap.classList.toggle('is-expanded',on);
         document.body.classList.toggle('map-locked',on);
-        zbtn.textContent=on?'✕ 닫기 (ESC)':'⛶ 크게 보기';
-        zhint.textContent=on?'마우스 휠로 확대/축소 · 드래그로 이동':'지도를 클릭하면 전체화면 · 마우스 휠로 확대/축소';
+        zbtn.textContent=on?'✕ 닫기':'⛶ 크게 보기';
+        zhint.textContent=on?HINT_BIG:HINT_SMALL;
+        if(coarse){on?map.dragging.enable():map.dragging.disable();}
         const c=map.getCenter(),z=map.getZoom();
         setTimeout(()=>{map.invalidateSize();map.setView(c,z);},220);
       };
