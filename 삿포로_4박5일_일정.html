@@ -95,163 +95,36 @@ dialog{padding:0;border:1px solid var(--line);border-radius:20px;background:var(
 
 
 @media(max-width:760px){body.mapmode:before{content:"";position:fixed;inset:0;background:var(--wash);z-index:35}}
+
+/* Destination-first itinerary */
+:root{--accent:#244b70;--muted:#697989;--line:#dce3eb;--paper:#fff;--wash:#eff4f9;color:#203449;background:#f3f5f8}
+body{background:#f3f5f8;color:#203449}.shell{max-width:1520px;padding:0 28px 40px}.trip-header{min-height:76px;display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid var(--line);margin-bottom:18px}.trip-header>div{display:flex;align-items:center;gap:12px}.trip-header h1{font-size:22px;letter-spacing:-.8px;margin:0}.trip-header time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}.trip-icon{width:34px;height:34px;display:grid;place-items:center;background:var(--accent);color:white;border-radius:10px;font-size:22px}.trip-length{font-size:11px;border:1px solid var(--line);background:white;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.daytabs{border:0;border-radius:0;padding:0;background:none;gap:8px;margin-bottom:12px}.daytabs button{border:1px solid var(--line);background:white;border-radius:12px;min-height:66px;padding:10px 16px}.daytabs small{font-size:11px}.daytabs b{font-size:13px}.daytabs button[aria-selected=true]{border-color:var(--accent);box-shadow:0 3px 8px #244b7018}.daytabs button[aria-selected=true] small{color:#c9d9e9}
+.quick-stops{padding:0 0 10px;margin:0 0 10px;gap:6px}.quick-stops button{min-height:40px;border-radius:8px;font-size:11px;padding:6px 10px;max-width:235px}.quick-stops b{width:23px;height:23px}.quick-stops time{font-size:10px}.quick-stops button[aria-current=step]{background:#e9f0f7;border-color:#a7bfd4}
+.workspace{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:stretch;height:calc(100dvh - 230px);min-height:450px}.journey{height:100%;overflow-y:auto;scrollbar-width:thin;scroll-padding-top:8px;padding:4px 8px 28px 0}.dayheading{margin-bottom:16px;padding:0 3px}.dayheading h2{font-size:21px;line-height:1.5}.dayheading p{font-size:12px}.kicker{font-size:10px;letter-spacing:1px}.daynumber{font-size:32px;color:#a8b8c9}.schedule-note{font-size:12px;line-height:1.7}
+.stop-step{border:1px solid var(--line);border-radius:16px;overflow:clip;background:white;margin-bottom:18px;box-shadow:0 3px 12px #20344904}.stop{padding:0;margin:0}.stop>.time{display:block;margin:0;padding:14px 18px 0;color:var(--accent);font-size:13px;font-weight:800}.stop-inner{display:flex;flex-direction:column;border:0;border-radius:0;box-shadow:none!important}.stop.selected .stop-inner{border:0}.stop-step:has(.stop.selected){border-color:#769bbd;box-shadow:0 0 0 1px #769bbd25}.cardtext{order:-1;padding:12px 18px 16px}.sequence-heading{gap:10px}.sequence-number{height:28px;flex-basis:28px;font-size:12px;border-radius:8px}.stop.selected .sequence-number{background:var(--accent);color:white}.stop h3{font-size:18px;line-height:1.5;margin-bottom:8px}.stop p{font-size:13px;line-height:1.85;color:#526477}.card-actions{margin-top:12px}.map-link,.more-button{min-height:38px;font-size:11px}.map-link{background:var(--wash);padding:6px 10px;border-radius:7px}.photo-group{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-top:1px solid var(--line)}.card-photo{height:auto;display:block}.card-photo .photo-expand{height:165px;min-height:0;display:block}.card-photo img{position:static;height:165px;min-height:0;width:100%;object-fit:cover}.card-photo figcaption{font-size:9px;padding:7px 12px;background:#f8fafc}.photo-expand:after{font-size:9px}.booking-info{background:#f5f8fc;border-color:var(--line);padding:13px}.booking-title strong{font-size:14px}.booking-grid dd{font-size:14px}.tax-summary small{font-size:11px}
+.arrival{padding:13px 18px;background:#edf3f9;border-bottom:1px solid #dce6f0}.arrival-label{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}.arrival-label span{font-size:11px;color:#315778;font-weight:800}.arrival-label small{font-size:9px;color:#788ca0}.arrival-row+.arrival-row{border-top:1px dashed #c6d4e2;padding-top:8px;margin-top:8px}.arrival-row>time{font-size:12px;font-weight:800;color:#244b70;display:block;margin-bottom:3px}.arrival-row>p{font-size:13px;line-height:1.8;margin:0;color:#304d69;word-break:keep-all;overflow-wrap:anywhere}.arrival-details{font-size:12px;line-height:1.8;margin-top:6px}.arrival-details summary{cursor:pointer;color:#637d95;padding:4px 0;min-height:30px}.arrival-details p{color:#4d657a}.arrival-details .booking-info{margin:10px 0 2px}
+.map-panel{position:relative;top:0;height:100%;max-height:none;border-radius:16px}.mapcanvas{flex:1;min-height:140px;height:auto}.map-head{padding:12px 16px}.map-stop{max-height:220px;min-height:0;flex:0 1 auto;padding:12px 16px}.map-stop .movement{display:none}.selected-leg{font-weight:500;font-size:12px}.map-stop h3{font-size:15px}.map-provider{padding:7px 12px}.map-provider button{font-size:12px;min-height:38px}.map-routechips{min-height:48px;padding:6px 12px}.map-routechips button{min-height:34px}.google-actions a{font-size:11px}.real-route-info{font-size:11px}.real-route-info p{font-size:11px!important}.map-preview{display:none}#google-map-wrap{flex:1;min-height:140px;display:flex;flex-direction:column}#google-map{height:100%;flex:1;min-height:140px}#google-map-wrap p{font-size:10px}.references{margin-top:24px}.mobile-switch{background:#203c58}
+@media(max-width:760px){
+ .shell{padding:0 12px 90px}.trip-header{min-height:64px;margin-bottom:10px;gap:6px}.trip-header>div{gap:7px}.trip-icon{width:27px;height:27px;font-size:18px;border-radius:8px}.trip-header h1{font-size:17px}.trip-length{font-size:9px;padding:3px 5px}.trip-header time{font-size:10px;max-width:85px;text-align:right;line-height:1.6}
+ .daytabs{position:sticky;top:0;margin:0 -12px 8px;padding:6px 12px;background:#f3f5f8;gap:6px;box-shadow:none}.daytabs button{min-width:96px;min-height:57px;padding:8px}.daytabs small{font-size:10px}.daytabs b{font-size:12px}.quick-stops{margin-bottom:6px;padding-bottom:6px}.quick-stops button{min-height:38px;max-width:215px;font-size:11px}.quick-stops time{font-size:10px}
+ .workspace{height:calc(100dvh - 265px);min-height:260px;display:block}.journey{height:100%;min-height:0;padding:4px 2px 24px;overflow-y:auto;scroll-snap-type:y mandatory;scroll-padding-top:4px}.dayheading{margin-bottom:12px}.dayheading h2{font-size:18px}.dayheading p{font-size:11px}.daynumber{font-size:27px}.kicker{font-size:9px}.stop-step{scroll-snap-align:start;scroll-snap-stop:always;margin-bottom:14px;border-radius:13px}.stop>.time{font-size:12px;padding:12px 14px 0}.cardtext{padding:10px 14px 14px}.stop h3{font-size:16px}.stop p{font-size:13px}.arrival{padding:11px 14px}.arrival-row>p{font-size:12px}.arrival-label small{font-size:8px}.card-photo .photo-expand,.card-photo img{height:140px;min-height:0}.photo-group{grid-template-columns:1fr}.photo-group:has(figure:nth-child(2)) .photo-expand,.photo-group:has(figure:nth-child(2)) img{height:140px}.card-photo figcaption{font-size:9px}.booking-grid dd{font-size:14px}.booking-title strong{font-size:14px}.booking-info{padding:12px}.meal-times{font-size:12px}
+ body.mapmode .daytabs{padding:6px 10px;background:#f3f5f8}body.mapmode .map-panel{inset:78px 8px calc(80px + env(safe-area-inset-bottom));height:auto}.map-head{padding:9px 12px}.map-stop{max-height:26dvh;padding:9px 12px}.mapcanvas{height:auto;min-height:130px}.map-stop .selected-leg{font-size:11px}.map-routechips{padding:6px 10px}.mobile-switch{bottom:calc(12px + env(safe-area-inset-bottom));padding:4px}.mobile-switch button{font-size:12px;min-height:43px;padding:8px 28px}
+ #map-dialog .map-panel{height:calc(100dvh - 70px)}
+}
+@media(max-width:760px) and (max-height:550px){.workspace{height:65dvh}body.mapmode .map-panel{inset:74px 6px 68px}.mapcanvas,#google-map-wrap,#google-map{min-height:60px}.map-stop{max-height:85px}}
+
+
+:root{font-family:'Noto Sans KR','Malgun Gothic',system-ui,sans-serif}.quick-stops time{white-space:nowrap}
 </style></head>
 <body class="a"><a class="skip-content" href="#journey">일정으로 바로가기</a>
-<main class="shell"><section class="intro"><div><div class="eyebrow">A LITTLE JOURNEY TO HOKKAIDO</div><h1 id="main-title">가을, 홋카이도를 걷다.</h1><p>온천의 온기부터 도시의 불빛까지, 우리의 4박 5일.</p></div><div class="trip-dates">2026. 10. 05 — 10. 09<span>5 DAYS · NOBORIBETSU &amp; SAPPORO</span></div></section>
+<main class="shell"><header class="trip-header"><div><span class="trip-icon" aria-hidden="true">↗</span><h1 id="main-title">삿포로 여행 일정</h1><span class="trip-length">4박 5일</span></div><time>2026.10.05 — 10.09</time></header>
 <nav class="daytabs" aria-label="여행 날짜 선택" role="tablist"></nav>
 <figure class="cover"><img id="cover-image" alt=""><figcaption class="cover-caption"><small id="cover-eyebrow"></small><strong id="cover-title"></strong><span id="cover-credit"></span></figcaption></figure>
 <nav class="quick-stops" id="quick-stops" aria-label="일정 순서 빠른 이동"></nav><div class="workspace"><section class="journey" id="journey" aria-label="선택한 날짜 일정"><div class="dayheading"><div><span class="kicker" id="day-kicker"></span><h2 id="day-title"></h2><p id="day-count"></p></div><span class="daynumber" id="day-number"></span></div><p class="schedule-note" hidden>‘약’ 시각과 이동시간은 예상입니다. 1일차 15:10 버스·16:20 하차·18:00 뷔페, 2일차 12:30 셔틀·15:00 체크인·19:00 다이코쿠야 예약, 4일차 16:30까지 휴식을 반영했습니다.</p><div class="timeline" id="timeline"></div><div class="bottom-day"><button id="prev-day">← 이전 날짜</button><button id="next-day">다음 날짜 →</button></div></section>
 <aside class="map-panel" id="map-panel" aria-label="이동경로 지도"><div class="map-head"><div><strong>오늘의 이동경로</strong><small id="map-subtitle"></small></div><div class="map-tools"><button id="reset-map" aria-pressed="true">전체 경로</button><button id="expand-map" aria-haspopup="dialog">크게 보기 ⛶</button></div></div><div class="map-provider" role="group" aria-label="지도 종류"><button data-provider="google" aria-pressed="true">구글지도</button><button data-provider="route" aria-pressed="false">일정 경로</button></div><div id="google-map-wrap"><iframe id="google-map" title="선택한 장소의 구글지도" loading="eager" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><p>구글지도는 선택한 장소를 표시해요. 빈 화면이면 아래 ‘구글지도에서 장소 열기’를 이용하거나 ‘일정 경로’로 전환하세요.</p></div><div class="mapcanvas" id="map"></div><div class="map-status" role="status"><span id="map-status">지도를 불러오는 중…</span> <button id="retry" hidden>다시 시도</button></div><div class="google-actions"><a id="google-open" rel="noopener">구글지도 앱에서 장소 보기 ↗</a><a id="google-directions" rel="noopener">구글지도 앱 길찾기 ↗</a></div><div class="map-stop" id="map-stop"></div><div class="map-routechips" id="map-chips"></div></aside></div>
-<section class="references"><h2>여행 참고 정보</h2><details id="guide" class="reference"><summary>이동 · 이용 안내</summary><section class="guide">
-  <div class="guide-wrap">
-    <h2 class="reveal">떠나기 전 예약·발권 가이드</h2>
-    <p class="lead reveal">공항↔노보리베츠 구간의 <b>JR 특급열차</b>, 1일차에 이용할 <b>도난버스</b>, 그리고 2일차 노보리베츠→삿포로 구간에서 이용할 <b>유유라이너(호텔 직행 셔틀)</b> 예약 방법을 미리 정리했어요. 모두 한국에서 스마트폰으로 예약 가능합니다.</p>
-    <div class="guide-cards">
-      <div class="gcard reveal alt">
-        <h3><span class="num">JR</span>특급열차 (전 구간 공통) — 지정석권 발권</h3>
-        <ol>
-          <li>가장 간단한 방법은 <b>당일 역 발매기</b>: 신치토세공항역·노보리베츠역·삿포로역 모두 한국어 지원 지정석 발매기가 있어 구간·시간만 고르면 바로 발권돼요.</li>
-          <li>성수기·특정 시간대를 놓치기 싫다면 <b>JR 홋카이도 에키넷(えきねっと)</b>에서 사전 예약 — 사이트/앱 회원가입 → 승차구간·날짜·열차 선택 → 신용카드 결제.</li>
-          <li>에키넷으로 예약했다면 승차 전 반드시 <b>지정석 발매기(지정석마크)</b>에서 예약번호 입력 → 실물 승차권으로 교환(결제한 카드 지참).</li>
-          <li>교환한 승차권(자유석 승차권 + 지정석권 2장)을 개찰구 통과 시 함께 넣거나 태그.</li>
-        </ol>
-        <div class="gnote"><b>TIP</b> 사전 예약이 필수는 아니에요. 사람이 몰리는 금·토 오후만 아니면 당일 발매기로도 충분합니다.</div>
-        <a class="glink" href="https://www.jrhokkaido.co.jp/global/korean/index.html" target="_blank" rel="noopener">↳ JR 홋카이도 공식 홈페이지 (한국어)</a>
-      </div>
-      <div class="gcard reveal">
-        <h3><span class="num">Bus</span>도난버스 직행 에어포트호 — 완전 예약제</h3>
-        <ol>
-          <li><b>도난버스 공식 홈페이지</b>(donanbus.co.jp) 접속 → 한국어 페이지에서 &quot;고속 노보리베츠 온천 에어포트호&quot; 노선 선택.</li>
-          <li>승차일(10/5)·승차 정류장(신치토세공항 국제선 1층)·인원 입력 후 원하는 시간대(예: 15:10발) 선택.</li>
-          <li>이름·연락처 입력 후 <b>신용카드로 결제</b> — 완전 예약제라 당일 현장 구매는 좌석이 없으면 불가할 수 있어요.</li>
-          <li>결제 완료 메일의 <b>예약번호(QR)</b>를 캡처/저장 → 당일 승차 시 기사에게 제시.</li>
-          <li>운행 편수가 하루 몇 편뿐이라 늦어도 <b>출발 1~2일 전</b>에는 예약하는 걸 추천해요.</li>
-        </ol>
-        <div class="gnote"><b>TIP</b> 왕복으로 끊으면 소폭 할인되는 경우가 있어요. 예약 화면 스크린샷과 실제 예시가 궁금하면 아래 후기 글을 참고하세요.</div>
-        
-        <a class="glink" href="https://blog.naver.com/moonv616/224193807228" target="_blank" rel="noopener">↳ 참고: 도난버스 예약 후기 (네이버 블로그)</a>
-      </div>
-      <div class="gcard reveal alt2">
-        <h3><span class="num">2일</span>유유라이너 — 노보리베츠→삿포로 호텔 직행 셔틀</h3>
-        <ol>
-          <li><b>유유라이너</b>는 노보리베츠 온천가의 료칸·호텔 앞에서 삿포로 시내(삿포로역 인근)까지 <b>환승 없이 데려다주는</b> 예약제 셔틀버스예요. 역까지 짐 들고 이동할 필요가 없는 게 최대 장점.</li>
-          <li>예약은 <b>유유라이너 오퍼레이션센터</b>(☎ +81-11-223-1888, 접수시간 9:00~18:00 연중무휴) 전화 또는 온라인 예약 페이지에서 진행.</li>
-          <li>승차일·인원·픽업 호텔(노보리베츠 그랜드호텔)·하차 희망지(삿포로역 인근)를 지정하고 예약을 확정.</li>
-          <li>예약 확인서(또는 예약번호)를 당일 호텔 로비/픽업 장소에서 기사에게 제시하면 OK.</li>
-        </ol>
-        <div class="gnote"><b>TIP</b> 좌석이 한정적이라 출발 며칠~1주 전에는 예약해두는 게 안전해요. 실제 예약 화면과 후기는 아래 링크 참고.</div>
-        <a class="glink" href="https://blog.naver.com/wisesarah72/224298473791" target="_blank" rel="noopener">↳ 참고: 유유라이너 예약 후기 (네이버 블로그)</a>
-      </div>
-    </div>
-  </div>
-</section></details><details id="info" class="reference"><summary>교통비 · 여행 팁</summary><section class="extras">
-  <div class="extras-wrap">
-    <h2 class="reveal">시세 · 교통비 · 준비 팁</h2>
-    <p class="lead reveal">가격은 2026년 기준 대략치이며, 게는 &#x27;시가(時価)&#x27;라 매일 달라집니다. 감을 잡는 용도로 봐주세요.</p>
-    <div class="cards">
-      <div class="xcard reveal">
-        <h3><span class="nd"></span>🦀 장외시장 털게 시세표</h3>
-        <div class="tablewrap">
-        <table class="pricetable">
-          <tr><th>크기</th><th>대략 무게</th><th>가격대</th></tr>
-          <tr><td>소</td><td>400~500g</td><td>¥4,000~6,000</td></tr>
-          <tr><td>중 ★추천</td><td>600~800g</td><td>¥8,000~12,000</td></tr>
-          <tr><td>대</td><td>1kg 이상</td><td>¥15,000~</td></tr>
-          <tr><td>100g당 환산</td><td>—</td><td>약 ¥1,300~1,800</td></tr>
-        </table>
-        </div>
-        <p class="xnote">· 근년 어획 감소로 코로나 이전보다 2배 가까이 올랐어요.<br>· 살아있는 게를 고르면 찜에 20~30분 — 그 사이 시장 구경.<br>· 여러 가게 가격을 비교하고, 무게·마릿수 흥정도 자연스러운 문화입니다.</p>
-      </div>
-      <div class="xcard reveal">
-        <h3><span class="nd"></span>🚆 이번 일정의 교통</h3><ul><li>1일차: 도난버스 직행 에어포트호</li><li>2일차: 유유라이너 → 장외시장 왕복 셔틀 → 시덴·로프웨이·모리스카</li><li>3일차: 지하철·도보</li><li>4일차: 토리톤까지 택시, 이후 도보 중심</li><li>5일차: 삿포로 → 신치토세공항 JR</li></ul><p class="xnote">변경한 일정에는 오타루 왕복이 없습니다. 교통비 합계는 예약 내역과 실제 이용 수단을 기준으로 정리해 주세요.</p>
-      </div>
-      <div class="xcard reveal">
-        <h3><span class="nd"></span>🍁 10월 초 홋카이도 팁</h3>
-        <ul>
-          <li>기온 낮 12~17℃ / 아침저녁 5~10℃ — 얇은 패딩·바람막이 필수</li>
-          <li>일몰이 17:10~17:20으로 빨라요. 야외 일정은 오전~이른 오후에</li>
-          <li>특급열차(스즈란·호쿠토)는 전 차량 지정석 — 에키넷 사전 예매 추천</li>
-          <li>온천용 작은 수건 1장 챙기면 족탕에서 유용</li>
-          <li>2–4일차는 요청한 장외시장·야경·맛집·쇼핑 동선에 맞춰 구성했어요.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section></details><details id="conbini" class="reference"><summary>편의점 가이드</summary><section class="conbini">
-  <div class="conbini-wrap">
-    <h2 class="reveal">편의점 브랜드별 꿀템</h2>
-    <p class="lead reveal">일본은 브랜드마다 미는 메뉴가 달라요. 특히 홋카이도는 <b>세이코마트(세코마)</b>라는 로컬 편의점이 세븐일레븐보다 매장이 더 많은 지역이라 꼭 한 번은 들러볼 만합니다. 숙소 근처나 이동 중 눈에 띄면 아래 메뉴 위주로 골라보세요.</p>
-    <div class="cb-grid">
 
-      <div class="cbcard reveal">
-        
-        <div class="cbphoto"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Seicomart_Kute.jpg/640px-Seicomart_Kute.jpg" class="loaded" alt="세이코마트 매장"></div>
-        <div class="cbbody">
-          <h3><span class="tag"></span>세이코마트 Seicomart</h3>
-          <div class="cbromaji">홋카이도 로컬 · 매장 수 1위</div>
-          <ul>
-            <li><div class="iname"><span>핫셰프 치킨·돈카츠동</span><span class="iprice">¥200~400</span></div>
-              <div class="idesc">매장에서 직접 튀기고 밥 짓는 즉석 조리 코너. 홋카이도 여행자들의 필수 코스.</div></li>
-            <li><div class="iname"><span>유제품 소프트아이스크림</span><span class="iprice">¥150~250</span></div>
-              <div class="idesc">홋카이도산 우유 100% 사용. 멜론 소프트도 계절 한정으로 만날 수 있어요.</div></li>
-            <li><div class="iname"><span>가격이 저렴한 PB 음료·안주</span><span class="iprice">¥100~198</span></div>
-              <div class="idesc">타 편의점보다 전반적으로 저렴해서 온천 호텔 야식 조달용으로 딱이에요.</div></li>
-          </ul>
-        </div>
-      </div>
 
-      <div class="cbcard reveal">
-        <div class="cbphoto"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Lawson_store_in_Japan.jpg/640px-Lawson_store_in_Japan.jpg" class="loaded" alt="로손"></div>
-        <div class="cbbody">
-          <h3><span class="tag"></span>로손 Lawson</h3>
-          <div class="cbromaji">디저트 · 가라아게군</div>
-          <ul>
-            <li><div class="iname"><span>가라아게군 (레귤러/치즈)</span><span class="iprice">약 ¥248</span></div>
-              <div class="idesc">한입 크기 닭튀김. 로손 하면 바로 떠오르는 스테디셀러 스낵.</div></li>
-            <li><div class="iname"><span>우치카페 바스크 치즈케이크</span><span class="iprice">약 ¥250</span></div>
-              <div class="idesc">진한 크림치즈 맛, &#x27;우치카페&#x27; 디저트 라인업 중 최고 인기.</div></li>
-            <li><div class="iname"><span>모찌롤 케이크</span><span class="iprice">약 ¥190</span></div>
-              <div class="idesc">쫀득한 찹쌀떡 시트에 부드러운 생크림. 온천 후 야식 디저트로 추천.</div></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="cbcard reveal">
-        <div class="cbphoto"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/7-eleven_Macau.jpg/640px-7-eleven_Macau.jpg" class="loaded" alt="세븐일레븐"></div>
-        <div class="cbbody">
-          <h3><span class="tag"></span>세븐일레븐 7-Eleven</h3>
-          <div class="cbromaji">오니기리 · 에그샌드</div>
-          <ul>
-            <li><div class="iname"><span>참치마요 오니기리</span><span class="iprice">약 ¥160</span></div>
-              <div class="idesc">부동의 1위 삼각김밥. 김이 눅눅해지지 않는 개별 포장 방식.</div></li>
-            <li><div class="iname"><span>골드 시리즈 (이쿠라·연어)</span><span class="iprice">약 ¥250</span></div>
-              <div class="idesc">연어알·생선살이 통째로 들어가 일반 오니기리보다 조금 비싸지만 만족도 높음.</div></li>
-            <li><div class="iname"><span>타마고산도 (에그샌드위치)</span><span class="iprice">약 ¥230</span></div>
-              <div class="idesc">부드러운 스크램블 에그가 가득. 세븐일레븐 대표 샌드위치.</div></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="cbcard reveal">
-        <div class="cbphoto"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/FamilyMart_in_Japan.jpg/640px-FamilyMart_in_Japan.jpg" class="loaded" alt="훼미리마트"></div>
-        <div class="cbbody">
-          <h3><span class="tag"></span>훼미리마트 FamilyMart</h3>
-          <div class="cbromaji">파미치키 · 도시락</div>
-          <ul>
-            <li><div class="iname"><span>파미치키</span><span class="iprice">약 ¥210</span></div>
-              <div class="idesc">편의점 치킨 열풍의 원조. 겉은 바삭, 속은 육즙 가득한 대표 핫스낵.</div></li>
-            <li><div class="iname"><span>훼미마 도시락</span><span class="iprice">¥400~600</span></div>
-              <div class="idesc">가성비 좋은 한 끼 도시락 라인업. 이동 중 기차에서 먹기 좋아요.</div></li>
-            <li><div class="iname"><span>계절 한정 빵·디저트</span><span class="iprice">¥150~300</span></div>
-              <div class="idesc">독특한 콜라보 베이커리 상품이 자주 나와요. 진열대 앞쪽 신상 확인!</div></li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section></details></section>
-<footer>DDD · HOKKAIDO 2026<br>이동시간과 ‘약’ 시각은 예상이며, 1–4일차는 변경된 일정 기준입니다. 도보는 보행로, JR·지하철·시덴은 지도에 등록된 선로를 따릅니다. 버스·송영은 실제 도로를 따르는 참고 경로로 운행사의 확정 동선은 아닙니다. 같은 시설의 실내 동선은 선으로 연결하지 않습니다. 같은 장소의 일정은 번호를 나란히 표시합니다.<br>경로 데이터: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors (ODbL)</a> · <a href="https://routing.openstreetmap.de/about.html" target="_blank" rel="noopener">OSRM / FOSSGIS</a> · <a href="https://www.openstreetmap.org/fixthemap" target="_blank" rel="noopener">지도 오류 제보</a>. 경로는 파일에 저장되어 있으며 실시간 운행·통행 상태를 반영하지 않습니다.<br>일정·요금·운영 안내는 원본 여행 자료 기준입니다. 사진은 온라인 연결이 필요합니다.<br>사진: <a href="https://noboribetsu-spa.jp/en/spot/spot0034/" target="_blank" rel="noopener">노보리베츠 관광협회</a> · <a href="https://www.visit-hokkaido.jp/en/spot/detail_10040.html" target="_blank" rel="noopener">HOKKAIDO LOVE!</a> · Wikimedia Commons 및 공식 사이트 · 개별 출처는 사진 하단에 표시 · 사진은 화면에 맞춰 일부 잘라 표시하며, 로딩 실패 시 일러스트로 대체</footer>
 </main><nav class="mobile-switch" aria-label="화면 보기"><button data-view="schedule" aria-pressed="true">☷ 일정</button><button data-view="map" aria-pressed="false">⌖ 지도</button></nav>
 <dialog id="photo-dialog" aria-labelledby="photo-title"><div class="dialog-top"><strong id="photo-title">사진 보기</strong><button type="button" data-close-dialog="photo-dialog">닫기 ✕</button></div><img id="large-photo" alt=""><p id="large-credit"></p></dialog>
 <dialog id="map-dialog" aria-labelledby="expanded-map-title"><div class="dialog-top"><strong id="expanded-map-title">이동 경로 지도</strong><button type="button" data-close-dialog="map-dialog">닫기 ✕</button></div></dialog>
@@ -268,17 +141,56 @@ if(variant==='b')$('#main-title').textContent='우리의 가을, 북쪽의 기�
 if(variant==='c')$('#main-title').textContent='홋카이도 4박 5일';
 const accent=getComputedStyle(document.body).getPropertyValue('--accent').trim();
 const sequenceFor=s=>({t:s.time,n:s.title,s:s.movement,ll:s.ll,image:s.image,fallback:s.fallback,caption:s.imageCaption,credit:s.photoCredit,source:s.photoSource,license:s.photoLicense,licenseUrl:s.photoLicenseUrl,g:{i:'',m:s.movement,v:''}});
+
+// Transport-only entries belong to the next destination, never to the numbered stops.
+function groupDestinationStops(){
+ const transportIndices=[[1],[3,9],[2,4,7,9],[1],[2]];
+ CONTENT.forEach((day,d)=>{
+  const oldStops=day.stops,oldLegs=REAL_ROUTES[d],stops=[],legs=[];let pending=[];
+  oldStops.forEach((stop,i)=>{
+   if(transportIndices[d].includes(i)){pending.push(i);return;}
+   const group=[...pending,i],source=group.map(k=>oldStops[k]),sourceLegs=group.map(k=>oldLegs[k]);
+   const incoming=group.filter(k=>k!==0&&(oldLegs[k].status!=='local'||transportIndices[d].includes(k))).map(k=>({
+    title:oldStops[k].title,summary:oldStops[k].movement,time:transportIndices[d].includes(k)?oldStops[k].time:'',
+    body:transportIndices[d].includes(k)?oldStops[k].body:'',booking:transportIndices[d].includes(k)?bookingMarkup(oldStops[k]):''
+   }));
+   // The train boarding and ride describe the same journey; keep one complete route row.
+   if(d===4&&i===3){incoming.splice(0,incoming.length,{title:'JR 쾌속 에어포트',summary:'삿포로역 → 신치토세공항역 · JR 쾌속 에어포트 · 약 37–40분',time:'11:20 탑승',body:oldStops[2].body,booking:''});}
+   const segments=sourceLegs.flatMap(l=>l.segments);
+   stops.push({...stop,pin:stops.length+1,incoming,originalIndex:i});
+   legs.push({...oldLegs[i],segments,distance:sourceLegs.reduce((n,l)=>n+(l.distance||0),0),status:segments.length?'ready':oldLegs[i].status,note:sourceLegs.filter(l=>l.segments.length).map(l=>l.note).join(' · ')||oldLegs[i].note});
+   pending=[];
+  });
+  day.stops=stops;REAL_ROUTES[d]=legs;
+ });
+ CONTENT[0].stops[1].title='노보리베츠 그랜드호텔 · 체크인';
+ CONTENT[2].stops.at(-1).title='호텔 · 휴식';
+ CONTENT[3].stops.find(s=>s.originalIndex===6).title='호텔 · 휴식';
+ CONTENT[4].stops[1].title='체크아웃 · 삿포로역 쇼핑';
+ CONTENT[4].stops[2].title='신치토세공항 · 수속과 쇼핑';
+ CONTENT[4].stops[3].title='귀국편 탑승';
+ // Specific route descriptions for movements that previously only named the transport mode.
+ const summaries={
+  '0:6':['지옥계곡 → 그랜드호텔 · 도보 약 15분'],
+  '1:4':['노보리베츠 → 삿포로 카모리빌딩3 · 유우라이너 약 1시간 50분','하차 장소 → 삿포로 그랜드호텔 · 도보 약 5–10분'],
+  '2:3':['오도리역 → 도호선 미소노역 → 멘야 사이미 · 지하철 + 도보 약 30분'],
+  '2:5':['멘야 사이미 → 마루야마 공원 · 택시 약 25–35분','마루야마 공원 → 홋카이도 신궁 · 도보'],
+  '2:8':['마루야마 동물원 → 모이와야마 산록역 · 택시 약 20–30분','산록역 → 정상 · 로프웨이 + 모리스카 · 대기 포함 약 30–45분'],
+  '2:10':['모이와야마 정상 → 산록역 → 삿포로역 · 하산 + 택시 · 대기 포함 약 60–75분'],
+  '4:1':['그랜드호텔 → 삿포로역 · 지하보도 도보 약 10분']
+ };
+ CONTENT.forEach((day,d)=>day.stops.forEach(s=>{const texts=summaries[d+':'+s.originalIndex];if(texts)texts.forEach((t,k)=>{if(s.incoming[k])s.incoming[k].summary=t;});}));
+}
+groupDestinationStops();
+function arrivalMarkup(s){
+ if(!s.incoming.length)return '';
+ return '<div class="arrival" aria-label="이 장소까지 이동 안내"><div class="arrival-label"><span>↳ 이곳으로 이동</span><small>경로 · 교통 · 소요시간</small></div>'+s.incoming.map(part=>'<div class="arrival-row">'+(part.time?'<time>'+esc(part.time)+'</time>':'')+'<p>'+esc(part.summary)+'</p>'+(part.body||part.booking?'<details class="arrival-details"><summary>승차·예약 안내</summary>'+part.body+part.booking+'</details>':'')+'</div>').join('')+'</div>';
+}
+
 const SEQUENCES=CONTENT.map(d=>d.stops.map(sequenceFor));
 const route=()=>SEQUENCES[dayIndex];
 
-function movementLabel(i,day=dayIndex){
- const stops=CONTENT[day].stops,s=stops[i];
- if(!i)return (day+1)+'일차 1번 · 오늘의 첫 일정';
- const movement=s.movement.replace(/\(\d+일차\s*\d+번\)/g,'').trim();
- const path=movement.includes('→')?'':stops[i-1].title+' → '+s.title+' · ';
- return (day+1)+'일차 '+i+'번 → '+(i+1)+'번 · '+path+movement;
-}
-
+function movementLabel(i,day=dayIndex){const s=CONTENT[day].stops[i];return s.incoming.length?s.incoming.map(x=>(x.time?x.time+' · ':'')+x.summary).join(' / '):(i?'같은 장소에서 이어지는 일정':'오늘의 첫 일정');}
 function initMap(){
  if(typeof L==='undefined'){$('#map-status').textContent='인터넷 연결을 확인해 주세요. 일정과 이동시간은 계속 확인할 수 있어요.';$('#retry').hidden=false;$('#retry').onclick=()=>location.reload();return;}
  map=L.map('map',{scrollWheelZoom:false,touchZoom:true,zoomSnap:.25,bounceAtZoomLimits:false,minZoom:5,maxZoom:18,zoomControl:true}).setView(CONTENT[0].stops[0].ll,16,{animate:false});
@@ -304,10 +216,15 @@ function initMap(){
  new ResizeObserver(()=>{map.invalidateSize({pan:false});}).observe($('#map'));
 }
 function imageError(img){const index=Number(img.closest('.stop')?.dataset.pin)-1;const s=CONTENT[dayIndex].stops[index];if(s&&img.src!==s.fallback){img.src=s.fallback;const caption=img.closest('figure')?.querySelector('figcaption');if(caption)caption.textContent='사진을 불러오지 못해 일정 일러스트로 표시합니다.';}else{img.hidden=true;}}
+function scrollToStop(index,behavior='smooth'){
+ const container=$('#journey'),step=$('.stop-step[data-step="'+index+'"]');if(!step)return;
+ const top=container.scrollTop+step.getBoundingClientRect().top-container.getBoundingClientRect().top-4;
+ container.scrollTo({top,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':behavior});
+}
 function setView(view){
  document.body.classList.toggle('mapmode',view==='map');$$('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===view)));
- if(view==='schedule'&&media.matches)requestAnimationFrame(()=>$('.stop-step[data-step="'+selectedPin+'"]')?.scrollIntoView({behavior:'smooth',block:'start'}));
- if(view==='map'){requestAnimationFrame(()=>{if(map){map.invalidateSize();fitSelected();}});if(media.matches)requestAnimationFrame(()=>window.scrollTo({top:Math.max(0,$('#map-panel').getBoundingClientRect().top+window.scrollY-$('.daytabs').offsetHeight-12),behavior:'smooth'}));}
+ if(view==='map'){requestAnimationFrame(()=>{if(map){map.invalidateSize();fitSelected();}});}
+ else {const index=selectedPin;requestAnimationFrame(()=>scrollToStop(index));}
 }
 
 const routeLeg=(i=selectedPin)=>REAL_ROUTES[dayIndex][i];
@@ -396,7 +313,7 @@ function selectPin(i,scroll=false){
  const note=document.createElement('div');note.className='selected-leg';note.setAttribute('role','status');note.textContent=movementLabel(i);$('#map-stop').insertBefore(note,$('#map-stop h3'));
  const preview=document.createElement('div');preview.className='map-preview';const previewImg=document.createElement('img');previewImg.src=s.image;previewImg.alt=s.caption;previewImg.onerror=()=>{previewImg.onerror=null;previewImg.src=s.fallback;};const previewCaption=document.createElement('small');previewCaption.textContent=s.caption;const creditLink=document.createElement('a');creditLink.href=s.source;creditLink.target='_blank';creditLink.rel='noopener';creditLink.textContent='사진 출처: '+s.credit;previewCaption.append(document.createElement('br'),creditLink);preview.append(previewImg,previewCaption);$('#map-stop').insertBefore(preview,$('.map-nav'));
  $('#map-stop .movement').textContent=movementLabel(i); const repeated=$('#map-stop .movement').nextElementSibling;if(repeated&&repeated.tagName==='P')repeated.remove();
- $('#pin-prev').onclick=()=>selectPin(Math.max(0,i-1));$('#pin-next').onclick=()=>selectPin(Math.min(r.length-1,i+1));$('#show-stop').onclick=()=>{setView('schedule');requestAnimationFrame(()=>{const el=$('.stop[data-pin="'+(i+1)+'"]');if(el){el.scrollIntoView({behavior:'smooth',block:'start'});el.querySelector('.map-link')?.focus({preventScroll:true});}});};
+ $('#pin-prev').onclick=()=>selectPin(Math.max(0,i-1));$('#pin-next').onclick=()=>selectPin(Math.min(r.length-1,i+1));$('#show-stop').onclick=()=>{setView('schedule');requestAnimationFrame(()=>{const el=$('.stop[data-pin="'+(i+1)+'"]');if(el){scrollToStop(i);el.querySelector('.map-link')?.focus({preventScroll:true});}});};
  addRouteDetails(i);
  syncQuickStops();
  if(scroll){setView('map');if(!media.matches)$('#map-panel').scrollIntoView({behavior:'smooth',block:'nearest'});}
@@ -430,7 +347,7 @@ function renderDay(i){
  $('#cover-image').hidden=false;$('#cover-image').src=d.cover;$('#cover-image').alt=d.caption;$('#cover-image').onerror=()=>imageError($('#cover-image'));$('#cover-eyebrow').textContent='CHAPTER 0'+(i+1)+' / '+d.en;$('#cover-title').textContent=d.title;$('#cover-credit').textContent=d.caption;
  $('#timeline').innerHTML=d.stops.map((s,k)=>{
   const box=document.createElement('div');box.innerHTML=s.body;const p=box.querySelector('p');const brief=s.showDetailsInline?s.body:(p?p.outerHTML:'');if(p)p.remove();const rest=s.showDetailsInline?'':box.innerHTML.trim();
-  return '<section class="stop-step" data-step="'+k+'">'+(k?'<div class="transit"><span>'+esc(movementLabel(k))+'</span></div>':'')+'<article class="stop" data-pin="'+s.pin+'" id="stop-'+k+'"><time class="time">'+esc(s.time)+'</time><div class="stop-inner">'+photosMarkup(s)+'<div class="cardtext"><div class="sequence-heading"><button class="sequence-number" data-pin="'+s.pin+'" aria-label="'+s.pin+'번 일정 지도 보기">'+s.pin+'</button><h3>'+esc(s.title)+'</h3></div>'+brief+bookingMarkup(s)+dinnerMarkup(k)+'<div class="card-actions">'+(s.pin?'<button class="map-link" data-pin="'+s.pin+'">⌖ 지도에서 보기 <span aria-hidden="true">↗</span></button>':'<span></span>')+(rest?'<button class="more-button" data-label="'+esc(s.moreLabel||'자세히 보기')+'" aria-expanded="false" aria-controls="details-'+k+'">'+esc(s.moreLabel||'자세히 보기')+' ＋</button>':'')+'</div>'+(rest?'<div class="details-body" id="details-'+k+'" hidden>'+rest+'</div>':'')+'</div></div></article></section>';
+  return '<section class="stop-step" data-step="'+k+'">'+arrivalMarkup(s)+'<article class="stop" data-pin="'+s.pin+'" id="stop-'+k+'"><time class="time">'+esc(s.time)+'</time><div class="stop-inner">'+photosMarkup(s)+'<div class="cardtext"><div class="sequence-heading"><button class="sequence-number" data-pin="'+s.pin+'" aria-label="'+s.pin+'번 일정 지도 보기">'+s.pin+'</button><h3>'+esc(s.title)+'</h3></div>'+brief+bookingMarkup(s)+dinnerMarkup(k)+'<div class="card-actions">'+(s.pin?'<button class="map-link" data-pin="'+s.pin+'">⌖ 지도에서 보기 <span aria-hidden="true">↗</span></button>':'<span></span>')+(rest?'<button class="more-button" data-label="'+esc(s.moreLabel||'자세히 보기')+'" aria-expanded="false" aria-controls="details-'+k+'">'+esc(s.moreLabel||'자세히 보기')+' ＋</button>':'')+'</div>'+(rest?'<div class="details-body" id="details-'+k+'" hidden>'+rest+'</div>':'')+'</div></div></article></section>';
  }).join('');
  $$('[data-dinner]').forEach(b=>b.onclick=()=>chooseDinner(Number(b.dataset.dinner)));
  $$('.card-photo img').forEach(img=>img.onerror=()=>imageError(img));
@@ -449,7 +366,7 @@ function renderDay(i){
  updateMap();selectPin(0);enhanceDay();$('.journey').scrollTop=0;
 }
 $('.daytabs').innerHTML=CONTENT.map((d,i)=>'<button role="tab" id="daytab-'+i+'" aria-controls="journey" aria-selected="false"><small>DAY '+(i+1)+' · '+d.date+'</small><b>'+esc(['노보리베츠','삿포로 시내','마루야마·모이와야마','삿포로 맛집','귀국'][i])+'</b></button>').join('');
-function changeDay(i){renderDay(i);if(media.matches){const tab=$('.daytabs button[aria-selected=true]');$('.daytabs').scrollTo({left:tab.offsetLeft-$('.daytabs').clientWidth/2+tab.offsetWidth/2,behavior:'smooth'});window.scrollTo({top:Math.max(0,$('.quick-stops').getBoundingClientRect().top+scrollY-$('.daytabs').offsetHeight),behavior:'smooth'});}else window.scrollTo({top:0,behavior:'smooth'});}
+function changeDay(i){renderDay(i);if(media.matches){const tab=$('.daytabs button[aria-selected=true]');$('.daytabs').scrollTo({left:tab.offsetLeft-$('.daytabs').clientWidth/2+tab.offsetWidth/2,behavior:'smooth'});window.scrollTo({top:0,behavior:'instant'});}else window.scrollTo({top:0,behavior:'smooth'});}
 $$('.daytabs button').forEach((b,i)=>{b.onclick=()=>changeDay(i);b.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?4:(i+(e.key==='ArrowRight'?1:4))%5;changeDay(n);$$('.daytabs button')[n].focus();};});
 $('#prev-day').onclick=()=>changeDay(Math.max(0,dayIndex-1));$('#next-day').onclick=()=>changeDay(Math.min(4,dayIndex+1));
 $$('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
@@ -483,7 +400,7 @@ function enhanceDay(){
  enhanceBookings();
  $('#journey').setAttribute('role','tabpanel');$('#journey').setAttribute('aria-labelledby','daytab-'+dayIndex);
  $('#quick-stops').innerHTML=CONTENT[dayIndex].stops.map((s,k)=>'<button type="button" aria-label="'+(k+1)+'번 '+esc(s.title)+' 일정으로 이동"><b>'+(k+1)+'</b><time>'+esc(s.time)+'</time><span>'+esc(s.title)+'</span></button>').join('');
- $$('#quick-stops button').forEach((b,k)=>b.onclick=()=>{selectPin(k,false);setView('schedule');requestAnimationFrame(()=>{const el=$('#stop-'+k);el.scrollIntoView({behavior:'smooth',block:'start'});el.querySelector('.sequence-number').focus({preventScroll:true});});});
+ $$('#quick-stops button').forEach((b,k)=>b.onclick=()=>{selectPin(k,false);setView('schedule');requestAnimationFrame(()=>{const el=$('#stop-'+k);scrollToStop(k);el.querySelector('.sequence-number').focus({preventScroll:true});});});
  $$('.card-photo img').forEach((img,k)=>{const photo=figurePhoto(img.closest('figure'));img.decoding='async';const b=document.createElement('button');b.type='button';b.className='photo-expand';b.setAttribute('aria-label',photo.imageCaption+' 사진 크게 보기');img.parentNode.insertBefore(b,img);b.appendChild(img);b.onclick=()=>openPhoto(photo,img.currentSrc||img.src);});
  syncQuickStops();
 }
@@ -500,7 +417,7 @@ function installEnhancements(){
   if(!media.matches||document.body.classList.contains('mapmode'))return;
   clearTimeout(scrollTimer);scrollTimer=setTimeout(()=>{
    const top=$('#journey').getBoundingClientRect().top+8;
-   const steps=$('.stop-step');if(!steps.length)return;
+   const steps=$$('.stop-step');if(!steps.length)return;
    const nearest=steps.reduce((a,b)=>Math.abs(a.getBoundingClientRect().top-top)<Math.abs(b.getBoundingClientRect().top-top)?a:b);
    const index=Number(nearest.dataset.step);if(index!==selectedPin)selectPin(index);
   },140);
