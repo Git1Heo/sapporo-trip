@@ -144,6 +144,16 @@ body{background:#f3f5f8;color:#203449}.shell{max-width:1520px;padding:0 28px 40p
 @media(max-width:760px){body.mapmode .daytabs b{white-space:normal;line-height:1.2}body.mapmode .daytabs button:nth-child(3) b{font-size:10px;letter-spacing:-.4px}}
 
 .card-photo figcaption,#large-credit{display:none!important}
+
+/* Clear boundaries and prominent numbering for every itinerary card. */
+.stop-step{margin-bottom:32px;border:1px solid #bbcbdc;border-top:4px solid #244b70;border-radius:16px;background:white;box-shadow:0 5px 16px #2034490a}
+.stop-banner{display:flex;align-items:center;gap:13px;padding:15px 18px;background:#e5edf6;border-radius:12px 12px 0 0;border-bottom:1px solid #c5d4e4}
+.stop-banner .sequence-number{width:48px;min-width:48px;flex:0 0 48px;height:48px;font-size:23px;font-weight:900;letter-spacing:-1px;border-radius:12px;background:#244b70;color:white;border:0;box-shadow:0 3px 6px #244b701a}
+.stop-banner-text{display:grid;gap:5px}.stop-banner-text strong{font-size:13px;color:#31506e}.stop-banner-text time{font-size:15px;font-weight:800;color:#203449;font-variant-numeric:tabular-nums;line-height:1.5}
+.stop>.time{display:none}.stop-step .arrival{border-radius:0;background:#f5f8fc;padding-top:12px;padding-bottom:12px}.sequence-heading{gap:0}.sequence-heading h3{margin-top:4px}.stop-step:has(.stop.selected){border-color:#244b70;box-shadow:0 0 0 1px #244b7025,0 6px 18px #20344910}.stop-step:has(.stop.selected) .stop-banner{background:#dae7f4}.stop-step:has(.stop.selected) .sequence-number{background:#173c60;color:white}
+.quick-stops b{width:28px;height:28px;font-size:13px;font-weight:900;border-radius:7px}.quick-stops button{border-color:#bdccdc}
+@media(max-width:760px){.stop-step{margin-bottom:28px;border-top-width:4px;border-radius:14px}.stop-banner{padding:13px 14px;gap:12px;border-radius:10px 10px 0 0}.stop-banner .sequence-number{width:44px;min-width:44px;flex-basis:44px;height:44px;font-size:22px;border-radius:10px}.stop-banner-text strong{font-size:12px}.stop-banner-text time{font-size:14px}.stop-step .arrival{padding:11px 14px}.cardtext{padding-top:13px}}
+
 </style></head>
 <body class="a"><a class="skip-content" href="#journey">일정으로 바로가기</a>
 <main class="shell"><header class="trip-header"><div><span class="trip-icon" aria-hidden="true">↗</span><h1 id="main-title">삿포로 여행 일정</h1><span class="trip-length">4박 5일</span></div></header>
@@ -389,7 +399,7 @@ function renderDay(i){
  $('#cover-image').hidden=false;$('#cover-image').src=d.cover;$('#cover-image').alt=d.caption;$('#cover-image').onerror=()=>imageError($('#cover-image'));$('#cover-eyebrow').textContent='CHAPTER 0'+(i+1)+' / '+d.en;$('#cover-title').textContent=d.title;$('#cover-credit').textContent=d.caption;
  $('#timeline').innerHTML=d.stops.map((s,k)=>{
   const box=document.createElement('div');box.innerHTML=s.body;const p=box.querySelector('p');const brief=s.showDetailsInline?s.body:(p?p.outerHTML:'');if(p)p.remove();const rest=s.showDetailsInline?'':box.innerHTML.trim();
-  return '<section class="stop-step" data-step="'+k+'">'+arrivalMarkup(s)+'<article class="stop" data-pin="'+s.pin+'" id="stop-'+k+'"><time class="time">'+esc(s.time)+'</time><div class="stop-inner">'+photosMarkup(s)+'<div class="cardtext"><div class="sequence-heading"><button class="sequence-number" data-pin="'+s.pin+'" aria-label="'+s.pin+'번 일정 지도 보기">'+s.pin+'</button><h3>'+esc(s.title)+'</h3></div>'+brief+bookingMarkup(s)+dinnerMarkup(k)+'<div class="card-actions">'+(s.pin?'<button class="map-link" data-pin="'+s.pin+'">⌖ 지도에서 보기 <span aria-hidden="true">↗</span></button>':'<span></span>')+(rest?'<button class="more-button" data-label="'+esc(s.moreLabel||'자세히 보기')+'" aria-expanded="false" aria-controls="details-'+k+'">'+esc(s.moreLabel||'자세히 보기')+' ＋</button>':'')+'</div>'+(rest?'<div class="details-body" id="details-'+k+'" hidden>'+rest+'</div>':'')+'</div></div></article></section>';
+  return '<section class="stop-step" data-step="'+k+'"><div class="stop-banner"><button class="sequence-number" data-pin="'+s.pin+'" aria-label="'+s.pin+'번 일정 지도 보기">'+String(s.pin).padStart(2,'0')+'</button><div class="stop-banner-text"><strong>'+(dayIndex+1)+'일차 · '+s.pin+'번 일정</strong><time>'+esc(s.time)+'</time></div></div>'+arrivalMarkup(s)+'<article class="stop" data-pin="'+s.pin+'" id="stop-'+k+'"><time class="time">'+esc(s.time)+'</time><div class="stop-inner">'+photosMarkup(s)+'<div class="cardtext"><div class="sequence-heading"><h3>'+esc(s.title)+'</h3></div>'+brief+bookingMarkup(s)+dinnerMarkup(k)+'<div class="card-actions">'+(s.pin?'<button class="map-link" data-pin="'+s.pin+'">⌖ 지도에서 보기 <span aria-hidden="true">↗</span></button>':'<span></span>')+(rest?'<button class="more-button" data-label="'+esc(s.moreLabel||'자세히 보기')+'" aria-expanded="false" aria-controls="details-'+k+'">'+esc(s.moreLabel||'자세히 보기')+' ＋</button>':'')+'</div>'+(rest?'<div class="details-body" id="details-'+k+'" hidden>'+rest+'</div>':'')+'</div></div></article></section>';
  }).join('');
  $$('[data-dinner]').forEach(b=>b.onclick=()=>chooseDinner(Number(b.dataset.dinner)));
  $$('.card-photo img').forEach(img=>img.onerror=()=>imageError(img));
@@ -435,7 +445,7 @@ function enhanceDay(){
  enhanceBookings();
  $('#journey').setAttribute('role','tabpanel');$('#journey').setAttribute('aria-labelledby','daytab-'+dayIndex);
  $('#quick-stops').innerHTML=CONTENT[dayIndex].stops.map((s,k)=>'<button type="button" aria-label="'+(k+1)+'번 '+esc(s.title)+' 일정으로 이동"><b>'+(k+1)+'</b><time>'+esc(s.time)+'</time><span>'+esc(s.title)+'</span></button>').join('');
- $$('#quick-stops button').forEach((b,k)=>b.onclick=()=>{selectPin(k,false);setView('schedule');requestAnimationFrame(()=>{const el=$('#stop-'+k);scrollToStop(k);el.querySelector('.sequence-number').focus({preventScroll:true});});});
+ $$('#quick-stops button').forEach((b,k)=>b.onclick=()=>{selectPin(k,false);setView('schedule');requestAnimationFrame(()=>{const el=$('#stop-'+k);scrollToStop(k);el.closest('.stop-step').querySelector('.sequence-number').focus({preventScroll:true});});});
  $$('.card-photo img').forEach((img,k)=>{const photo=figurePhoto(img.closest('figure'));img.decoding='async';const b=document.createElement('button');b.type='button';b.className='photo-expand';b.setAttribute('aria-label',photo.imageCaption+' 사진 크게 보기');img.parentNode.insertBefore(b,img);b.appendChild(img);b.onclick=()=>openPhoto(photo,img.currentSrc||img.src);});
  syncQuickStops();
 }
