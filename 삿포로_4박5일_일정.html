@@ -154,6 +154,9 @@ body{background:#f3f5f8;color:#203449}.shell{max-width:1520px;padding:0 28px 40p
 .quick-stops b{width:28px;height:28px;font-size:13px;font-weight:900;border-radius:7px}.quick-stops button{border-color:#bdccdc}
 @media(max-width:760px){.stop-step{margin-bottom:28px;border-top-width:4px;border-radius:14px}.stop-banner{padding:13px 14px;gap:12px;border-radius:10px 10px 0 0}.stop-banner .sequence-number{width:44px;min-width:44px;flex-basis:44px;height:44px;font-size:22px;border-radius:10px}.stop-banner-text strong{font-size:12px}.stop-banner-text time{font-size:14px}.stop-step .arrival{padding:11px 14px}.cardtext{padding-top:13px}}
 
+/* Read each destination in order: arrival, photo, description. */
+.stop-inner > .photo-group{order:0;border-top:0;border-bottom:1px solid var(--line)}
+.stop-inner > .cardtext{order:1}
 </style></head>
 <body class="a"><a class="skip-content" href="#journey">일정으로 바로가기</a>
 <main class="shell"><header class="trip-header"><div><span class="trip-icon" aria-hidden="true">↗</span><h1 id="main-title">삿포로 여행 일정</h1><span class="trip-length">4박 5일</span></div></header>
